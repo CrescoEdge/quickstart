@@ -6,11 +6,10 @@ Cresco is a free and open source edge computing framework.
 ## Quick Start
 
 #### Getting Started : Demo Site
-  Run on the Demo Site (Cloud):
-  http://demo.cresco.io
+  * Run on the Demo Site (Cloud): http://demo.cresco.io
 
 #### Getting Started : Docker 
-  Run using Docker: `docker run -it -p 8181:8181 -e CRESCO_enable_http=true crescoedgecomputing/quickstart`
+  * Run using Docker: `docker run -it -p 8181:8181 -e CRESCO_enable_http=true crescoedgecomputing/quickstart`
 
 #### Getting Started : Native
 Getting started with Cresco is fairly simple, with steps as follows:
