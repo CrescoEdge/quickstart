@@ -19,10 +19,13 @@ Getting started with Cresco is fairly simple, with steps as follows:
  3. Modify the configuration files for the agent and plugins (please refer to the wiki for configuration information)
  4. Run the agent with `java jar agent-<version>.jar`
 
+======
+
 ### Access Dashboard (Locally Docker or Native):
 Point browser to http://localhost:8181/services/agents
 Username: “admin” Password: “cresco”
 
+======
 
 #### Cresco Framework
  * [Agent](https://github.com/CrescoEdge/agent): The main runtime which manages the loading of the Core, Controller, and underlying OSGi support components.
@@ -35,6 +38,8 @@ Username: “admin” Password: “cresco”
  
 #### Cresco Framework Example Plugins
  * [Cresco-Skeleton-Plugin](https://github.com/ResearchWorx/Cresco-Skeleton-Plugin): (Old Don't use) This project exists as a basic starting point for building a custom Cresco plugin.
+
+======
 
 #### Cresco Agent Topology
 Cresco agents, through their Cresco-Agent-Controller-Plugin, arrange themselves into a hierarchy of a global, with a single controller, regions, each with a single regional controller, and a set of agents inside a region. The following diagram illustrates this hierarchy:
