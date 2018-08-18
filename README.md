@@ -12,15 +12,15 @@ Cresco is a free and open source edge computing framework.
   * Run using Docker: `docker run -it -p 8181:8181 -e CRESCO_enable_http=true crescoedgecomputing/quickstart`
 
 #### Getting Started : Native
-Getting started with Cresco is fairly simple, with steps as follows:
+* Getting started with Cresco is fairly simple, with steps as follows:
  1. Download/update/confirm a [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/overview/index.html) (JRE, Java Runtime) 1.8 or greater.
  2. Download the [latest agent build](https://github.com/CrescoEdge/agent/releases/tag/1.0-SNAPSHOT)
  3. Modify the configuration files for the agent and plugins (please refer to the wiki for configuration information)
  4. Run the agent with `java jar agent-<version>.jar`
 
 ### Access Dashboard (Locally Docker or Native):
-Point browser to http://localhost:8181/services/agents
-Username: “admin” Password: “cresco”
+1. Point browser to http://localhost:8181/services/agents
+2. Username: “admin” Password: “cresco”
 
 #### Cresco Framework
  * [Agent](https://github.com/CrescoEdge/agent): The main runtime which manages the loading of the Core, Library, Controller, and underlying OSGi support components. 
@@ -39,10 +39,10 @@ Cresco agents, through their Cresco-Agent-Controller-Plugin, arrange themselves 
 
 ![](images/CrescoTopology.png)
 
-This topology allows for distributed control, meaning that an agent controls its plugins, a region controls its agents and the global controls the regions over which it is in charge.
+* This topology allows for distributed control, meaning that an agent controls its plugins, a region controls its agents and the global controls the regions over which it is in charge.
  
 #### Further Reading
-For a more in-depth explanation of Cresco, you can read the author's [dissertation](http://uknowledge.uky.edu/cgi/viewcontent.cgi?article=1061&context=cs_etds).
+* For a more in-depth explanation of Cresco, you can read the author's [dissertation](http://uknowledge.uky.edu/cgi/viewcontent.cgi?article=1061&context=cs_etds).
 
 #### Why the name Cresco?
  
