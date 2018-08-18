@@ -42,7 +42,7 @@ Cresco agents, through their Cresco-Agent-Controller-Plugin, arrange themselves 
 * This topology allows for distributed control, meaning that an agent controls its plugins, a region controls its agents and the global controls the regions over which it is in charge.
  
 #### Further Reading
-* For a more in-depth explanation of Cresco, you can read the author's [dissertation](http://uknowledge.uky.edu/cgi/viewcontent.cgi?article=1061&context=cs_etds).
+* For a more in-depth explanation of Cresco, you can read one of the author's [dissertation](http://uknowledge.uky.edu/cgi/viewcontent.cgi?article=1061&context=cs_etds).
 
 #### Why the name Cresco?
  
