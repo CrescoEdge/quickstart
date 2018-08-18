@@ -5,12 +5,14 @@ Cresco is a free and open source edge computing framework.
 
 ## [Quick Start](QuickStart.MD)
 
-#### Cresco Framework Core
- * [Cresco-Agent](https://github.com/ResearchWorx/Cresco-Agent): The main runtime which manages the loading of Cresco Plugins and logging.
- * [Cresco-Agent-Controller-Plugin](https://github.com/ResearchWorx/Cresco-Agent-Controller-Plugin): The main communications plugin for the Cresco Framework which establishes channels for message passing between agents in a tiered system. At this time this plugin is **required** for operation.
- 
-#### Cresco Framework Optional Plugins
- * [Cresco-SysInfo-Plugin](https://github.com/ResearchWorx/Cresco-SysInfo-Plugin): This plugin provides computational resource utilization for the machine hosting the Cresco Agent as messages sent back to a Global Controller.
+#### Cresco Framework Agent
+ *[Agent](https://github.com/CrescoEdge/agent): The main runtime which manages the loading of the Core, Controller, and underlying OSGi support components.
+ *[Core](https://github.com/CrescoEdge/core):  Core component loaded by the Cresco Agent to control logging and updates.
+ *[Library](https://github.com/CrescoEdge/library):  Library functions used by all Cresco plugins, including the controller.
+ *[Controller](https://github.com/CrescoEdge/controller):  The Controller, as the name suggest, manages all Cresco functions.
+ *[Repository](https://github.com/CrescoEdge/repo): Repository plugin used to store, report, and deploy Cresco Plugins.
+ *[SysInfo](https://github.com/CrescoEdge/sysinfo):  Plugin used to gather information about the operating environment.
+ *[Dashboard](https://github.com/CrescoEdge/dashboard):  The Dashboard is a web-based user interface for a Cresco environment. 
  
 #### Cresco Framework Example Plugins
  * [Cresco-Skeleton-Plugin](https://github.com/ResearchWorx/Cresco-Skeleton-Plugin): This project exists as a basic starting point for building a custom Cresco plugin.
@@ -24,10 +26,10 @@ This topology allows for distributed control, meaning that an agent controls its
 
 #### Getting Started
 Getting started with Cresco is fairly simple, with steps as follows:
- 1. Download/update/confirm a [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/overview/index.html) (JRE, Java Runtime) 1.7 or greater.
- 2. Download the [latest agent build](http://128.163.188.129:9998/job/Cresco-Agent/lastSuccessfulBuild/com.researchworx.cresco$cresco-agent/) and [latest agent-controller plugin build](http://128.163.188.129:9998/job/Cresco-Agent-Controller-Plugin/lastStableBuild/com.researchworx.cresco$cresco-agent-controller-plugin/)
+ 1. Download/update/confirm a [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/overview/index.html) (JRE, Java Runtime) 1.8 or greater.
+ 2. Download the [latest agent build](https://github.com/CrescoEdge/agent/releases/tag/1.0-SNAPSHOT)
  3. Modify the configuration files for the agent and plugins (please refer to the wiki for configuration information)
- 4. Run the agent with `java jar cresco-agent-<version>.jar -f <agent configuration file>`
+ 4. Run the agent with `java jar agent-<version>.jar`
  
 #### Further Reading
 For a more in-depth explanation of Cresco, you can read the author's [dissertation](http://uknowledge.uky.edu/cgi/viewcontent.cgi?article=1061&context=cs_etds).
