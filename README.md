@@ -5,9 +5,6 @@ Cresco is a free and open source edge computing framework.
 
 ## Quick Start
 
-#### Getting Started : Demo Site
-  * Run on the Demo Site (Cloud): http://demo.cresco.io
-
 #### Getting Started : Docker 
   * Run using Docker: `docker run -it -p 8181:8181 -e CRESCO_enable_http=true crescoedgecomputing/quickstart`
 
@@ -19,7 +16,7 @@ Cresco is a free and open source edge computing framework.
  4. Run the agent with `java jar agent-<version>.jar`
 
 ### Access Dashboard (Locally Docker or Native):
-1. Point browser to http://localhost:8181/services/agents
+1. Point browser to http://localhost:8181/dashboard
 2. Username: “admin” Password: “cresco”
 
 #### Cresco Framework
