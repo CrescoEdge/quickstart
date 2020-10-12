@@ -6,15 +6,15 @@ Cresco is a free and open source edge computing framework.
 ## Quick Start
 
 #### Getting Started : Docker 
-  * Run using Docker: `docker run -it -p 8181:8181 -e CRESCO_enable_http=true crescoedgecomputing/quickstart`
+  * Run using Docker: `docker run -it -p 8181:8181 crescoedgecomputing/quickstart`
 
 #### Getting Started : Native
 * Getting started with Cresco is fairly simple, with steps as follows:
  1. Download/update/confirm a [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/overview/index.html) (JRE, Java Runtime) 1.8 or greater.
  2. Download the [latest agent build](https://github.com/CrescoEdge/agent/releases/tag/1.0-SNAPSHOT)
  3. Modify the configuration files for the agent and plugins (please refer to the wiki for configuration information)
- 4. Run the agent with `java jar agent-<version>.jar`
-
+ 4. Run the agent with `java -Dis_global=true -jar agent-<version>.jar`
+ 
 ### Access Dashboard (Locally Docker or Native):
 1. Point browser to http://localhost:8181/dashboard
 2. Username: “admin” Password: “cresco”
