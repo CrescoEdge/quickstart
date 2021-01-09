@@ -11,7 +11,7 @@ Cresco is a free and open source edge computing framework.
 #### Getting Started : Native
 * Getting started with Cresco is fairly simple, with steps as follows:
  1. Download/update/confirm a [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/overview/index.html) (JRE, Java Runtime) 1.8 or greater.
- 2. Download the [latest agent build](https://github.com/CrescoEdge/agent/releases/tag/1.0-SNAPSHOT)
+ 2. Download the [latest agent build](https://github.com/CrescoEdge/agent/releases)
  3. Modify the configuration files for the agent and plugins (please refer to the wiki for configuration information)
  4. Run the agent with `java -Dis_global=true -jar agent-<version>.jar`
  
