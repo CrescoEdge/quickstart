@@ -1,0 +1,4209 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The canonical documentation for Cresco — a hierarchical, secure, multi-tenant distributed agent mesh.">
+      
+      
+        <meta name="author" content="CrescoEdge">
+      
+      
+      
+        <link rel="prev" href="../../api/msgevent/">
+      
+      
+        <link rel="next" href="../../clients/overview/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Configuration Parameters - Cresco Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuration-parameters" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cresco Documentation" class="md-header__button md-logo" aria-label="Cresco Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cresco Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Configuration Parameters
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CrescoEdge" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/overview/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../plugins/overview/" class="md-tabs__link">
+          
+  
+  
+  Modules & Plugins
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../api/plugin-actions/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../clients/overview/" class="md-tabs__link">
+          
+  
+  
+  Client Libraries
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../operations/deployment/" class="md-tabs__link">
+          
+  
+  
+  Operations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../glossary/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../design/distributed-identity-trust-design/" class="md-tabs__link">
+          
+  
+  
+  Design Documents
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cresco Documentation" class="md-nav__button md-logo" aria-label="Cresco Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cresco Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CrescoEdge" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation & Build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Messaging & Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/dataplane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Plane
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/tenancy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Tenancy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health & State
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metrics & Measurements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules & Plugins
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modules & Plugins
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    agent (host bootstrap)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    library (plugin API)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/controller/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    controller (fabric brain)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/logger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    logger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/sysinfo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    sysinfo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/wsapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    wsapi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/stunnel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/plugin-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin Actions (Capability Inventory)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/library-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/msgevent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MsgEvent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Parameters
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-configuration-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How configuration works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-tenancy-read-this-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security &amp; tenancy (read this first)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identity-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identity &amp; roles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#static-plugins-feature-enable-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static plugins (feature enable flags)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broker-activemq-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Broker (ActiveMQ) &amp; transport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Broker (ActiveMQ) &amp; transport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failover-reconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failover / reconnect
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificates-keystore-tls-material" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Certificates, keystore &amp; TLS material
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#region-global-federation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Region / global federation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#watchdog-state-machine-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Watchdog, state machine &amp; timing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health checks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Health checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#link-quality-thresholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Link-quality thresholds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-measurements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics &amp; measurements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-link-metrics-auto-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network link metrics &amp; auto-tuning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data plane
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#producer-consumer-qos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producer / consumer &amp; QoS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-controller-state-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database (controller state store)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-data-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository &amp; data paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wsapi-websocket-api-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wsapi (WebSocket API gateway)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stunnel-secure-tcp-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stunnel (secure TCP tunneling)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-on-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes on defaults
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client Libraries
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Client Libraries
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clients/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clients/java/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java (clientlib)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clients/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python (pycrescolib)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design-docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Documents
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design Documents
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/distributed-identity-trust-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed Identity & Trust
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/tenant-isolation-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tenant Isolation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/optimal-global-routing-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimal Global Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/broker-performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Broker & Data-Plane Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/region-federation-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Region Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/link-metrics-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Link Metrics & Auto-Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/health-check-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health, State & Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/metrics-unification-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metrics Unification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/capability-inventory-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Capability Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/cresco-tools-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Tools Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-configuration-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How configuration works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-tenancy-read-this-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security &amp; tenancy (read this first)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identity-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identity &amp; roles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#static-plugins-feature-enable-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static plugins (feature enable flags)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broker-activemq-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Broker (ActiveMQ) &amp; transport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Broker (ActiveMQ) &amp; transport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failover-reconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failover / reconnect
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificates-keystore-tls-material" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Certificates, keystore &amp; TLS material
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#region-global-federation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Region / global federation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#watchdog-state-machine-timing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Watchdog, state machine &amp; timing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health checks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Health checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#link-quality-thresholds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Link-quality thresholds
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-measurements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metrics &amp; measurements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-link-metrics-auto-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network link metrics &amp; auto-tuning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data plane
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#producer-consumer-qos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producer / consumer &amp; QoS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-controller-state-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Database (controller state store)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-data-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository &amp; data paths
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wsapi-websocket-api-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wsapi (WebSocket API gateway)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stunnel-secure-tcp-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stunnel (secure TCP tunneling)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-on-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes on defaults
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="configuration-parameters">Configuration Parameters<a class="headerlink" href="#configuration-parameters" title="Permanent link">&para;</a></h1>
+<p>This is the exhaustive reference for Cresco node configuration parameters. Every parameter
+listed here corresponds to a typed getter call (<code>getStringParam</code>, <code>getIntegerParam</code>,
+<code>getLongParam</code>, <code>getBooleanParam</code>, <code>getDoubleParam</code>) in the source tree, grouped by concern.</p>
+<h2 id="how-configuration-works">How configuration works<a class="headerlink" href="#how-configuration-works" title="Permanent link">&para;</a></h2>
+<p>A Cresco node is configured through a <code>Config</code> helper that exposes <strong>typed getters</strong>. Each
+getter takes a parameter name and (usually) a default value, e.g.
+<code>getIntegerParam("broker_port", 32010)</code>. The resolution order is:</p>
+<ol>
+<li><strong><code>-D&lt;name&gt;=&lt;value&gt;</code> JVM system properties</strong> passed on the launch command line.</li>
+<li><strong>Config-file / plugin-config values</strong> loaded into the node's config map (the same map
+   that <code>getConfigMap()</code> persists to the controller DB).</li>
+<li><strong>The default baked into the getter call</strong> — used when neither of the above supplies a value.</li>
+</ol>
+<p>Because every getter ships with a default, <strong>an unconfigured node runs with sane, shipped
+behavior</strong>; you only set the parameters you want to change. Most feature-gates are
+<strong>default-off</strong> (e.g. <code>broker_security_enabled=false</code>, <code>net_autotune=false</code>,
+<code>tenant_namespacing=false</code>, <code>enable_udp_discovery=false</code>), so enabling a capability is an
+explicit, opt-in decision. A handful of getters have <strong>no default</strong> (see the <em>Unset =
+disabled</em> note on each such row); when unset they return <code>null</code> and the corresponding feature
+is skipped.</p>
+<div class="admonition example">
+<p class="admonition-title">Setting parameters on the command line</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>java<span class="w"> </span>-Dis_region<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">     </span>-Dregionname<span class="o">=</span>east<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">     </span>-Dbroker_security_enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">     </span>-Dtenant_namespacing<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">     </span>-jar<span class="w"> </span>cresco-agent-*.jar
+</code></pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Types are enforced at read time</p>
+<p>A few parameters are read with <code>getStringParam</code> even though they hold a numeric or
+boolean value (e.g. <code>failover_reconnect_delay</code>, <code>max_reconnect_attempts</code>,
+<code>use_exponential_backOff</code>, <code>wsapi_port</code>). Supply them as plain strings; they are parsed
+downstream. These are flagged in the tables below.</p>
+</div>
+<p>Unless noted, byte-size defaults shown as expressions (e.g. <code>2 * 1024 * 1024</code>) are given in
+their evaluated form (<code>2 MB</code>). Where a default is <strong>computed at runtime</strong>, the table says so
+explicitly.</p>
+<hr />
+<h2 id="security-tenancy-read-this-first">Security &amp; tenancy (read this first)<a class="headerlink" href="#security-tenancy-read-this-first" title="Permanent link">&para;</a></h2>
+<p>These flags govern who can connect to the broker, whose identity is asserted, and how tenants
+are isolated. <strong>All of them are default-off</strong>, so a stock node behaves exactly as it always
+has — enabling them is a deliberate hardening/tenancy decision. Enable them consistently
+across a region; a mixed fleet (some nodes enforcing, some not) will not behave as intended.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>broker_security_enabled</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Master switch for broker authentication/authorization. When on, external (non-<code>vm://</code>) clients must assert an identity (JMS username <code>tenant\|region\|agent</code>, or a cert subject under mutual TLS) and are checked against the tenant policy; when off the ACL plugin is never installed and the broker behaves as before.</td>
+</tr>
+<tr>
+<td><code>broker_require_client_auth</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Require mutual TLS (client certificate) on the broker transport connector. When on, clients without a trusted certificate are rejected at the TLS layer.</td>
+</tr>
+<tr>
+<td><code>broker_security_secret</code></td>
+<td>String</td>
+<td><code>cresco</code></td>
+<td>Shared password the local controller and clients present as the JMS password when <code>broker_security_enabled</code> is on. Change this from the default in any secured deployment.</td>
+</tr>
+<tr>
+<td><code>broker_superuser_tenants</code></td>
+<td>String</td>
+<td><code>cresco-system</code></td>
+<td>Comma-separated list of tenant IDs whose <strong>network</strong> clients are granted the cross-tenant SUPERUSER ("god view") role — e.g. a fabric-admin dashboard that must see every tenant. The local <code>vm://</code> controller and broker bridges are already exempt.</td>
+</tr>
+<tr>
+<td><code>broker_shared_destinations</code></td>
+<td>String</td>
+<td><code>agent.event,region.event,global.event</code></td>
+<td>Comma-separated destination prefixes treated as fabric-shared control destinations that all tenants may use (the control-plane event topics).</td>
+</tr>
+<tr>
+<td><code>broker_security_log_allow</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Log <em>allowed</em> (not just denied) authorization decisions in the broker ACL plugin — verbose; for debugging tenant policy only.</td>
+</tr>
+<tr>
+<td><code>security_regional_ca</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Enable Regional-CA identity mode ("Option C"): during discovery the region acts as issuing authority and signs each joining node a region-signed leaf certificate, and joiners present that identity. When off, the legacy self-signed discovery exchange is used.</td>
+</tr>
+<tr>
+<td><code>tenant_namespacing</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Namespace broker destinations, dataplane topics, and producer routing per tenant so that tenants are isolated on shared topics. Off = the historical single flat namespace.</td>
+</tr>
+<tr>
+<td><code>tenant_id</code></td>
+<td>String</td>
+<td><code>default</code></td>
+<td>The tenant this node belongs to; used to build the asserted broker identity, tenant-namespaced destinations, and the node's certificate subject.</td>
+</tr>
+<tr>
+<td><code>discovery_secret_agent</code></td>
+<td>String</td>
+<td>random UUID</td>
+<td>Shared secret validating <strong>agent</strong>-level discovery messages. Computed default is a random UUID per boot, so peers must be given a matching explicit value to discover each other.</td>
+</tr>
+<tr>
+<td><code>discovery_secret_region</code></td>
+<td>String</td>
+<td>random UUID</td>
+<td>Shared secret validating <strong>region</strong>-level discovery messages (region joining/forming). Random UUID by default — set explicitly across the region.</td>
+</tr>
+<tr>
+<td><code>discovery_secret_global</code></td>
+<td>String</td>
+<td>random UUID</td>
+<td>Shared secret validating <strong>global</strong>-level discovery messages (region-to-global join). Random UUID by default — set explicitly across the mesh.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">The discovery secrets default to random UUIDs</p>
+<p>Because <code>discovery_secret_agent/region/global</code> default to a fresh UUID on every boot, two
+nodes will <strong>not</strong> discover one another unless you set the same secret on both. In a real
+deployment these are effectively required, not optional.</p>
+</div>
+<hr />
+<h2 id="identity-roles">Identity &amp; roles<a class="headerlink" href="#identity-roles" title="Permanent link">&para;</a></h2>
+<p>Determines what a node <em>is</em> in the hierarchy (agent / region / global / standalone) and how it
+names itself. Exactly one role flag is normally set; the state machine reads them to decide the
+boot path.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>is_agent</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Boot as an <strong>agent</strong> that reports to a regional controller.</td>
+</tr>
+<tr>
+<td><code>is_region</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Boot as a <strong>regional controller</strong> that hosts agents (and may connect to a global).</td>
+</tr>
+<tr>
+<td><code>is_global</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Boot as a <strong>global controller</strong> that manages regions.</td>
+</tr>
+<tr>
+<td><code>is_standalone</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Boot as a self-contained node with no parent controller.</td>
+</tr>
+<tr>
+<td><code>agentname</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Explicit name for this agent/controller instance. <strong>Unset = auto-generated.</strong></td>
+</tr>
+<tr>
+<td><code>regionname</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Explicit name for this node's region. <strong>Unset = auto-generated.</strong></td>
+</tr>
+<tr>
+<td><code>ipv6</code> / <code>isIPv6</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Prefer IPv6 for this node's networking/discovery (<code>ipv6</code> is read in the library <code>PluginBuilder</code>; <code>isIPv6</code> in the controller engine). Off = IPv4.</td>
+</tr>
+<tr>
+<td><code>pluginID</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Identifier of the running plugin (set by the framework per loaded plugin, not a node-wide knob).</td>
+</tr>
+<tr>
+<td><code>pluginname</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Human name of the running plugin (framework-supplied per plugin).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="static-plugins-feature-enable-flags">Static plugins (feature enable flags)<a class="headerlink" href="#static-plugins-feature-enable-flags" title="Permanent link">&para;</a></h2>
+<p>Which built-in plugins the controller's <code>StaticPluginLoader</code> starts. These gate whole
+subsystems on or off.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enable_sysinfo</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Load the <strong>sysinfo</strong> plugin (host resource/metrics collection).</td>
+</tr>
+<tr>
+<td><code>enable_stunnel</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Load the <strong>stunnel</strong> plugin (secure TCP tunneling over the fabric).</td>
+</tr>
+<tr>
+<td><code>enable_wsapi</code></td>
+<td>boolean</td>
+<td><code>true</code>¹</td>
+<td>Load the <strong>wsapi</strong> plugin (WebSocket API gateway). ¹Default is <code>true</code> in the static loader; a separate call in the wsapi plugin uses <code>false</code> as its own guard.</td>
+</tr>
+<tr>
+<td><code>enable_repo</code></td>
+<td>boolean</td>
+<td><code>false</code>¹</td>
+<td>Load the <strong>repo</strong> plugin (plugin/jar repository). ¹Read in two places with differing defaults (<code>false</code> in one, <code>true</code> in another); set explicitly if you rely on it.</td>
+</tr>
+<tr>
+<td><code>enable_controllermon</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Enable the controller performance monitor (<code>PerfControllerMonitor</code>).</td>
+</tr>
+<tr>
+<td><code>enable_console</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Attach the interactive Felix/host console on startup (host application).</td>
+</tr>
+<tr>
+<td><code>enable_perf</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Enable the sysinfo continuous performance sampler.</td>
+</tr>
+<tr>
+<td><code>plugin_config_file</code></td>
+<td>String</td>
+<td><code>conf/plugins.ini</code></td>
+<td>Path to the static plugin definition file the loader reads.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="broker-activemq-transport">Broker (ActiveMQ) &amp; transport<a class="headerlink" href="#broker-activemq-transport" title="Permanent link">&para;</a></h2>
+<p>Core embedded ActiveMQ broker settings — listener, transport, persistence, and resource limits.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>broker_port</code></td>
+<td>int</td>
+<td><code>32010</code></td>
+<td>TCP port the embedded broker listens on for client connections.</td>
+</tr>
+<tr>
+<td><code>enable_dynamic_broker_port</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>If the configured <code>broker_port</code> is busy, probe upward for a free port instead of failing.</td>
+</tr>
+<tr>
+<td><code>enable_broker_transport</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Enable the broker's network transport connector. When off the broker is <code>vm://</code>-only (no external clients).</td>
+</tr>
+<tr>
+<td><code>activemq_transport</code></td>
+<td>String</td>
+<td><code>nio+ssl</code></td>
+<td>Transport/wire protocol for broker connections (e.g. <code>nio+ssl</code> for TLS-over-NIO).</td>
+</tr>
+<tr>
+<td><code>activemq_persistent</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Persist messages to the KahaDB store (survive restarts). Off = in-memory only.</td>
+</tr>
+<tr>
+<td><code>activemq_max_frame_size</code></td>
+<td>long</td>
+<td><code>128 MB</code></td>
+<td>Maximum size of a single JMS message/frame the broker accepts.</td>
+</tr>
+<tr>
+<td><code>activemq_socket_buffer_size</code></td>
+<td>int</td>
+<td><code>2 MB</code></td>
+<td>TCP send/receive socket buffer size for broker transport connections.</td>
+</tr>
+<tr>
+<td><code>activemq_prioritized_messages</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Enable priority ordering on queues/topics (required for the tiered QoS scheme).</td>
+</tr>
+<tr>
+<td><code>activemq_producer_flow_control</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Block producers when a destination hits its memory limit. Off by default to avoid priority inversion of liveness/control traffic behind bulk.</td>
+</tr>
+<tr>
+<td><code>activemq_use_cache</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Enable the broker's in-memory dispatch cache. Off — no measured throughput gain, saves memory.</td>
+</tr>
+<tr>
+<td><code>activemq_dedicated_task_runner</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Use a dedicated thread per broker task instead of a shared pool.</td>
+</tr>
+<tr>
+<td><code>activemq_journal_disk_syncs</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Force <code>fsync</code> on each KahaDB journal write. Off trades durability-on-crash for I/O throughput.</td>
+</tr>
+<tr>
+<td><code>activemq_gc_inactive_destinations</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Garbage-collect idle queues/topics after <code>activemq_inactive_timeout_before_gc</code>.</td>
+</tr>
+<tr>
+<td><code>activemq_inactive_timeout_before_gc</code></td>
+<td>int</td>
+<td><code>15000</code></td>
+<td>Milliseconds of inactivity before an idle destination becomes eligible for GC.</td>
+</tr>
+<tr>
+<td><code>activemq_destination_purge_period</code></td>
+<td>int</td>
+<td><code>2500</code></td>
+<td>Milliseconds between broker sweeps that purge expired messages.</td>
+</tr>
+<tr>
+<td><code>activemq_destination_memory_limit</code></td>
+<td>long</td>
+<td><code>256 MB</code></td>
+<td>Per-destination memory ceiling (any single queue/topic).</td>
+</tr>
+<tr>
+<td><code>broker_memory_limit</code></td>
+<td>long</td>
+<td><strong>computed</strong></td>
+<td>Broker-wide message memory ceiling. Computed default = <code>max(512 MB, maxHeap/2)</code>.</td>
+</tr>
+<tr>
+<td><code>broker_store_limit</code></td>
+<td>long</td>
+<td><code>8 GB</code></td>
+<td>Maximum disk for the KahaDB persistent store.</td>
+</tr>
+<tr>
+<td><code>broker_temp_limit</code></td>
+<td>long</td>
+<td><code>4 GB</code></td>
+<td>Maximum disk for broker temporary (spooled) data.</td>
+</tr>
+<tr>
+<td><code>broker_message_ttl</code></td>
+<td>int</td>
+<td><code>5</code></td>
+<td>Default message time-to-live, <strong>in minutes</strong>; expired messages are discarded.</td>
+</tr>
+<tr>
+<td><code>broker_bridge_connections</code></td>
+<td>int</td>
+<td><code>1</code></td>
+<td>Number of parallel network-bridge connectors per remote peer broker (spreads load across sockets).</td>
+</tr>
+<tr>
+<td><code>broker_bridge_prefetch</code></td>
+<td>int</td>
+<td><code>100</code></td>
+<td>Prefetch limit on each inter-broker bridge connector.</td>
+</tr>
+<tr>
+<td><code>broker_tls_ready_probe</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Probe the broker TLS listener for readiness before proceeding through the boot state machine.</td>
+</tr>
+<tr>
+<td><code>broker_tls_ready_wait_ms</code></td>
+<td>long</td>
+<td><code>15000</code></td>
+<td>Maximum milliseconds to wait for the TLS listener to become ready when probing.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="failover-reconnect">Failover / reconnect<a class="headerlink" href="#failover-reconnect" title="Permanent link">&para;</a></h3>
+<p>Client-side failover transport behavior. Note these are read as <strong>strings</strong> and parsed downstream.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>failover_reconnect_delay</code></td>
+<td>String (ms)</td>
+<td><code>"5000"</code></td>
+<td>Initial delay before a failover reconnect attempt.</td>
+</tr>
+<tr>
+<td><code>max_reconnect_attempts</code></td>
+<td>String (int)</td>
+<td><code>"5"</code></td>
+<td>Maximum failover reconnect attempts before giving up.</td>
+</tr>
+<tr>
+<td><code>use_exponential_backOff</code></td>
+<td>String (bool)</td>
+<td><code>"false"</code></td>
+<td>Use exponential backoff between failover reconnect attempts.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="certificates-keystore-tls-material">Certificates, keystore &amp; TLS material<a class="headerlink" href="#certificates-keystore-tls-material" title="Permanent link">&para;</a></h2>
+<p>Where the node finds its TLS keystore/truststore and how it generates message-signing keys.
+The keystore/truststore getters have <strong>no default</strong> (unset = the framework generates/derives
+material rather than loading a supplied store).</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>keystorefile</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Path to the TLS keystore file. <strong>Unset = generated in-memory.</strong></td>
+</tr>
+<tr>
+<td><code>keystorepwd</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Password for the keystore.</td>
+</tr>
+<tr>
+<td><code>truststorefile</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Path to the TLS truststore file. <strong>Unset = derived.</strong></td>
+</tr>
+<tr>
+<td><code>truststorepwd</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Password for the truststore.</td>
+</tr>
+<tr>
+<td><code>messagekeysize</code></td>
+<td>int</td>
+<td><code>2048</code></td>
+<td>RSA key size (bits) for generated message-signing certificates; values <code>&lt;512</code> are refused and clamped to 512.</td>
+</tr>
+<tr>
+<td><code>public_key_directory</code></td>
+<td>String</td>
+<td><code>cresco-data/public-keys</code></td>
+<td>Directory where peer public keys/certificates are cached.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="discovery">Discovery<a class="headerlink" href="#discovery" title="Permanent link">&para;</a></h2>
+<p>How nodes find each other (TCP/UDP/static) and the timeouts governing each discovery mode.
+See also the <em>Security &amp; tenancy</em> table for the <code>discovery_secret_*</code> shared secrets.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enable_tcp_discovery</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Enable the TCP discovery engine (peer-controller discovery).</td>
+</tr>
+<tr>
+<td><code>enable_udp_discovery</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Enable UDP broadcast discovery. Off by default.</td>
+</tr>
+<tr>
+<td><code>netdiscoveryport</code></td>
+<td>int</td>
+<td><code>32005</code></td>
+<td>Port the TCP/UDP discovery listener binds.</td>
+</tr>
+<tr>
+<td><code>netdiscoveryssl</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Enable SSL on discovery connections (currently gated off in code).</td>
+</tr>
+<tr>
+<td><code>discovery_port</code></td>
+<td>int</td>
+<td><code>32010</code></td>
+<td>Port advertised/used for local broker (agent) connections resolved via discovery.</td>
+</tr>
+<tr>
+<td><code>discovery_port_remote</code></td>
+<td>int</td>
+<td><code>32010</code></td>
+<td>Port used when connecting to a <strong>remote</strong> broker (multi-global / cross-host meshes).</td>
+</tr>
+<tr>
+<td><code>discovery_ipv4_agent_timeout</code></td>
+<td>int</td>
+<td><code>2000</code>¹</td>
+<td>Milliseconds to wait for IPv4 agent-discovery responses. ¹Read as <code>2000</code> in the state machine and <code>10000</code> in the net perf monitor.</td>
+</tr>
+<tr>
+<td><code>discovery_ipv6_agent_timeout</code></td>
+<td>int</td>
+<td><code>2000</code>¹</td>
+<td>Milliseconds to wait for IPv6 agent-discovery responses. ¹Same dual-default caveat as the IPv4 timeout.</td>
+</tr>
+<tr>
+<td><code>discovery_static_agent_timeout</code></td>
+<td>int</td>
+<td><code>10000</code></td>
+<td>Timeout (ms) for <strong>static</strong> (explicitly-configured host) agent discovery.</td>
+</tr>
+<tr>
+<td><code>discovery_static_region_timeout</code></td>
+<td>int</td>
+<td><code>10000</code></td>
+<td>Timeout (ms) for static region discovery.</td>
+</tr>
+<tr>
+<td><code>discovery_static_global_timeout</code></td>
+<td>int</td>
+<td><code>10000</code></td>
+<td>Timeout (ms) for static global-controller discovery.</td>
+</tr>
+<tr>
+<td><code>peer_discovery_timeout</code></td>
+<td>int</td>
+<td><code>5000</code></td>
+<td>Timeout (ms) for discovering regional peer controllers.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="region-global-federation">Region / global federation<a class="headerlink" href="#region-global-federation" title="Permanent link">&para;</a></h2>
+<p>Static wiring and liveness of the region↔global (and region↔region peer) links. When a
+static host is set it overrides dynamic discovery for that link.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>regional_controller_host</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Static hostname/IP of the regional controller an agent should attach to (overrides discovery).</td>
+</tr>
+<tr>
+<td><code>regional_controller_port</code></td>
+<td>int</td>
+<td><code>32005</code></td>
+<td>Port for the regional-controller connection.</td>
+</tr>
+<tr>
+<td><code>global_controller_host</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Static hostname/IP of the global controller a region should attach to (overrides discovery).</td>
+</tr>
+<tr>
+<td><code>global_controller_port</code></td>
+<td>int</td>
+<td><code>32005</code></td>
+<td>Port for the global-controller connection (also used to key same-host multi-global meshes).</td>
+</tr>
+<tr>
+<td><code>regional_peers</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Comma-separated list of peer regional-controller addresses to maintain mesh links with.</td>
+</tr>
+<tr>
+<td><code>localpluginrepo</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Local plugin-repository directory the global controller uses for plugin discovery/distribution.</td>
+</tr>
+<tr>
+<td><code>forward_global_kpi</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Forward regional KPI/metrics up to the global controller.</td>
+</tr>
+<tr>
+<td><code>gc_connect_retry</code></td>
+<td>int</td>
+<td><code>25</code></td>
+<td>Maximum attempts to connect to the global controller after discovery before giving up.</td>
+</tr>
+<tr>
+<td><code>region_ping_interval</code></td>
+<td>long</td>
+<td><code>5000</code></td>
+<td>Milliseconds between region→global liveness pings.</td>
+</tr>
+<tr>
+<td><code>region_ping_timeout</code></td>
+<td>long</td>
+<td><code>5000</code></td>
+<td>Milliseconds to wait for a region→global ping response.</td>
+</tr>
+<tr>
+<td><code>region_ping_retries</code></td>
+<td>int</td>
+<td><code>2</code></td>
+<td>Consecutive ping misses tolerated within an interval before recording a failure.</td>
+</tr>
+<tr>
+<td><code>comm_watchdog_interval</code></td>
+<td>long</td>
+<td><code>5000</code></td>
+<td>Milliseconds between local broker/discovery health checks in the region watchdog.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="watchdog-state-machine-timing">Watchdog, state machine &amp; timing<a class="headerlink" href="#watchdog-state-machine-timing" title="Permanent link">&para;</a></h2>
+<p>General liveness/retry timing across the boot state machine and the region/global/agent
+watchdogs. <code>watchdog_interval</code>, <code>watchdog_interval_delay</code>, and <code>period_multiplier</code> are read
+in several watchers with the same defaults shown.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>watchdog_interval</code></td>
+<td>long</td>
+<td><code>15000</code></td>
+<td>Base watchdog tick interval (ms) for the state machine and region/global/agent health watchers.</td>
+</tr>
+<tr>
+<td><code>watchdog_interval_delay</code></td>
+<td>long</td>
+<td><code>5000</code></td>
+<td>Initial delay (ms) before the first watchdog tick.</td>
+</tr>
+<tr>
+<td><code>watchdog_period</code></td>
+<td>int</td>
+<td><code>5000</code></td>
+<td>Watchdog period (ms) recorded on node records persisted to the controller DB.</td>
+</tr>
+<tr>
+<td><code>period_multiplier</code></td>
+<td>int / long</td>
+<td><code>10</code> (int) / <code>3</code> (long)¹</td>
+<td>Multiplier applied to a base period for staleness/interval math. ¹Read as <code>int 10</code> in health watchers and <code>long 3</code> in the DB interface.</td>
+</tr>
+<tr>
+<td><code>retrywait</code></td>
+<td>long</td>
+<td><code>3000</code></td>
+<td>Milliseconds to wait between state-machine retry attempts.</td>
+</tr>
+<tr>
+<td><code>agent_ping_interval</code></td>
+<td>long</td>
+<td><code>5000</code></td>
+<td>Milliseconds between agent-liveness pings (agent health watcher).</td>
+</tr>
+<tr>
+<td><code>agent_ping_timeout</code></td>
+<td>long</td>
+<td><code>5000</code></td>
+<td>Milliseconds to wait for an agent ping response.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="health-checks">Health checks<a class="headerlink" href="#health-checks" title="Permanent link">&para;</a></h2>
+<p>Felix-Health-Check-based monitoring: overall executor cadence, disk/memory thresholds, and
+the parent-link / subtree / link-quality checks. All intervals/thresholds below have shipped
+defaults; the subsystem runs out of the box.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>health_check_interval_ms</code></td>
+<td>long</td>
+<td><code>5000</code></td>
+<td>Default interval at which registered health checks execute.</td>
+</tr>
+<tr>
+<td><code>health_summary_interval_ms</code></td>
+<td>long</td>
+<td><code>30000</code></td>
+<td>Interval for logging the periodic health rollup summary.</td>
+</tr>
+<tr>
+<td><code>health_grace_ms</code></td>
+<td>long</td>
+<td><code>20000</code></td>
+<td>How long a check may stay TEMPORARILY_UNAVAILABLE before being promoted to CRITICAL.</td>
+</tr>
+<tr>
+<td><code>health_sticky_ms</code></td>
+<td>long</td>
+<td><code>60000</code></td>
+<td>Window during which a recently-recovered check is still surfaced as WARN (dampens flapping).</td>
+</tr>
+<tr>
+<td><code>health_disk_floor_mb</code></td>
+<td>long</td>
+<td><code>100</code></td>
+<td>Free-disk floor (MB); below this, disk health is CRITICAL.</td>
+</tr>
+<tr>
+<td><code>health_mem_warn_pct</code></td>
+<td>int</td>
+<td><code>85</code></td>
+<td>Heap-usage percentage at which memory health becomes WARN.</td>
+</tr>
+<tr>
+<td><code>health_mem_crit_pct</code></td>
+<td>int</td>
+<td><code>95</code></td>
+<td>Heap-usage percentage at which memory health becomes CRITICAL.</td>
+</tr>
+<tr>
+<td><code>health_link_interval_sec</code></td>
+<td>long</td>
+<td><code>5</code></td>
+<td>Seconds between parent-link health-check executions.</td>
+</tr>
+<tr>
+<td><code>health_link_grace_sec</code></td>
+<td>long</td>
+<td><code>10</code></td>
+<td>Grace window (s) for link staleness before escalating to CRITICAL.</td>
+</tr>
+<tr>
+<td><code>health_link_stale_ms</code></td>
+<td>long</td>
+<td><code>0</code></td>
+<td>Staleness threshold (ms) for a parent link's last pong (<code>0</code> = derived/disabled).</td>
+</tr>
+<tr>
+<td><code>health_link_region_ping</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Drive region→global link health from an application-level ping instead of broker-bridge detection.</td>
+</tr>
+<tr>
+<td><code>health_subtree_interval_sec</code></td>
+<td>long</td>
+<td><code>10</code></td>
+<td>Seconds between child-health rollup executions.</td>
+</tr>
+<tr>
+<td><code>health_subtree_stale_ms</code></td>
+<td>long</td>
+<td><code>30000</code></td>
+<td>Staleness threshold (ms) for child health reports before they're treated as stale.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="link-quality-thresholds">Link-quality thresholds<a class="headerlink" href="#link-quality-thresholds" title="Permanent link">&para;</a></h3>
+<p>Warn levels for the parent-link quality check; exceeding any degrades reported link quality.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>link_quality_rtt_warn_ms</code></td>
+<td>double</td>
+<td><code>50.0</code></td>
+<td>Smoothed RTT (ms) above which link quality is degraded.</td>
+</tr>
+<tr>
+<td><code>link_quality_jitter_warn_ms</code></td>
+<td>double</td>
+<td><code>25.0</code></td>
+<td>Jitter (ms) above which link quality is degraded.</td>
+</tr>
+<tr>
+<td><code>link_quality_sendlat_warn_ms</code></td>
+<td>double</td>
+<td><code>25.0</code></td>
+<td>Producer send-latency (ms) above which link quality is degraded.</td>
+</tr>
+<tr>
+<td><code>link_quality_backlog_warn</code></td>
+<td>long</td>
+<td><code>1000</code></td>
+<td>Broker backlog (pending messages) above which link quality is degraded.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="metrics-measurements">Metrics &amp; measurements<a class="headerlink" href="#metrics-measurements" title="Permanent link">&para;</a></h2>
+<p>Timeouts for capability/metrics/resource RPCs and fan-outs, plus the sysinfo sampler.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>capability_rpc_timeout_ms</code></td>
+<td>int</td>
+<td><code>2500</code></td>
+<td>Timeout for a single plugin capability RPC.</td>
+</tr>
+<tr>
+<td><code>capability_fanout_timeout_ms</code></td>
+<td>int</td>
+<td><code>12000</code></td>
+<td>Timeout for a capability-inventory fan-out across remote agents.</td>
+</tr>
+<tr>
+<td><code>metrics_rpc_timeout_ms</code></td>
+<td>int</td>
+<td><code>2500</code></td>
+<td>Timeout for a single plugin metrics RPC.</td>
+</tr>
+<tr>
+<td><code>metrics_fanout_timeout_ms</code></td>
+<td>int</td>
+<td><code>12000</code></td>
+<td>Timeout for a metrics fan-out across remote agents.</td>
+</tr>
+<tr>
+<td><code>resource_rpc_timeout_ms</code></td>
+<td>int</td>
+<td><code>3000</code></td>
+<td>Timeout for a sysinfo resource RPC.</td>
+</tr>
+<tr>
+<td><code>sysinfo_metrics_ttl_ms</code></td>
+<td>int</td>
+<td><code>5000</code></td>
+<td>Cache TTL for sysinfo metrics JSON (avoids repeated expensive OSHI host queries).</td>
+</tr>
+<tr>
+<td><code>perftimer</code></td>
+<td>long</td>
+<td><code>10000</code></td>
+<td>Interval (ms) for the performance sampler (sysinfo <code>PerfSysMonitor</code> and net perf monitor).</td>
+</tr>
+<tr>
+<td><code>inode_id</code></td>
+<td>String</td>
+<td><code>netdiscovery_inode</code></td>
+<td>Identifier the net perf monitor uses for its measurement inode.</td>
+</tr>
+<tr>
+<td><code>resource_id</code></td>
+<td>String</td>
+<td><code>netdiscovery_resource</code></td>
+<td>Identifier the net perf monitor uses for its measurement resource.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="network-link-metrics-auto-tuning">Network link metrics &amp; auto-tuning<a class="headerlink" href="#network-link-metrics-auto-tuning" title="Permanent link">&para;</a></h2>
+<p>Adaptive tuning of socket buffers, read-chunk sizes, and per-link bridge connection counts
+based on live link metrics (RTT, send-latency, backlog, BDP). <strong>Auto-tuning is off by
+default</strong> (<code>net_autotune=false</code>); the min/base/max profile values still define the static
+buffer sizes used when auto-tuning is off.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>net_autotune</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Master switch for network-aware auto-tuning of buffers, chunk sizes, and connection counts.</td>
+</tr>
+<tr>
+<td><code>net_autotune_interval_sec</code></td>
+<td>int</td>
+<td><code>5</code></td>
+<td>Seconds between metric-sampling and tuning-adjustment cycles.</td>
+</tr>
+<tr>
+<td><code>net_autotune_cooldown_ms</code></td>
+<td>long</td>
+<td><code>15000</code></td>
+<td>Minimum interval between successive connection scale actions on the same link.</td>
+</tr>
+<tr>
+<td><code>net_autotune_backlog_high</code></td>
+<td>long</td>
+<td><code>500</code></td>
+<td>Broker backlog (pending messages) above which the tuner scales connections up.</td>
+</tr>
+<tr>
+<td><code>net_autotune_sendlat_high_ms</code></td>
+<td>double</td>
+<td><code>20.0</code></td>
+<td>Send-latency (ms) above which the tuner scales connections up.</td>
+</tr>
+<tr>
+<td><code>net_autotune_sendlat_low_ms</code></td>
+<td>double</td>
+<td><code>2.0</code></td>
+<td>Send-latency (ms) below which idle links are scaled down.</td>
+</tr>
+<tr>
+<td><code>net_autotune_bdp_safety</code></td>
+<td>double</td>
+<td><code>3.0</code></td>
+<td>Bandwidth-delay-product multiplier used to size socket buffers with headroom.</td>
+</tr>
+<tr>
+<td><code>net_link_speed_bps</code></td>
+<td>long</td>
+<td><code>0</code></td>
+<td>Configured uplink capacity (bits/s) used as a BDP cap; <code>0</code> = unknown.</td>
+</tr>
+<tr>
+<td><code>net_cost_routing</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Annotate messages with link cost so routing can prefer lower-cost paths.</td>
+</tr>
+<tr>
+<td><code>net_metrics_log</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Log detailed per-link network metrics each tuning cycle.</td>
+</tr>
+<tr>
+<td><code>net_connections_per_link</code></td>
+<td>int</td>
+<td><code>1</code></td>
+<td>Initial number of concurrent bridge connections per remote link.</td>
+</tr>
+<tr>
+<td><code>net_connections_min</code></td>
+<td>int</td>
+<td><code>1</code></td>
+<td>Floor on concurrent connections per link.</td>
+</tr>
+<tr>
+<td><code>net_connections_max</code></td>
+<td>int</td>
+<td><code>16</code></td>
+<td>Ceiling on concurrent connections per link.</td>
+</tr>
+<tr>
+<td><code>net_socket_buffer_bytes</code></td>
+<td>int</td>
+<td><code>4 MB</code></td>
+<td>Base TCP socket send/receive buffer size.</td>
+</tr>
+<tr>
+<td><code>net_socket_buffer_min</code></td>
+<td>int</td>
+<td><code>256 KB</code></td>
+<td>Floor the auto-tuner may set for the socket buffer.</td>
+</tr>
+<tr>
+<td><code>net_socket_buffer_max</code></td>
+<td>int</td>
+<td><code>32 MB</code></td>
+<td>Ceiling the auto-tuner may set for the socket buffer.</td>
+</tr>
+<tr>
+<td><code>net_read_chunk_bytes</code></td>
+<td>int</td>
+<td><code>256 KB</code></td>
+<td>Base per-read block size for network I/O.</td>
+</tr>
+<tr>
+<td><code>net_read_chunk_min</code></td>
+<td>int</td>
+<td><code>16 KB</code></td>
+<td>Floor the auto-tuner may set for the read-chunk size.</td>
+</tr>
+<tr>
+<td><code>net_read_chunk_max</code></td>
+<td>int</td>
+<td><code>4 MB</code></td>
+<td>Ceiling the auto-tuner may set for the read-chunk size.</td>
+</tr>
+<tr>
+<td><code>net_write_high_water_bytes</code></td>
+<td>int</td>
+<td><code>2 MB</code></td>
+<td>Outbound-buffer high-water mark that triggers write backpressure.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="data-plane">Data plane<a class="headerlink" href="#data-plane" title="Permanent link">&para;</a></h2>
+<p>The high-throughput event data plane and its sharding/journaling. Sharding splits data-plane
+traffic across N topics for parallel inter-broker transfer.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dataplane_shards</code></td>
+<td>int</td>
+<td><code>1</code></td>
+<td>Number of shard topics the data plane is split into (<code>1</code> = unsharded).</td>
+</tr>
+<tr>
+<td><code>dataplane_shard_topic</code></td>
+<td>String</td>
+<td><code>global.event</code></td>
+<td>Base topic name for shards (e.g. <code>global.event.0..N-1</code>).</td>
+</tr>
+<tr>
+<td><code>dataplane_parallel_connections</code></td>
+<td>boolean</td>
+<td><strong>computed</strong> (<code>shards &gt; 1</code>)</td>
+<td>Use a dedicated broker connection per shard instead of multiplexing all shards over one session. Default is <code>true</code> when <code>dataplane_shards &gt; 1</code>, else <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>dataplane_io_buffer_bytes</code></td>
+<td>int</td>
+<td><code>64 KB</code></td>
+<td>I/O buffer size for data-plane message handling (wsapi data-plane path).</td>
+</tr>
+<tr>
+<td><code>journal_dir</code></td>
+<td>String</td>
+<td><strong>computed</strong></td>
+<td>Directory for the data-plane producer-worker journal. Default resolves to a path under the working directory / node data location.</td>
+</tr>
+<tr>
+<td><code>dp-journal_dir</code></td>
+<td>String</td>
+<td><strong>computed</strong></td>
+<td>Directory for the data-plane service journal (KahaDB). Default resolves under the node data location.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="producer-consumer-qos">Producer / consumer &amp; QoS<a class="headerlink" href="#producer-consumer-qos" title="Permanent link">&para;</a></h2>
+<p>Producer-worker pools, retry behavior, prefetch limits, exclusive-consumer defaults, and the
+tiered-priority TTLs that keep liveness/control traffic ahead of bulk.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>queue_prefetch_limit</code></td>
+<td>int</td>
+<td><code>100</code></td>
+<td>Consumer prefetch size for <strong>queue</strong> consumers.</td>
+</tr>
+<tr>
+<td><code>topic_prefetch_limit</code></td>
+<td>int</td>
+<td><code>100</code></td>
+<td>Consumer prefetch size for <strong>topic</strong> consumers.</td>
+</tr>
+<tr>
+<td><code>prefetch_rate_multiplier</code></td>
+<td>double</td>
+<td><code>2.5</code></td>
+<td>Multiplier on prefetch used by the pending-message-limit strategy (controls non-persistent message eviction).</td>
+</tr>
+<tr>
+<td><code>queue_all_consumers_exclusive</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Make all queue consumers exclusive (one active consumer per destination).</td>
+</tr>
+<tr>
+<td><code>topic_all_consumers_exclusive</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Make all topic consumers exclusive by default.</td>
+</tr>
+<tr>
+<td><code>activeproducerworker_default_priority</code></td>
+<td>int</td>
+<td><code>4</code></td>
+<td>Default JMS priority for messages sent by a producer worker (ActiveMQ default is 4).</td>
+</tr>
+<tr>
+<td><code>activeproducerworker_ttl</code></td>
+<td>long</td>
+<td><code>300000</code></td>
+<td>TTL (ms) on messages sent by producer workers (5 min).</td>
+</tr>
+<tr>
+<td><code>controlplane_ttl</code></td>
+<td>long</td>
+<td><code>300000</code></td>
+<td>TTL (ms) on control-plane (liveness/control) messages (5 min).</td>
+</tr>
+<tr>
+<td><code>agentproducer_data_queue</code></td>
+<td>int</td>
+<td><code>1000</code></td>
+<td>Bounded queue size for bulk data-transfer messages in the agent producer.</td>
+</tr>
+<tr>
+<td><code>agentproducer_data_threads</code></td>
+<td>int</td>
+<td><code>8</code></td>
+<td>Worker-thread count for the bulk data-transfer executor.</td>
+</tr>
+<tr>
+<td><code>agentproducer_max_send_retries</code></td>
+<td>int</td>
+<td><code>3</code></td>
+<td>Maximum send retries before a message send is failed.</td>
+</tr>
+<tr>
+<td><code>agentproducer_initial_retry_delay</code></td>
+<td>long</td>
+<td><code>500</code></td>
+<td>Initial backoff delay (ms) for send retries.</td>
+</tr>
+<tr>
+<td><code>agentproducer_worker_cleanup_delay</code></td>
+<td>long</td>
+<td><code>15000</code></td>
+<td>Delay (ms) after producer init before the idle-worker cleanup task first runs.</td>
+</tr>
+<tr>
+<td><code>agentproducer_worker_cleanup_interval</code></td>
+<td>long</td>
+<td><code>30000</code></td>
+<td>Interval (ms) between idle producer-worker cleanup scans.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="database-controller-state-store">Database (controller state store)<a class="headerlink" href="#database-controller-state-store" title="Permanent link">&para;</a></h2>
+<p>The embedded controller DB (Derby by default). <code>db_username</code>/<code>db_password</code> have <strong>no
+default</strong> (unset = no credentials, appropriate for the embedded Derby driver).</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>db_name</code></td>
+<td>String</td>
+<td><code>cresco-controller-db</code></td>
+<td>Logical database name.</td>
+</tr>
+<tr>
+<td><code>db_driver</code></td>
+<td>String</td>
+<td><code>org.apache.derby.jdbc.EmbeddedDriver</code></td>
+<td>JDBC driver class (HSQLDB alternative is present but commented out).</td>
+</tr>
+<tr>
+<td><code>db_jdbc</code></td>
+<td>String</td>
+<td><strong>computed</strong></td>
+<td>JDBC URL. Computed default = <code>jdbc:derby:&lt;dbPath&gt;;create=true</code> from the resolved DB path.</td>
+</tr>
+<tr>
+<td><code>db_username</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>DB username. <strong>Unset = none</strong> (embedded Derby needs no credentials).</td>
+</tr>
+<tr>
+<td><code>db_password</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>DB password. <strong>Unset = none.</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="repository-data-paths">Repository &amp; data paths<a class="headerlink" href="#repository-data-paths" title="Permanent link">&para;</a></h2>
+<p>Where the node stores its data, plugin cache, and jar repository.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cresco_data_location</code></td>
+<td>String</td>
+<td><code>cresco-data</code></td>
+<td>Root directory for this node's persistent data (DB, keys, journals).</td>
+</tr>
+<tr>
+<td><code>agent_data_directory</code></td>
+<td>String</td>
+<td><strong>computed</strong></td>
+<td>Agent data directory; default derives from <code>cresco_data_location</code> / the default filesystem working directory.</td>
+</tr>
+<tr>
+<td><code>tmp_data</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Override for the host temporary-data directory (host application).</td>
+</tr>
+<tr>
+<td><code>repo_dir</code></td>
+<td>String</td>
+<td><code>repo</code></td>
+<td>Directory served by the <strong>repo</strong> plugin as the jar/plugin repository root.</td>
+</tr>
+<tr>
+<td><code>repo_cache_dir</code></td>
+<td>String</td>
+<td><code>cresco-data/agent-repo-cache</code></td>
+<td>Local cache directory for plugins the agent downloads from a repo.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="wsapi-websocket-api-gateway">wsapi (WebSocket API gateway)<a class="headerlink" href="#wsapi-websocket-api-gateway" title="Permanent link">&para;</a></h2>
+<p>Settings for the wsapi plugin: listener port, TLS material, socket tuning, and the service
+key that authenticates HTTP-upgrade requests.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wsapi_port</code></td>
+<td>String (int)</td>
+<td><code>8282</code>¹</td>
+<td>Port the wsapi WebSocket server binds. ¹Read as a string; supply as plain text.</td>
+</tr>
+<tr>
+<td><code>wsapi_keystore_password</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>Password for the wsapi TLS keystore. <strong>Unset = generated self-signed default.</strong></td>
+</tr>
+<tr>
+<td><code>wsapi_ssl_provider</code></td>
+<td>String</td>
+<td><code>JDK</code></td>
+<td>TLS engine: <code>JDK</code> (standard Java SSL) or <code>OPENSSL</code> (native/BoringSSL).</td>
+</tr>
+<tr>
+<td><code>cresco_service_key</code></td>
+<td>String</td>
+<td><em>unset</em></td>
+<td>API key/token required on the WebSocket HTTP-upgrade handshake. <strong>Unset = no key required.</strong></td>
+</tr>
+<tr>
+<td><code>wsapi_read_chunk_bytes</code></td>
+<td>int</td>
+<td><code>256 KB</code></td>
+<td>Max bytes per socket read (larger reduces syscalls on bulk streams).</td>
+</tr>
+<tr>
+<td><code>wsapi_socket_buffer_bytes</code></td>
+<td>int</td>
+<td><code>4 MB</code></td>
+<td>TCP socket send/receive buffer size for wsapi connections.</td>
+</tr>
+<tr>
+<td><code>wsapi_write_high_water_bytes</code></td>
+<td>int</td>
+<td><code>2 MB</code></td>
+<td>Outbound-buffer high-water mark that triggers backpressure.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="stunnel-secure-tcp-tunneling">stunnel (secure TCP tunneling)<a class="headerlink" href="#stunnel-secure-tcp-tunneling" title="Permanent link">&para;</a></h2>
+<p>Socket-tuning knobs for the stunnel plugin's tunnel sockets.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stunnel_read_chunk_bytes</code></td>
+<td>int</td>
+<td><code>256 KB</code></td>
+<td>Max bytes per socket read on tunnel sockets.</td>
+</tr>
+<tr>
+<td><code>stunnel_socket_buffer_bytes</code></td>
+<td>int</td>
+<td><code>4 MB</code></td>
+<td>TCP socket send/receive buffer size for tunnel sockets.</td>
+</tr>
+<tr>
+<td><code>stunnel_write_high_water_bytes</code></td>
+<td>int</td>
+<td><code>2 MB</code></td>
+<td>Outbound-buffer high-water mark that triggers backpressure on a tunnel.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="notes-on-defaults">Notes on defaults<a class="headerlink" href="#notes-on-defaults" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>min</code>/<code>max</code>/<code>base</code> tuning triples</strong> (<code>net_socket_buffer_*</code>, <code>net_read_chunk_*</code>,
+  <code>net_connections_*</code>) only diverge when <code>net_autotune=true</code>. With auto-tuning off, the base
+  value (<code>net_socket_buffer_bytes</code>, <code>net_read_chunk_bytes</code>, <code>net_connections_per_link</code>) is used
+  as-is and the min/max bounds are inert.</li>
+<li><strong>Computed defaults</strong> (<code>broker_memory_limit</code>, <code>db_jdbc</code>, <code>journal_dir</code>, <code>dp-journal_dir</code>,
+  <code>agent_data_directory</code>, <code>dataplane_parallel_connections</code>) are derived from the JVM heap, the
+  resolved data location, or another parameter — set them explicitly only to override the
+  derivation.</li>
+<li><strong>Dual-default parameters</strong> (<code>discovery_ipv4_agent_timeout</code>, <code>discovery_ipv6_agent_timeout</code>,
+  <code>period_multiplier</code>, <code>enable_repo</code>, <code>enable_wsapi</code>) are read in more than one place with
+  differing shipped defaults; the effective value depends on which subsystem reads it first.
+  Set them explicitly if the exact value matters to you.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.tabs", "navigation.top", "navigation.instant", "content.code.copy", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
