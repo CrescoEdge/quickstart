@@ -1,11 +1,26 @@
-# Cresco Documentation Site
+# Cresco Documentation
 
-The canonical documentation for [Cresco](https://github.com/CrescoEdge) — a hierarchical, secure,
-multi-tenant distributed agent mesh. Built with [MkDocs](https://www.mkdocs.org/) +
-[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+# 📖 &nbsp; [**Read the docs → crescoedge.github.io/quickstart**](https://crescoedge.github.io/quickstart/)
 
-**All project information lives here:** architecture, every module/plugin, every callable action, both
+The **canonical documentation** for [Cresco](https://github.com/CrescoEdge) — a hierarchical, secure,
+multi-tenant distributed agent mesh — is published as a full site at
+**<https://crescoedge.github.io/quickstart/>**. This repository holds its source.
+
+**All project information lives there:** architecture, every module/plugin, every callable action, both
 client libraries, configuration, operations, and the engineering design documents.
+
+### Jump in
+
+| | |
+|---|---|
+| 🚀 **[Getting Started](https://crescoedge.github.io/quickstart/getting-started/installation/)** | build, run a mesh, configure |
+| 🏗️ **[Architecture](https://crescoedge.github.io/quickstart/architecture/overview/)** | how the mesh works |
+| 🔌 **[Modules & Plugins](https://crescoedge.github.io/quickstart/plugins/overview/)** | every component |
+| ⚙️ **[Plugin Actions](https://crescoedge.github.io/quickstart/api/plugin-actions/)** | all 89 callable actions |
+| 💻 **[Client Libraries](https://crescoedge.github.io/quickstart/clients/overview/)** | Java + Python SDKs |
+| 🔐 **[Security & Multi-Tenancy](https://crescoedge.github.io/quickstart/architecture/tenancy/)** | identity, isolation, roles |
+
+Built with [MkDocs](https://www.mkdocs.org/) + [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
 ## Build & serve
 
