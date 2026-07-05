@@ -59,6 +59,15 @@ Clients authenticate with the `cresco_service_key` HTTP header on the WebSocket 
 
 See [Configuration](../getting-started/configuration.md).
 
+## Observability
+
+- **Metrics** — `getmetrics` exposes `MeasurementEngine` gauges `wsapi.dataplane.connections`,
+  `wsapi.dataplane.bytes`, and `wsapi.dataplane.messages` (process-wide dataplane ingress counters),
+  aggregated by `getmetricinventory`. See
+  [Metrics & Measurements › wsapi](../architecture/metrics.md#plugin-wsapi).
+- **Health** — registers the `wsapi` Felix HealthCheck (tag `local`), **only after the Netty server
+  binds**, so an OK reports the live wss port. See [Health & State](../architecture/health.md#plugin-checks).
+
 ## See also
 
 - [Client Libraries Overview](../clients/overview.md) · [Java (clientlib)](../clients/java.md) · [Python (pycrescolib)](../clients/python.md)

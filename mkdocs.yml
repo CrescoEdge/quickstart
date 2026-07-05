@@ -66,9 +66,11 @@ nav:
       - core: plugins/core.md
       - logger: plugins/logger.md
       - repo: plugins/repo.md
+      - filerepo: plugins/filerepo.md
       - sysinfo: plugins/sysinfo.md
       - wsapi: plugins/wsapi.md
       - stunnel: plugins/stunnel.md
+      - executor: plugins/executor.md
   - API Reference:
       - Plugin Actions (Capability Inventory): api/plugin-actions.md
       - Library API: api/library-api.md

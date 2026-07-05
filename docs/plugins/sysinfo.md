@@ -53,6 +53,16 @@ See [Configuration](../getting-started/configuration.md).
 
 The [controller](controller.md)'s `PerfControllerMonitor` serves on-demand region/agent/plugin resource queries by RPCing `getsysinfo` to `io.cresco.sysinfo`. The plugin is therefore the authoritative source of a host's resource picture, both pushed (via the data-plane sampler) and pulled (via the controller's `getMetrics`/`getSysInfo` path).
 
+## Observability
+
+- **Metrics** — `getmetrics` exposes **30 `MeasurementEngine` gauges** across the `processor`,
+  `memory`, `disk`, `network`, `sensors`, `power`, `system`, `gpu`, and `devices` groups (CPU load,
+  RAM, disk/NIC I/O, temperature, battery, uptime, and more), aggregated by `getmetricinventory`.
+  Every gauge, its OSHI source, and its meaning is catalogued in
+  [Metrics & Measurements › sysinfo](../architecture/metrics.md#plugin-sysinfo-host-telemetry-richest-set).
+- **Health** — registers the `sysinfo` Felix HealthCheck (tag `local`): OK while host telemetry is
+  being served. See [Health & State](../architecture/health.md#plugin-checks).
+
 ## See also
 
 - [Metrics & Measurements](../architecture/metrics.md) — how sysinfo feeds the measurement subsystem.

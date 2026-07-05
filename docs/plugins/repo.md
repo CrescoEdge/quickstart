@@ -38,6 +38,14 @@ See [Configuration](../getting-started/configuration.md).
 
 When the global scheduler places a plugin on an agent, the agent's `PluginAdmin` resolves the JAR — checking bundle / absolute path / local cache / embedded resources, and finally a **remote repo** via an RPC `getjar` (MD5-verified). `repo` is the endpoint that answers those calls, and `putjar`/`savetorepo` is how new plugin artifacts are published into the fabric. See [controller](controller.md) for the plugin lifecycle and the global tier.
 
+## Observability
+
+- **Metrics** — `getmetrics` exposes `MeasurementEngine` gauges `repo.plugin.count` (jars in the
+  repository) and `repo.bytes` (total on-disk size); aggregated by the controller's
+  `getmetricinventory`. See [Metrics & Measurements](../architecture/metrics.md#plugin-repo).
+- **Health** — registers the `repo` Felix HealthCheck (tag `local`) reporting the plugin-jar count.
+  See [Health & State](../architecture/health.md#plugin-checks).
+
 ## See also
 
 - [Overview](overview.md) — plugin lifecycle and JAR resolution.

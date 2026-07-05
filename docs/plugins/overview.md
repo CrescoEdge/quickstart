@@ -22,7 +22,7 @@ Bundles fall into three roles:
 | **Host** | `agent` | The executable uber-jar; boots Felix and installs everything else. |
 | **Framework services** | `logger`, `library`, `core` | Installed and started at boot, before the controller. |
 | **The controller** | `controller` | The fabric brain — installed and started at boot. |
-| **Functional plugins** | `repo`, `sysinfo`, `wsapi`, `stunnel` | Embedded in the uber-jar but installed **at runtime** by the controller, not at boot. |
+| **Functional plugins** | `repo`, `filerepo`, `sysinfo`, `wsapi`, `stunnel`, `executor` | Embedded in the uber-jar but installed **at runtime** by the controller, not at boot. |
 
 ## How the agent uber-jar bootstraps the bundles
 
@@ -48,7 +48,7 @@ The controller's `StaticPluginLoader` (see [controller](controller.md)) waits fo
 1. **Resolve** the plugin JAR (bundle / absolute path / local cache / embedded / remote [repo](repo.md)), MD5-verified.
 2. **Install & start** the OSGi bundle.
 3. **Register** a `PluginNode` (in-memory record + Derby row) and poll for the `PluginService` to appear.
-4. **Run** — the plugin reports a status code; `10` = working. Plugin **health is controller-side**: the controller's `PluginHealthCheck` verdicts the reported status code — plugins do **not** register their own Felix Health Checks.
+4. **Run** — the plugin reports a status code; `10` = working, which the controller's `PluginHealthCheck` rolls into the `plugins` verdict. In addition, each functional plugin **registers its own `local`-tagged Felix Health Check** (executor/filerepo/repo/sysinfo/wsapi/stunnel), discovered by `CrescoHealthExecutor` alongside the controller's built-in checks and queryable via `gethealthinventory`. See [Health & State](../architecture/health.md).
 5. **Stop** — the bundle is stopped and the `PluginNode` pruned.
 
 Plugins are identified by a generated `pluginID` (e.g. `system-<UUID>` for system plugins) and addressed on the mesh via their region/agent/plugin tuple.
@@ -63,9 +63,11 @@ Plugins are identified by a generated `pluginID` (e.g. `system-<UUID>` for syste
 | logger | `io.cresco.logger` | Logging bootstrap (Pax Logging / log4j2 via ConfigAdmin). | [logger](logger.md) |
 | controller | `io.cresco.controller` | **The fabric brain** — state machine, messaging, discovery, persistence, health, roles. | [controller](controller.md) |
 | repo | `io.cresco.repo` | Plugin/JAR repository — stores, reports, and serves plugins (MD5-verified). | [repo](repo.md) |
+| filerepo | `io.cresco.filerepo` | Distributed file/artifact repository — catalog + any-size transfer/streaming/sync. | [filerepo](filerepo.md) |
 | sysinfo | `io.cresco.sysinfo` | Host metrics (OSHI) + on-demand SciMark2 CPU benchmark. | [sysinfo](sysinfo.md) |
 | wsapi | `io.cresco.wsapi` | WebSocket/HTTPS API — external client entrypoint over `wss://…:8282`. | [wsapi](wsapi.md) |
 | stunnel | `io.cresco.stunnel` | Netty TCP tunnels over the data plane. | [stunnel](stunnel.md) |
+| executor | `io.cresco.executor` | Process/shell execution — dataplane-attached stdio + per-process metrics. | [executor](executor.md) |
 
 ## See also
 

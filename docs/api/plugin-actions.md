@@ -133,7 +133,7 @@ identity + notable arguments), and **Returns** (principal reply params; *compres
 
 Routed to the **global controller** (`global_controller_msgevent`). This is the fabric-wide control API:
 registry, discovery, resource inventory, and global application (pipeline) scheduling. Reports at this tier
-**aggregate across every region** the global sees. Namespace `global` — **32 actions**.
+**aggregate across every region** the global sees. Namespace `global` — **33 actions**.
 
 | Action | Type | Description | Key params | Returns |
 |---|---|---|---|---|
@@ -146,6 +146,7 @@ registry, discovery, resource inventory, and global application (pipeline) sched
 | `getgpipelinestatus` | EXEC | Get status of one pipeline or all pipelines. | `action_pipeline` | `pipelineinfo` |
 | `getinodestatus` | EXEC | Get an iNode (plugin instance) status map from the DB. | `inode_id` | `inodemap` |
 | `getisassignmentinfo` | EXEC | Check assignment info for an iNode/resource. | `action_inodeid`, `action_resourceid` | `isassignmentinfo`, `isassignmentresourceinfo` |
+| `gethealthinventory` | EXEC | Unified health inventory: every Felix HealthCheck result (the queryable parallel of `getmetricinventory`). | none | `healthinventory` |
 | `getmetricinventory` | EXEC | Unified metric inventory: controller + plugins + resource summary. | `action_scope`, `action_include_plugins`, `action_include_resource` | `metricinventory` |
 | `gpipelineremove` | CONFIG | Remove/undeploy a global pipeline by id. | `action_pipelineid` | `success` |
 | `gpipelinesubmit` | CONFIG | Submit a global application pipeline for scheduling. | `action_gpipeline`, `action_tenantid` | `gpipeline_id` |
@@ -174,12 +175,14 @@ registry, discovery, resource inventory, and global application (pipeline) sched
 
 Routed to a specific **agent controller** (`global_agent_msgevent`, requiring `region` + `agent`). This is
 the per-node control API: plugin lifecycle on that agent, logs, files, controller/JVM lifecycle, and
-dataplane log streaming. Namespace `agent` — **26 actions**. All actions take routing identity
+dataplane log streaming. Namespace `agent` — **29 actions**. All actions take routing identity
 `region`, `agent`.
 
 | Action | Type | Description | Key params | Returns |
 |---|---|---|---|---|
-| `cepadd` | CONFIG | Add a CEP rule to the dataplane. | `region`, `agent`, `cepparams` | `cepid` |
+| `cepadd` | CONFIG | Add a Complex-Event-Processing rule to the embedded Siddhi engine. | `region`, `agent`, `cepparams` | `cepid` |
+| `cepremove` | CONFIG | Remove a CEP rule by id (tears down the streaming query). | `region`, `agent`, `cepid` | `status_code` |
+| `cepinput` | CONFIG | Feed a single JSON event into a CEP input stream over RPC. | `region`, `agent`, `cep_input_stream`, `cep_payload` | `status_code` |
 | `controllerupdate` | CONFIG | Stage a controller JAR for the next restart. | `region`, `agent`, `jar_file_path` | (status only) |
 | `getagentinfo` | CONFIG | Return the agent's data-directory path. | `region`, `agent` | `agent-data` |
 | `getbroadcastdiscovery` | EXEC | Return this agent's network discovery list (slow ~10s scan). | `region`, `agent` | `broadcast_discovery` |
@@ -190,6 +193,7 @@ dataplane log streaming. Namespace `agent` — **26 actions**. All actions take 
 | `getfileinfo` | EXEC | Return metadata (md5, size) for a file on this agent. | `region`, `agent`, `filepath` | `md5`, `size` |
 | `getislogdp` | CONFIG | Query whether dataplane log streaming is enabled for a session. | `region`, `agent`, `session_id` | `islogdp` |
 | `getlog` | EXEC | Fetch this agent's main log (inline or file). | `region`, `agent`, `action_inmessage` | `log` *(compressed)* |
+| `gethealthinventory` | EXEC | Return this node's health inventory (every Felix HealthCheck result, node scope). | `region`, `agent` | `healthinventory` |
 | `getmetricinventory` | EXEC | Return this node's unified metric inventory (node scope). | `region`, `agent`, `action_include_plugins`, `action_include_resource` | `metricinventory` |
 | `iscontrolleractive` | EXEC | Return whether this agent's controller is active. | `region`, `agent` | `is_controller_active` |
 | `killjvm` | CONFIG | Kill the agent JVM (async, **destructive**). | `region`, `agent` | (status only) |
@@ -210,7 +214,7 @@ dataplane log streaming. Namespace `agent` — **26 actions**. All actions take 
 
 Routed to a **region controller** (`regional`; usually reached via the global fan-out). The per-region
 control API: agent registry for that region, and region-scoped capability/metric/liveness reports.
-Namespace `regional` — **6 actions**.
+Namespace `regional` — **7 actions**.
 
 | Action | Type | Description | Key params | Returns |
 |---|---|---|---|---|
@@ -218,6 +222,7 @@ Namespace `regional` — **6 actions**.
 | `agent_enable` | CONFIG | Register an agent in this region. | `region`, `agent` | `is_registered` |
 | `getcapabilities` | EXEC | Return the regional controller's self-describing capability document. | `region`, `agent` | `capabilities` |
 | `getcapabilityinventory` | EXEC | Return this region node's capability inventory. | `region`, `agent` | `capabilityinventory` |
+| `gethealthinventory` | EXEC | Return this region node's health inventory (every Felix HealthCheck result). | `region`, `agent` | `healthinventory` |
 | `getmetricinventory` | EXEC | Return this region node's unified metric inventory. | `region`, `agent` | `metricinventory` |
 | `ping` | EXEC | Liveness ping; replies pong, exchanges mesh health. | `region`, `agent` | `action` (pong) |
 
@@ -278,6 +283,52 @@ Plugin-artifact repository ([`repo`](../plugins/repo.md)) — stores and serves 
 | `getmetrics` | EXEC | Return repo inventory metrics (plugin count, bytes on disk). | `region`, `agent`, `pluginid` | `metrics` |
 | `putjar` | EXEC | Store a plugin JAR into the repo (writes disk, verifies md5). | `region`, `agent`, `pluginid`, `pluginname`, `md5`, `jarfile`, `version`, `jardata` | `uploaded`, `md5-confirm` |
 | `repolist` | EXEC | List every plugin JAR plus the repo's server identity. | `region`, `agent`, `pluginid` | `repolist` *(compressed)* |
+
+### filerepo plugin
+
+Distributed file/artifact repository ([`filerepo`](../plugins/filerepo.md)) — scans a directory,
+tracks files in an embedded catalog, and moves files/jars across the mesh (inline transfer, byte-range
+dataplane streaming, watched-directory sync, push-to-remote). `target=plugin` (`region`, `agent`,
+`pluginid`). Namespace `filerepo` — **16 actions**.
+
+| Action | Type | Description | Key params | Returns |
+|---|---|---|---|---|
+| `repolist` | EXEC | Plugin/jar inventory of the repo dir. | `region`, `agent`, `pluginid` | `repolist` *(compressed)* |
+| `getrepofilelist` | EXEC | List catalog rows (path/md5/size/mtime); paginated. | `repo_name`, `limit`, `offset` | `repofilelist` *(compressed)*, `repo_total` |
+| `getfile` | EXEC | Return a cataloged file inline (≤ `max_inline_bytes`). | `file_path` | `file_data` *(bytes)*, `file_metadata` |
+| `getjar` | EXEC | Return a plugin jar inline, matched by name+md5. | `action_pluginname`, `action_pluginmd5` | `jardata` *(bytes)* |
+| `putjar` | EXEC | Write a plugin jar (md5-verified, path-traversal-safe). | `pluginname`, `md5`, `jarfile`, `version`, `jardata` | `uploaded` |
+| `putfiles` | EXEC | Land pushed files (MsgEvent attachments) into a repo. | `repo_name`, `overwrite` | (status) |
+| `putfilesremote` | EXEC | Push a set of files from this repo to another agent's repo. | `file_list`, `dst_region`, `dst_agent`, `dst_plugin`, `repo_name` | `status` |
+| `streamfile` | EXEC | Stream a byte-range over the dataplane in chunks (any size). | `file_path`, `start_byte`, `byte_length`, `transfer_id`, `ident_key`, `ident_id`, `buffer_size` | `status` |
+| `streamfilecancel` | EXEC | Cancel an in-flight streamfile transfer. | `transfer_id` | `status_code` |
+| `getscandir` | EXEC | Report the configured scan directory. | `region`, `agent`, `pluginid` | `scan_dir` |
+| `removefile` | EXEC | Remove a file (disk + catalog row), path-traversal-safe. | `repo_name`, `file_name` | `status` |
+| `clearrepo` | EXEC | Delete all files in a repo. | `repo_name` | `status` |
+| `repolistin` | EXEC | Sync consumer side — receive a producer's diff and pull changed files. | `repolistin`, `transfer_id` | `status_code` |
+| `repoconfirm` | EXEC | Sync handshake ack. | `transfer_id` | (status) |
+| `getmetrics` | EXEC | Return filerepo metrics (cataloged file count, in-flight transfers). | `region`, `agent`, `pluginid` | `metrics` |
+| `getcapabilities` | EXEC | Return this plugin's self-describing capability document. | `region`, `agent`, `pluginid` | `capabilities` |
+
+### executor plugin
+
+Process/shell execution plugin ([`executor`](../plugins/executor.md)) — runs OS processes and shell
+commands, streaming stdout/stderr over the dataplane and accepting stdin over the dataplane.
+`target=plugin` (`region`, `agent`, `pluginid`). Namespace `executor` — **8 actions**.
+
+| Action | Type | Description | Key params | Returns |
+|---|---|---|---|---|
+| `config_process` | CONFIG | Register a runner (a named command); does not start it. | `stream_name`, `command`, `metrics` | `config_status` |
+| `run_process` | EXEC | Start a configured runner. | `stream_name` | `status` |
+| `start_process` | CONFIG | Start a runner (CONFIG variant). | `stream_name` | `start_status` |
+| `status_process` | CONFIG | Is the runner currently running? | `stream_name` | `run_status` |
+| `end_process` | CONFIG | Kill the process (whole tree) and free the runner. | `stream_name` | `end_status` |
+| `reset_runners` | CONFIG | Stop every runner on this executor. | `region`, `agent`, `pluginid` | `reset_status` |
+| `getmetrics` | EXEC | Return live executor gauges (configured/active runners). | `region`, `agent`, `pluginid` | `metrics` |
+| `getcapabilities` | EXEC | Return this plugin's self-describing capability document. | `region`, `agent`, `pluginid` | `capabilities` |
+
+Runner stdio rides the **GLOBAL** dataplane topic sharded by `stream_name` (type `output`/`error`,
+stdin `input`); an external client reads/writes via `get_dataplane(stream_name)`.
 
 ---
 

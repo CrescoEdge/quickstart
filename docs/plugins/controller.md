@@ -75,7 +75,7 @@ Message dispatch is layered per role:
 
 ### health — Felix Health Checks
 
-**Health** is a separate Felix Health Check subsystem, distinct from state. `CrescoHealthExecutor` schedules `HealthCheck` services and debounces their verdicts (grace/sticky). `LocalHealthChecks` register broker/dataplane/DB/disk/memory/plugin checks; `LinkHealthChecks` verdict the parent link; `MeshHealthChecks` roll up children's health carried on the ping/pong. Only a sustained `link:parent` → `CRITICAL` drives a state-machine transition, via the one-directional `HealthMinaBridge`. See [Health & State](../architecture/health.md).
+**Health** is a separate Felix Health Check subsystem, distinct from state. `CrescoHealthExecutor` schedules `HealthCheck` services and debounces their verdicts (grace/sticky). `LocalHealthChecks` register the broker/dataplane/DB/disk/memory/plugin **and `cep`** checks (the `cep` check monitors the embedded in-process Siddhi engine, whose active-query count is also exported as the `cep.queries.active` metric); `LinkHealthChecks` verdict the parent link; `MeshHealthChecks` roll up children's health carried on the ping/pong. Every deployed plugin additionally registers its own `local`-tagged check (executor/filerepo/repo/sysinfo/wsapi/stunnel), discovered by the same executor. The whole set is queryable over the `gethealthinventory` action — the parallel of `getmetricinventory`. Only a sustained `link:parent` → `CRITICAL` drives a state-machine transition, via the one-directional `HealthMinaBridge`. See [Health & State](../architecture/health.md).
 
 ### netmetrics & measurement
 

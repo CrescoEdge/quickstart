@@ -63,6 +63,20 @@ Per-tunnel config keys:
 
 See [Configuration](../getting-started/configuration.md).
 
+## Observability
+
+Distinct from the per-tunnel self-healing check above, stunnel is wired into the fabric's central
+observability:
+
+- **Metrics** — `getmetrics` exposes `MeasurementEngine` gauges `stunnel.active.tunnels`,
+  `stunnel.active.clients`, and `stunnel.active.targets`, aggregated by `getmetricinventory`.
+  Per-tunnel throughput is streamed separately as a dataplane `stats` message
+  (`bits_per_second`/`bytes_delta`/`total_bytes`). See
+  [Metrics & Measurements › stunnel](../architecture/metrics.md#plugin-stunnel).
+- **Health** — registers the `stunnel` Felix HealthCheck (tag `local`) reporting the configured-tunnel
+  count, discovered by the controller's health executor. See
+  [Health & State](../architecture/health.md#plugin-checks).
+
 ## See also
 
 - [Data Plane](../architecture/dataplane.md) — the JMS transport tunneled bytes travel over.
