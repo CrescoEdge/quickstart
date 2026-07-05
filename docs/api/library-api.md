@@ -14,9 +14,25 @@ messaging, RPC, and services.
 | Identity | `getRegion()`, `getAgent()`, `getPluginID()` |
 | Config | `getConfig()` → [`Config`](#config) |
 | Logging | `getLogger(name, level)` → `CLogger` |
-| Messaging | `msgIn(MsgEvent)`, `msgOut(MsgEvent)`, `sendRPC(MsgEvent, timeoutMs)` |
-| Message factories | `getGlobalControllerMsgEvent(type)`, `getRegionalControllerMsgEvent(type)`, `getAgentMsgEvent(type)`, `getKPIMsgEvent()` |
-| Services | access to `AgentService` / `DataPlaneService` |
+| Messaging | `msgIn(MsgEvent)`, `msgOut(MsgEvent)`, `sendRPC(MsgEvent)` |
+| Services | `getAgentService()` → `AgentService` (→ `getDataPlaneService()`), `getCrescoMeterRegistry()` |
+
+### Message factories
+
+`PluginBuilder` builds a correctly-addressed, correctly-scoped `MsgEvent` for you — one factory per
+(tier × target). Pass a [`MsgEvent.Type`](msgevent.md) and, for the non-controller targets, the
+destination identity:
+
+| Factory | Destination |
+|---------|-------------|
+| `getGlobalControllerMsgEvent(type)` | the global controller |
+| `getGlobalAgentMsgEvent(type, region, agent)` | a specific agent, routed via global |
+| `getGlobalPluginMsgEvent(type, region, agent, plugin)` | a specific plugin, routed via global |
+| `getRegionalControllerMsgEvent(type)` | this node's region controller |
+| `getRegionalAgentMsgEvent(type, region, agent)` | an agent in this region |
+| `getRegionalPluginMsgEvent(type, region, agent, plugin)` | a plugin in this region |
+| `getAgentMsgEvent(type)` | this agent's controller |
+| `getKPIMsgEvent()` | the KPI/metrics sink |
 
 ## Config
 
@@ -44,16 +60,39 @@ list. Build one from a `PluginBuilder` factory, set params (including `action` f
 
 ## DataPlaneService — streaming
 
-The pub/sub streaming interface; see [Data Plane](../architecture/dataplane.md) for concepts.
+The pub/sub streaming interface (`io.cresco.library.data.DataPlaneService`); see
+[Data Plane](../architecture/dataplane.md) for concepts. Reached via
+`plugin.getAgentService().getDataPlaneService()`.
+
+**Subscribe / publish**
 
 | Method | Purpose |
 |--------|---------|
-| `addMessageListener(TopicType, MessageListener, selector)` | subscribe to a scope with an optional JMS selector |
+| `addMessageListener(TopicType, MessageListener, selector)` → `String id` | subscribe to a scope with an optional JMS selector |
+| `addMessageListener(TopicType, MessageListener, selector, int shard)` | subscribe on a specific shard (for high-throughput streams) |
+| `removeMessageListener(String id)` | unsubscribe |
 | `sendMessage(TopicType, Message)` | publish to a scope |
-| `createTextMessage(...)` / `createBytesMessage(...)` | build messages |
-| `removeMessageListener(id)` | unsubscribe |
+| `sendMessage(TopicType, Message, int deliveryMode, int priority, int timeToLive)` | publish with JMS delivery options |
+| `sendMessage(TopicType, Message, int deliveryMode, int priority, int timeToLive, int shard)` | publish to a specific shard |
+| `sendMessage(MsgEvent.Type, TopicType, Message)` | publish with an explicit message type |
+| `shardFor(String routingKey)` → `int` | deterministic shard for a stream/routing key (pair with the sharded overloads) |
+| `isFaultURIActive()` → `boolean` | is this node's messaging-plane connection up (the signal behind the `dataplane` health check) |
 
-`TopicType` is `AGENT`, `REGION`, or `GLOBAL`.
+**Message factories** (all no-arg unless noted)
+
+`createTextMessage()`, `createBytesMessage()`, `createMapMessage()`, `createObjectMessage()`,
+`createStreamMessage()`, `createMessage()`, `createMessage(InputStream)`, and
+`getInputMessageStream(Message)` to read a streamed message back.
+
+**Embedded CEP** (Complex-Event-Processing over dataplane streams; the engine runs in the controller)
+
+| Method | Purpose |
+|--------|---------|
+| `createCEP(inputSchema, inputStream, outputStream, outputAttributes, query)` → `String cepId` | register a Siddhi streaming query |
+| `inputCEP(streamName, jsonPayload)` | feed one event into a CEP input stream |
+| `removeCEP(String cepId)` → `boolean` | tear a query down |
+
+`TopicType` is `AGENT` (node-local), `REGION`, or `GLOBAL` (mesh-reachable via wsapi).
 
 ## MeasurementEngine — metrics
 
@@ -80,5 +119,26 @@ Under `io.cresco.library.security` (see [Security & Identity](../architecture/se
 
 ## Capability annotations
 
-Plugin actions are declared with `@CrescoAction` (and `@CrescoParam` / `@CrescoReturn`), which makes them
-self-describing and aggregatable into the fabric-wide [capability inventory](plugin-actions.md).
+Under `io.cresco.library.capability`. Actions are declared with annotations that make a plugin
+self-describing and aggregatable into the fabric-wide [capability inventory](plugin-actions.md):
+
+| Annotation | On | Purpose |
+|------------|----|---------|
+| `@CrescoCapabilities` | the Executor class | declares the plugin's `namespace`, `target`, routing params, and summary |
+| `@CrescoActions` | the Executor class | container holding the `@CrescoAction` list |
+| `@CrescoAction` | (inside `@CrescoActions`) | one callable action — `name`, `type`, `summary`, `why` |
+| `@CrescoParam` | inside `@CrescoAction` | one action parameter — name, required, type, description |
+| `@CrescoReturn` | inside `@CrescoAction` | one reply field — name, type, description, `compressed` |
+
+At runtime `CapabilityResponder.respond(incoming, this)` answers the `getcapabilities` action by
+scanning these annotations (`CapabilityScanner`) into a `CapabilityDocument`; the controller's
+`getcapabilityinventory` aggregates every plugin's document into one tool catalog. Versions come from
+the OSGi manifest — never hard-coded.
+
+## Exported packages
+
+The `library` bundle exports the whole `io.cresco.library.*` API — `agent` (`AgentService`),
+`plugin` (`PluginBuilder`, `Config`, `PluginService`, `Executor`), `messaging` (`MsgEvent`),
+`data` (`DataPlaneService`, `TopicType`), `metrics` (`MeasurementEngine`, `CMetric`), `capability`,
+`security`, `core`, `app`, and `utilities` (`CLogger`) — plus the shared embedded runtime it
+re-exports for plugins (Guava, jakarta.jms, Micrometer, Siddhi). See [library](../plugins/library.md).
