@@ -16,7 +16,7 @@
         <link rel="prev" href="../logger/">
       
       
-        <link rel="next" href="../sysinfo/">
+        <link rel="next" href="../filerepo/">
       
       
         
@@ -1245,6 +1245,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1259,6 +1270,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1335,6 +1374,34 @@
     
   
     stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
   
 
     
@@ -2320,6 +2387,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2429,6 +2507,14 @@
 <p>See <a href="../../getting-started/configuration/">Configuration</a>.</p>
 <h2 id="where-it-fits">Where it fits<a class="headerlink" href="#where-it-fits" title="Permanent link">&para;</a></h2>
 <p>When the global scheduler places a plugin on an agent, the agent's <code>PluginAdmin</code> resolves the JAR — checking bundle / absolute path / local cache / embedded resources, and finally a <strong>remote repo</strong> via an RPC <code>getjar</code> (MD5-verified). <code>repo</code> is the endpoint that answers those calls, and <code>putjar</code>/<code>savetorepo</code> is how new plugin artifacts are published into the fabric. See <a href="../controller/">controller</a> for the plugin lifecycle and the global tier.</p>
+<h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Metrics</strong> — <code>getmetrics</code> exposes <code>MeasurementEngine</code> gauges <code>repo.plugin.count</code> (jars in the
+  repository) and <code>repo.bytes</code> (total on-disk size); aggregated by the controller's
+  <code>getmetricinventory</code>. See <a href="../../architecture/metrics/#plugin-repo">Metrics &amp; Measurements</a>.</li>
+<li><strong>Health</strong> — registers the <code>repo</code> Felix HealthCheck (tag <code>local</code>) reporting the plugin-jar count.
+  See <a href="../../architecture/health/#plugin-checks">Health &amp; State</a>.</li>
+</ul>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../overview/">Overview</a> — plugin lifecycle and JAR resolution.</li>

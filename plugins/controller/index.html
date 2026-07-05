@@ -1343,6 +1343,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sysinfo/" class="md-nav__link">
         
   
@@ -1407,6 +1435,34 @@
     
   
     stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
   
 
     
@@ -2651,7 +2707,7 @@
 </table>
 <p><code>PluginAdmin</code> is the OSGi plugin lifecycle manager (resolve JAR → install → start → <code>PluginNode</code> → poll for <code>PluginService</code>), and <code>getPluginStatusCodes()</code> feeds the health subsystem. <code>AgentHealthWatcher</code> actively pings the parent and stamps the last PONG.</p>
 <h3 id="health-felix-health-checks">health — Felix Health Checks<a class="headerlink" href="#health-felix-health-checks" title="Permanent link">&para;</a></h3>
-<p><strong>Health</strong> is a separate Felix Health Check subsystem, distinct from state. <code>CrescoHealthExecutor</code> schedules <code>HealthCheck</code> services and debounces their verdicts (grace/sticky). <code>LocalHealthChecks</code> register broker/dataplane/DB/disk/memory/plugin checks; <code>LinkHealthChecks</code> verdict the parent link; <code>MeshHealthChecks</code> roll up children's health carried on the ping/pong. Only a sustained <code>link:parent</code> → <code>CRITICAL</code> drives a state-machine transition, via the one-directional <code>HealthMinaBridge</code>. See <a href="../../architecture/health/">Health &amp; State</a>.</p>
+<p><strong>Health</strong> is a separate Felix Health Check subsystem, distinct from state. <code>CrescoHealthExecutor</code> schedules <code>HealthCheck</code> services and debounces their verdicts (grace/sticky). <code>LocalHealthChecks</code> register the broker/dataplane/DB/disk/memory/plugin <strong>and <code>cep</code></strong> checks (the <code>cep</code> check monitors the embedded in-process Siddhi engine, whose active-query count is also exported as the <code>cep.queries.active</code> metric); <code>LinkHealthChecks</code> verdict the parent link; <code>MeshHealthChecks</code> roll up children's health carried on the ping/pong. Every deployed plugin additionally registers its own <code>local</code>-tagged check (executor/filerepo/repo/sysinfo/wsapi/stunnel), discovered by the same executor. The whole set is queryable over the <code>gethealthinventory</code> action — the parallel of <code>getmetricinventory</code>. Only a sustained <code>link:parent</code> → <code>CRITICAL</code> drives a state-machine transition, via the one-directional <code>HealthMinaBridge</code>. See <a href="../../architecture/health/">Health &amp; State</a>.</p>
 <h3 id="netmetrics-measurement">netmetrics &amp; measurement<a class="headerlink" href="#netmetrics-measurement" title="Permanent link">&para;</a></h3>
 <p><code>PerfControllerMonitor</code> registers Micrometer JVM/system meters into the shared <code>MeasurementEngine</code> and serves on-demand resource/KPI queries (RPC <code>getsysinfo</code> to <a href="../sysinfo/">sysinfo</a>). <code>PerfMonitorNet</code> pushes network-discovery topology as a compressed KPI <code>MsgEvent</code>. See <a href="../../architecture/metrics/">Metrics &amp; Measurements</a>.</p>
 <h3 id="data-the-data-plane">data — the data plane<a class="headerlink" href="#data-the-data-plane" title="Permanent link">&para;</a></h3>

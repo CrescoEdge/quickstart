@@ -16,7 +16,7 @@
         <link rel="prev" href="../wsapi/">
       
       
-        <link rel="next" href="../../api/plugin-actions/">
+        <link rel="next" href="../executor/">
       
       
         
@@ -1158,6 +1158,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sysinfo/" class="md-nav__link">
         
   
@@ -1340,6 +1368,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1354,6 +1393,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2342,6 +2409,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2536,6 +2614,19 @@
 </tbody>
 </table>
 <p>See <a href="../../getting-started/configuration/">Configuration</a>.</p>
+<h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
+<p>Distinct from the per-tunnel self-healing check above, stunnel is wired into the fabric's central
+observability:</p>
+<ul>
+<li><strong>Metrics</strong> — <code>getmetrics</code> exposes <code>MeasurementEngine</code> gauges <code>stunnel.active.tunnels</code>,
+  <code>stunnel.active.clients</code>, and <code>stunnel.active.targets</code>, aggregated by <code>getmetricinventory</code>.
+  Per-tunnel throughput is streamed separately as a dataplane <code>stats</code> message
+  (<code>bits_per_second</code>/<code>bytes_delta</code>/<code>total_bytes</code>). See
+  <a href="../../architecture/metrics/#plugin-stunnel">Metrics &amp; Measurements › stunnel</a>.</li>
+<li><strong>Health</strong> — registers the <code>stunnel</code> Felix HealthCheck (tag <code>local</code>) reporting the configured-tunnel
+  count, discovered by the controller's health executor. See
+  <a href="../../architecture/health/#plugin-checks">Health &amp; State</a>.</li>
+</ul>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../architecture/dataplane/">Data Plane</a> — the JMS transport tunneled bytes travel over.</li>

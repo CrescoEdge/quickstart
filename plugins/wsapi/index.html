@@ -1158,6 +1158,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sysinfo/" class="md-nav__link">
         
   
@@ -1312,6 +1340,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1346,6 +1385,34 @@
     
   
     stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
   
 
     
@@ -2342,6 +2409,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2520,6 +2598,15 @@
 </tbody>
 </table>
 <p>See <a href="../../getting-started/configuration/">Configuration</a>.</p>
+<h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Metrics</strong> — <code>getmetrics</code> exposes <code>MeasurementEngine</code> gauges <code>wsapi.dataplane.connections</code>,
+  <code>wsapi.dataplane.bytes</code>, and <code>wsapi.dataplane.messages</code> (process-wide dataplane ingress counters),
+  aggregated by <code>getmetricinventory</code>. See
+  <a href="../../architecture/metrics/#plugin-wsapi">Metrics &amp; Measurements › wsapi</a>.</li>
+<li><strong>Health</strong> — registers the <code>wsapi</code> Felix HealthCheck (tag <code>local</code>), <strong>only after the Netty server
+  binds</strong>, so an OK reports the live wss port. See <a href="../../architecture/health/#plugin-checks">Health &amp; State</a>.</li>
+</ul>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../clients/overview/">Client Libraries Overview</a> · <a href="../../clients/java/">Java (clientlib)</a> · <a href="../../clients/python/">Python (pycrescolib)</a></li>

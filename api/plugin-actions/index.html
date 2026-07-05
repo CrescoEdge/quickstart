@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../../plugins/stunnel/">
+        <link rel="prev" href="../../plugins/executor/">
       
       
         <link rel="next" href="../library-api/">
@@ -1153,6 +1153,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../plugins/filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../plugins/sysinfo/" class="md-nav__link">
         
   
@@ -1217,6 +1245,34 @@
     
   
     stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
   
 
     
@@ -1510,6 +1566,28 @@
     <span class="md-ellipsis">
       
         repo plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filerepo-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        filerepo plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executor-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        executor plugin
       
     </span>
   </a>
@@ -2537,6 +2615,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#filerepo-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        filerepo plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executor-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        executor plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2746,7 +2846,7 @@ identity + notable arguments), and <strong>Returns</strong> (principal reply par
 <h3 id="global-tier">global tier<a class="headerlink" href="#global-tier" title="Permanent link">&para;</a></h3>
 <p>Routed to the <strong>global controller</strong> (<code>global_controller_msgevent</code>). This is the fabric-wide control API:
 registry, discovery, resource inventory, and global application (pipeline) scheduling. Reports at this tier
-<strong>aggregate across every region</strong> the global sees. Namespace <code>global</code> — <strong>32 actions</strong>.</p>
+<strong>aggregate across every region</strong> the global sees. Namespace <code>global</code> — <strong>33 actions</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -2820,6 +2920,13 @@ registry, discovery, resource inventory, and global application (pipeline) sched
 <td>Check assignment info for an iNode/resource.</td>
 <td><code>action_inodeid</code>, <code>action_resourceid</code></td>
 <td><code>isassignmentinfo</code>, <code>isassignmentresourceinfo</code></td>
+</tr>
+<tr>
+<td><code>gethealthinventory</code></td>
+<td>EXEC</td>
+<td>Unified health inventory: every Felix HealthCheck result (the queryable parallel of <code>getmetricinventory</code>).</td>
+<td>none</td>
+<td><code>healthinventory</code></td>
 </tr>
 <tr>
 <td><code>getmetricinventory</code></td>
@@ -2987,7 +3094,7 @@ registry, discovery, resource inventory, and global application (pipeline) sched
 <h3 id="agent-tier">agent tier<a class="headerlink" href="#agent-tier" title="Permanent link">&para;</a></h3>
 <p>Routed to a specific <strong>agent controller</strong> (<code>global_agent_msgevent</code>, requiring <code>region</code> + <code>agent</code>). This is
 the per-node control API: plugin lifecycle on that agent, logs, files, controller/JVM lifecycle, and
-dataplane log streaming. Namespace <code>agent</code> — <strong>26 actions</strong>. All actions take routing identity
+dataplane log streaming. Namespace <code>agent</code> — <strong>29 actions</strong>. All actions take routing identity
 <code>region</code>, <code>agent</code>.</p>
 <table>
 <thead>
@@ -3003,9 +3110,23 @@ dataplane log streaming. Namespace <code>agent</code> — <strong>26 actions</st
 <tr>
 <td><code>cepadd</code></td>
 <td>CONFIG</td>
-<td>Add a CEP rule to the dataplane.</td>
+<td>Add a Complex-Event-Processing rule to the embedded Siddhi engine.</td>
 <td><code>region</code>, <code>agent</code>, <code>cepparams</code></td>
 <td><code>cepid</code></td>
+</tr>
+<tr>
+<td><code>cepremove</code></td>
+<td>CONFIG</td>
+<td>Remove a CEP rule by id (tears down the streaming query).</td>
+<td><code>region</code>, <code>agent</code>, <code>cepid</code></td>
+<td><code>status_code</code></td>
+</tr>
+<tr>
+<td><code>cepinput</code></td>
+<td>CONFIG</td>
+<td>Feed a single JSON event into a CEP input stream over RPC.</td>
+<td><code>region</code>, <code>agent</code>, <code>cep_input_stream</code>, <code>cep_payload</code></td>
+<td><code>status_code</code></td>
 </tr>
 <tr>
 <td><code>controllerupdate</code></td>
@@ -3076,6 +3197,13 @@ dataplane log streaming. Namespace <code>agent</code> — <strong>26 actions</st
 <td>Fetch this agent's main log (inline or file).</td>
 <td><code>region</code>, <code>agent</code>, <code>action_inmessage</code></td>
 <td><code>log</code> <em>(compressed)</em></td>
+</tr>
+<tr>
+<td><code>gethealthinventory</code></td>
+<td>EXEC</td>
+<td>Return this node's health inventory (every Felix HealthCheck result, node scope).</td>
+<td><code>region</code>, <code>agent</code></td>
+<td><code>healthinventory</code></td>
 </tr>
 <tr>
 <td><code>getmetricinventory</code></td>
@@ -3187,7 +3315,7 @@ dataplane log streaming. Namespace <code>agent</code> — <strong>26 actions</st
 <h3 id="regional-tier">regional tier<a class="headerlink" href="#regional-tier" title="Permanent link">&para;</a></h3>
 <p>Routed to a <strong>region controller</strong> (<code>regional</code>; usually reached via the global fan-out). The per-region
 control API: agent registry for that region, and region-scoped capability/metric/liveness reports.
-Namespace <code>regional</code> — <strong>6 actions</strong>.</p>
+Namespace <code>regional</code> — <strong>7 actions</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -3226,6 +3354,13 @@ Namespace <code>regional</code> — <strong>6 actions</strong>.</p>
 <td>Return this region node's capability inventory.</td>
 <td><code>region</code>, <code>agent</code></td>
 <td><code>capabilityinventory</code></td>
+</tr>
+<tr>
+<td><code>gethealthinventory</code></td>
+<td>EXEC</td>
+<td>Return this region node's health inventory (every Felix HealthCheck result).</td>
+<td><code>region</code>, <code>agent</code></td>
+<td><code>healthinventory</code></td>
 </tr>
 <tr>
 <td><code>getmetricinventory</code></td>
@@ -3483,6 +3618,211 @@ connect to. <code>target=plugin</code> (<code>region</code>, <code>agent</code>,
 </tr>
 </tbody>
 </table>
+<h3 id="filerepo-plugin">filerepo plugin<a class="headerlink" href="#filerepo-plugin" title="Permanent link">&para;</a></h3>
+<p>Distributed file/artifact repository (<a href="../../plugins/filerepo/"><code>filerepo</code></a>) — scans a directory,
+tracks files in an embedded catalog, and moves files/jars across the mesh (inline transfer, byte-range
+dataplane streaming, watched-directory sync, push-to-remote). <code>target=plugin</code> (<code>region</code>, <code>agent</code>,
+<code>pluginid</code>). Namespace <code>filerepo</code> — <strong>16 actions</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Type</th>
+<th>Description</th>
+<th>Key params</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>repolist</code></td>
+<td>EXEC</td>
+<td>Plugin/jar inventory of the repo dir.</td>
+<td><code>region</code>, <code>agent</code>, <code>pluginid</code></td>
+<td><code>repolist</code> <em>(compressed)</em></td>
+</tr>
+<tr>
+<td><code>getrepofilelist</code></td>
+<td>EXEC</td>
+<td>List catalog rows (path/md5/size/mtime); paginated.</td>
+<td><code>repo_name</code>, <code>limit</code>, <code>offset</code></td>
+<td><code>repofilelist</code> <em>(compressed)</em>, <code>repo_total</code></td>
+</tr>
+<tr>
+<td><code>getfile</code></td>
+<td>EXEC</td>
+<td>Return a cataloged file inline (≤ <code>max_inline_bytes</code>).</td>
+<td><code>file_path</code></td>
+<td><code>file_data</code> <em>(bytes)</em>, <code>file_metadata</code></td>
+</tr>
+<tr>
+<td><code>getjar</code></td>
+<td>EXEC</td>
+<td>Return a plugin jar inline, matched by name+md5.</td>
+<td><code>action_pluginname</code>, <code>action_pluginmd5</code></td>
+<td><code>jardata</code> <em>(bytes)</em></td>
+</tr>
+<tr>
+<td><code>putjar</code></td>
+<td>EXEC</td>
+<td>Write a plugin jar (md5-verified, path-traversal-safe).</td>
+<td><code>pluginname</code>, <code>md5</code>, <code>jarfile</code>, <code>version</code>, <code>jardata</code></td>
+<td><code>uploaded</code></td>
+</tr>
+<tr>
+<td><code>putfiles</code></td>
+<td>EXEC</td>
+<td>Land pushed files (MsgEvent attachments) into a repo.</td>
+<td><code>repo_name</code>, <code>overwrite</code></td>
+<td>(status)</td>
+</tr>
+<tr>
+<td><code>putfilesremote</code></td>
+<td>EXEC</td>
+<td>Push a set of files from this repo to another agent's repo.</td>
+<td><code>file_list</code>, <code>dst_region</code>, <code>dst_agent</code>, <code>dst_plugin</code>, <code>repo_name</code></td>
+<td><code>status</code></td>
+</tr>
+<tr>
+<td><code>streamfile</code></td>
+<td>EXEC</td>
+<td>Stream a byte-range over the dataplane in chunks (any size).</td>
+<td><code>file_path</code>, <code>start_byte</code>, <code>byte_length</code>, <code>transfer_id</code>, <code>ident_key</code>, <code>ident_id</code>, <code>buffer_size</code></td>
+<td><code>status</code></td>
+</tr>
+<tr>
+<td><code>streamfilecancel</code></td>
+<td>EXEC</td>
+<td>Cancel an in-flight streamfile transfer.</td>
+<td><code>transfer_id</code></td>
+<td><code>status_code</code></td>
+</tr>
+<tr>
+<td><code>getscandir</code></td>
+<td>EXEC</td>
+<td>Report the configured scan directory.</td>
+<td><code>region</code>, <code>agent</code>, <code>pluginid</code></td>
+<td><code>scan_dir</code></td>
+</tr>
+<tr>
+<td><code>removefile</code></td>
+<td>EXEC</td>
+<td>Remove a file (disk + catalog row), path-traversal-safe.</td>
+<td><code>repo_name</code>, <code>file_name</code></td>
+<td><code>status</code></td>
+</tr>
+<tr>
+<td><code>clearrepo</code></td>
+<td>EXEC</td>
+<td>Delete all files in a repo.</td>
+<td><code>repo_name</code></td>
+<td><code>status</code></td>
+</tr>
+<tr>
+<td><code>repolistin</code></td>
+<td>EXEC</td>
+<td>Sync consumer side — receive a producer's diff and pull changed files.</td>
+<td><code>repolistin</code>, <code>transfer_id</code></td>
+<td><code>status_code</code></td>
+</tr>
+<tr>
+<td><code>repoconfirm</code></td>
+<td>EXEC</td>
+<td>Sync handshake ack.</td>
+<td><code>transfer_id</code></td>
+<td>(status)</td>
+</tr>
+<tr>
+<td><code>getmetrics</code></td>
+<td>EXEC</td>
+<td>Return filerepo metrics (cataloged file count, in-flight transfers).</td>
+<td><code>region</code>, <code>agent</code>, <code>pluginid</code></td>
+<td><code>metrics</code></td>
+</tr>
+<tr>
+<td><code>getcapabilities</code></td>
+<td>EXEC</td>
+<td>Return this plugin's self-describing capability document.</td>
+<td><code>region</code>, <code>agent</code>, <code>pluginid</code></td>
+<td><code>capabilities</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="executor-plugin">executor plugin<a class="headerlink" href="#executor-plugin" title="Permanent link">&para;</a></h3>
+<p>Process/shell execution plugin (<a href="../../plugins/executor/"><code>executor</code></a>) — runs OS processes and shell
+commands, streaming stdout/stderr over the dataplane and accepting stdin over the dataplane.
+<code>target=plugin</code> (<code>region</code>, <code>agent</code>, <code>pluginid</code>). Namespace <code>executor</code> — <strong>8 actions</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Type</th>
+<th>Description</th>
+<th>Key params</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config_process</code></td>
+<td>CONFIG</td>
+<td>Register a runner (a named command); does not start it.</td>
+<td><code>stream_name</code>, <code>command</code>, <code>metrics</code></td>
+<td><code>config_status</code></td>
+</tr>
+<tr>
+<td><code>run_process</code></td>
+<td>EXEC</td>
+<td>Start a configured runner.</td>
+<td><code>stream_name</code></td>
+<td><code>status</code></td>
+</tr>
+<tr>
+<td><code>start_process</code></td>
+<td>CONFIG</td>
+<td>Start a runner (CONFIG variant).</td>
+<td><code>stream_name</code></td>
+<td><code>start_status</code></td>
+</tr>
+<tr>
+<td><code>status_process</code></td>
+<td>CONFIG</td>
+<td>Is the runner currently running?</td>
+<td><code>stream_name</code></td>
+<td><code>run_status</code></td>
+</tr>
+<tr>
+<td><code>end_process</code></td>
+<td>CONFIG</td>
+<td>Kill the process (whole tree) and free the runner.</td>
+<td><code>stream_name</code></td>
+<td><code>end_status</code></td>
+</tr>
+<tr>
+<td><code>reset_runners</code></td>
+<td>CONFIG</td>
+<td>Stop every runner on this executor.</td>
+<td><code>region</code>, <code>agent</code>, <code>pluginid</code></td>
+<td><code>reset_status</code></td>
+</tr>
+<tr>
+<td><code>getmetrics</code></td>
+<td>EXEC</td>
+<td>Return live executor gauges (configured/active runners).</td>
+<td><code>region</code>, <code>agent</code>, <code>pluginid</code></td>
+<td><code>metrics</code></td>
+</tr>
+<tr>
+<td><code>getcapabilities</code></td>
+<td>EXEC</td>
+<td>Return this plugin's self-describing capability document.</td>
+<td><code>region</code>, <code>agent</code>, <code>pluginid</code></td>
+<td><code>capabilities</code></td>
+</tr>
+</tbody>
+</table>
+<p>Runner stdio rides the <strong>GLOBAL</strong> dataplane topic sharded by <code>stream_name</code> (type <code>output</code>/<code>error</code>,
+stdin <code>input</code>); an external client reads/writes via <code>get_dataplane(stream_name)</code>.</p>
 <hr />
 <h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
 <ul>

@@ -1277,6 +1277,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sysinfo/" class="md-nav__link">
         
   
@@ -1341,6 +1369,34 @@
     
   
     stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
   
 
     
@@ -2400,7 +2456,7 @@
 </tr>
 <tr>
 <td><strong>Functional plugins</strong></td>
-<td><code>repo</code>, <code>sysinfo</code>, <code>wsapi</code>, <code>stunnel</code></td>
+<td><code>repo</code>, <code>filerepo</code>, <code>sysinfo</code>, <code>wsapi</code>, <code>stunnel</code>, <code>executor</code></td>
 <td>Embedded in the uber-jar but installed <strong>at runtime</strong> by the controller, not at boot.</td>
 </tr>
 </tbody>
@@ -2420,7 +2476,7 @@
 <li><strong>Resolve</strong> the plugin JAR (bundle / absolute path / local cache / embedded / remote <a href="../repo/">repo</a>), MD5-verified.</li>
 <li><strong>Install &amp; start</strong> the OSGi bundle.</li>
 <li><strong>Register</strong> a <code>PluginNode</code> (in-memory record + Derby row) and poll for the <code>PluginService</code> to appear.</li>
-<li><strong>Run</strong> — the plugin reports a status code; <code>10</code> = working. Plugin <strong>health is controller-side</strong>: the controller's <code>PluginHealthCheck</code> verdicts the reported status code — plugins do <strong>not</strong> register their own Felix Health Checks.</li>
+<li><strong>Run</strong> — the plugin reports a status code; <code>10</code> = working, which the controller's <code>PluginHealthCheck</code> rolls into the <code>plugins</code> verdict. In addition, each functional plugin <strong>registers its own <code>local</code>-tagged Felix Health Check</strong> (executor/filerepo/repo/sysinfo/wsapi/stunnel), discovered by <code>CrescoHealthExecutor</code> alongside the controller's built-in checks and queryable via <code>gethealthinventory</code>. See <a href="../../architecture/health/">Health &amp; State</a>.</li>
 <li><strong>Stop</strong> — the bundle is stopped and the <code>PluginNode</code> pruned.</li>
 </ol>
 <p>Plugins are identified by a generated <code>pluginID</code> (e.g. <code>system-&lt;UUID&gt;</code> for system plugins) and addressed on the mesh via their region/agent/plugin tuple.</p>
@@ -2472,6 +2528,12 @@
 <td><a href="../repo/">repo</a></td>
 </tr>
 <tr>
+<td>filerepo</td>
+<td><code>io.cresco.filerepo</code></td>
+<td>Distributed file/artifact repository — catalog + any-size transfer/streaming/sync.</td>
+<td><a href="../filerepo/">filerepo</a></td>
+</tr>
+<tr>
 <td>sysinfo</td>
 <td><code>io.cresco.sysinfo</code></td>
 <td>Host metrics (OSHI) + on-demand SciMark2 CPU benchmark.</td>
@@ -2488,6 +2550,12 @@
 <td><code>io.cresco.stunnel</code></td>
 <td>Netty TCP tunnels over the data plane.</td>
 <td><a href="../stunnel/">stunnel</a></td>
+</tr>
+<tr>
+<td>executor</td>
+<td><code>io.cresco.executor</code></td>
+<td>Process/shell execution — dataplane-attached stdio + per-process metrics.</td>
+<td><a href="../executor/">executor</a></td>
 </tr>
 </tbody>
 </table>

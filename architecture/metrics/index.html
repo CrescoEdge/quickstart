@@ -943,6 +943,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="The model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measure-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measure classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registration-update-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registration &amp; update API
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -957,32 +985,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#mesh-wide-aggregation" class="md-nav__link">
+  <a href="#mesh-wide-aggregation-getmetricinventory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Mesh-wide aggregation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#network-link-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Network link metrics
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#benchmarks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Benchmarks
+        Mesh-wide aggregation — getmetricinventory
       
     </span>
   </a>
@@ -1260,6 +1266,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../plugins/filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../plugins/sysinfo/" class="md-nav__link">
         
   
@@ -1324,6 +1358,34 @@
     
   
     stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
   
 
     
@@ -2262,6 +2324,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="The model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measure-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measure classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registration-update-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registration &amp; update API
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2276,32 +2366,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#mesh-wide-aggregation" class="md-nav__link">
+  <a href="#mesh-wide-aggregation-getmetricinventory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Mesh-wide aggregation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#network-link-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Network link metrics
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#benchmarks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Benchmarks
+        Mesh-wide aggregation — getmetricinventory
       
     </span>
   </a>
@@ -2329,10 +2397,12 @@
 
 
 <h1 id="metrics-measurements">Metrics &amp; Measurements<a class="headerlink" href="#metrics-measurements" title="Permanent link">&para;</a></h1>
-<p>Cresco has a single, unified measurement model: <strong>every bundle</strong> (the controller and every plugin)
-registers its metrics in a Micrometer registry and exposes them through one contract, and the controller
-aggregates them locally, region-wide, and global-wide. This is distinct from <a href="../health/">health</a>, which
-consumes measurements to form pass/fail verdicts.</p>
+<p>Cresco has a single, unified measurement model: <strong>every bundle</strong> — the controller and every plugin —
+registers its metrics in one Micrometer registry and exposes them through one contract, and the
+controller aggregates them locally, region-wide, and global-wide. This is distinct from
+<a href="../health/">health</a>, which consumes measurements to form pass/fail verdicts.</p>
+<p>This page is exhaustive: it documents the measurement machinery, then <strong>every metric the fabric
+emits</strong> — its name, group, type, unit, exactly how it is measured, and what it means.</p>
 <h2 id="the-model">The model<a class="headerlink" href="#the-model" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2344,34 +2414,126 @@ consumes measurements to form pass/fail verdicts.</p>
 <tbody>
 <tr>
 <td><code>MeasurementEngine</code></td>
-<td>per-bundle Micrometer registry; register timers/gauges/counters/distribution-summaries; <code>getAllMetrics()</code> returns <code>Map&lt;group, List&lt;Map&lt;String,String&gt;&gt;&gt;</code></td>
+<td>per-bundle façade over a Micrometer registry; register gauges/timers/counters/distribution-summaries and read them back with <code>getAllMetrics()</code></td>
 </tr>
 <tr>
 <td><code>CMetric</code></td>
-<td>metadata wrapper for one metric (name, group, type, node/app/edge scope)</td>
+<td>metadata wrapper for one metric — its <code>name</code>, <code>group</code>, measure class, and scope (<code>NODE</code>/<code>APP</code>/<code>EDGE</code>)</td>
 </tr>
 <tr>
 <td><code>CrescoMeterRegistry</code></td>
-<td>Micrometer (Dropwizard-backed) registry integrated with Cresco reporting</td>
+<td>a Micrometer <code>DropwizardMeterRegistry</code> (one per bundle), obtained via <code>plugin.getCrescoMeterRegistry()</code></td>
 </tr>
 </tbody>
 </table>
 <p>Metrics are organized into <strong>groups</strong> — the metric analogue of health tags. The controller populates
-<code>jvm</code>, <code>processor</code>, <code>controller</code>, <code>netlink</code>, <code>regional</code>, and <code>global</code>; each plugin contributes its own
-(e.g. <code>sysinfo</code> → <code>processor</code>/<code>memory</code>/<code>disk</code>/<code>network</code>, <code>wsapi</code> → <code>wsapi</code>, <code>stunnel</code> → <code>stunnel</code>).</p>
+<code>jvm</code>, <code>controller</code>, <code>cep</code>, <code>netlink</code>, <code>regional</code>, and <code>global</code>; each plugin contributes its own
+(<code>sysinfo</code> → <code>processor</code>/<code>memory</code>/<code>disk</code>/<code>network</code>/<code>sensors</code>/<code>power</code>/<code>system</code>/<code>gpu</code>/<code>devices</code>,
+<code>executor</code> → <code>executor</code>, <code>filerepo</code> → <code>filerepo</code>, <code>repo</code> → <code>repo</code>, <code>stunnel</code> → <code>stunnel</code>,
+<code>wsapi</code> → <code>wsapi</code>).</p>
+<h3 id="measure-classes">Measure classes<a class="headerlink" href="#measure-classes" title="Permanent link">&para;</a></h3>
+<p>Every metric carries a <code>CMetric.MeasureClass</code> that determines how it is stored and serialized:</p>
+<table>
+<thead>
+<tr>
+<th>Measure class</th>
+<th>Backing</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GAUGE_INT</code></td>
+<td><code>AtomicInteger</code></td>
+<td>integer point-in-time value</td>
+</tr>
+<tr>
+<td><code>GAUGE_LONG</code></td>
+<td><code>AtomicLong</code></td>
+<td>long point-in-time value (byte counts, timestamps)</td>
+</tr>
+<tr>
+<td><code>GAUGE_DOUBLE</code></td>
+<td>Guava <code>AtomicDouble</code></td>
+<td>fractional value (loads, rates, temperatures)</td>
+</tr>
+<tr>
+<td><code>GAUGE_AUTO</code></td>
+<td>Micrometer meter</td>
+<td>value read straight from a Micrometer <code>Gauge.builder</code>/binder meter adopted via <code>setExisting</code></td>
+</tr>
+<tr>
+<td><code>TIMER</code></td>
+<td>Micrometer <code>Timer</code></td>
+<td>mean/max/total/count of recorded durations</td>
+</tr>
+<tr>
+<td><code>DISTRIBUTION_SUMMARY</code></td>
+<td>Micrometer <code>DistributionSummary</code></td>
+<td>mean/max/total/count of recorded amounts</td>
+</tr>
+<tr>
+<td><code>COUNTER</code></td>
+<td>Micrometer <code>Counter</code></td>
+<td>monotonic count</td>
+</tr>
+</tbody>
+</table>
+<p><code>CMetric.Type</code> is the scope: <code>NODE</code> (default — a node-level metric), <code>APP</code> (needs an inode + resource
+id), <code>EDGE</code> (needs an edge id). All engine-registered metrics are <code>NODE</code>; the per-process and
+per-runner streams use <code>APP</code>.</p>
+<h3 id="registration-update-api">Registration &amp; update API<a class="headerlink" href="#registration-update-api" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>setGauge(name, description, group, measureClass)</code> — create a gauge (idempotent; a repeated name is
+  a no-op that returns <code>false</code>).</li>
+<li><code>updateIntGauge</code> / <code>updateLongGauge</code> / <code>updateDoubleGauge(name, value)</code> — set the current value.</li>
+<li><code>setTimer(name, description, group)</code> + <code>updateTimer(name, startNanos)</code> — records
+  <code>System.nanoTime() − startNanos</code>.</li>
+<li><code>setDistributionSummary(name, description, group)</code> + <code>updateDistributionSummary(name, value)</code>.</li>
+<li><code>setExisting(name, group)</code> — adopt a meter already on the shared registry (a Micrometer binder
+  meter, or a <code>Gauge.builder</code> gauge with a live supplier) so it surfaces in <code>getAllMetrics()</code>.</li>
+</ul>
 <h2 id="the-single-plugin-contract">The single plugin contract<a class="headerlink" href="#the-single-plugin-contract" title="Permanent link">&para;</a></h2>
-<p>Every bundle answers the same EXEC action:</p>
+<p>Every metric-bearing bundle answers the same EXEC action:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">case</span><span class="w"> </span><span class="s">&quot;getmetrics&quot;</span><span class="p">:</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">incoming</span><span class="p">.</span><span class="na">setParam</span><span class="p">(</span><span class="s">&quot;metrics&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">gson</span><span class="p">.</span><span class="na">toJson</span><span class="p">(</span><span class="n">measurementEngine</span><span class="p">.</span><span class="na">getAllMetrics</span><span class="p">()));</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">incoming</span><span class="p">.</span><span class="na">setParam</span><span class="p">(</span><span class="s">&quot;status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;10&quot;</span><span class="p">);</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">incoming</span><span class="p">;</span>
 </code></pre></div>
-<p><code>getAllMetrics()</code> returns <code>group → list of {name, class, type, value|count|mean|max|...}</code> — the wire schema
-for the whole fabric.</p>
-<h2 id="mesh-wide-aggregation">Mesh-wide aggregation<a class="headerlink" href="#mesh-wide-aggregation" title="Permanent link">&para;</a></h2>
-<p><code>getmetricinventory</code> is the single aggregating surface (metrics' analogue of the health executor). It
-merges the controller's own metrics + every local plugin's <code>getmetrics</code> + a resource summary, and can
-<strong>fan out</strong> by scope:</p>
+<p><code>getAllMetrics()</code> returns <code>Map&lt;group, List&lt;row&gt;&gt;</code>. Each <strong>row</strong> is a flat <code>Map&lt;String,String&gt;</code> whose
+keys depend on the measure class — read live on every call:</p>
+<table>
+<thead>
+<tr>
+<th>Measure class</th>
+<th>Row keys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GAUGE_INT</code> / <code>GAUGE_LONG</code> / <code>GAUGE_DOUBLE</code> / <code>GAUGE_AUTO</code></td>
+<td><code>name</code>, <code>class</code> (meter type, e.g. <code>GAUGE</code>), <code>type</code> (<code>NODE</code>/…), <code>value</code>, <code>group</code></td>
+</tr>
+<tr>
+<td><code>TIMER</code></td>
+<td><code>name</code>, <code>class</code>, <code>type</code>, <code>mean</code>, <code>max</code>, <code>totaltime</code>, <code>count</code>, <code>group</code></td>
+</tr>
+<tr>
+<td><code>DISTRIBUTION_SUMMARY</code></td>
+<td><code>name</code>, <code>class</code>, <code>type</code>, <code>mean</code>, <code>max</code>, <code>totalAmount</code>, <code>count</code>, <code>group</code></td>
+</tr>
+<tr>
+<td><code>COUNTER</code></td>
+<td><code>name</code>, <code>class</code>, <code>type</code>, <code>count</code>, <code>group</code></td>
+</tr>
+</tbody>
+</table>
+<p>This is the wire schema for the whole fabric.</p>
+<h2 id="mesh-wide-aggregation-getmetricinventory">Mesh-wide aggregation — <code>getmetricinventory</code><a class="headerlink" href="#mesh-wide-aggregation-getmetricinventory" title="Permanent link">&para;</a></h2>
+<p><code>getmetricinventory</code> is the single aggregating surface (metrics' analogue of
+<a href="../health/#querying-health-gethealthinventory"><code>gethealthinventory</code></a>). It merges the controller's own
+metrics + every local plugin's <code>getmetrics</code> + an optional resource summary, and can <strong>fan out</strong> by
+scope:</p>
 <table>
 <thead>
 <tr>
@@ -2381,12 +2543,12 @@ merges the controller's own metrics + every local plugin's <code>getmetrics</cod
 </thead>
 <tbody>
 <tr>
-<td><code>node</code></td>
-<td>this node</td>
+<td><code>node</code> (default)</td>
+<td>this node only</td>
 </tr>
 <tr>
 <td><code>region</code></td>
-<td>this node + its child agents</td>
+<td>this node + every child agent in its region</td>
 </tr>
 <tr>
 <td><code>global</code></td>
@@ -2394,44 +2556,676 @@ merges the controller's own metrics + every local plugin's <code>getmetrics</cod
 </tr>
 </tbody>
 </table>
-<p>Both <a href="../../clients/overview/">client libraries</a> expose <code>get_metric_inventory(...)</code> to pull this. The legacy
-<code>getsysinfo</code>/<code>resourceinfo</code>/KPI paths are retained for back-compat and folded in as Micrometer gauges.</p>
-<h2 id="network-link-metrics">Network link metrics<a class="headerlink" href="#network-link-metrics" title="Permanent link">&para;</a></h2>
-<p>The <code>netlink</code> group carries <strong>per-edge link quality</strong> (<code>LinkMetrics</code> / <code>LinkMetricsRegistry</code>), measured
-from signals the fabric already pays for:</p>
+<p>Parameters: <code>action_scope</code> = <code>node</code>|<code>region</code>|<code>global</code>; <code>action_include_plugins</code> (default <strong>true</strong> —
+set <code>false</code> to return only controller metrics); <code>action_include_resource</code> (default <strong>false</strong> — opt-in;
+adds a sysinfo CPU/memory/disk resource summary at the cost of an extra RPC).</p>
+<p><strong>How the node inventory is built.</strong> The controller assembles <code>metrics_by_source</code>:</p>
+<ol>
+<li>Its own <code>MeasurementEngine.getAllMetrics()</code> keyed <code>&lt;region&gt;_&lt;agent&gt;:io.cresco.agent.controller</code>
+   (the <code>jvm</code>, <code>controller</code>, <code>cep</code>, <code>regional</code>, <code>global</code>, <code>netlink</code> groups below).</li>
+<li>Each local plugin's metrics — the controller sends the <code>getmetrics</code> EXEC to every plugin id on the
+   node (timeout <code>metrics_rpc_timeout_ms</code>, default 2500 ms), keyed <code>&lt;region&gt;_&lt;agent&gt;:&lt;pluginId&gt;</code>.
+   Plugins that don't answer are silently skipped.</li>
+<li>If requested, a <code>resource_summary</code> (sysinfo CPU/memory/disk totals, timeout
+   <code>resource_rpc_timeout_ms</code>, default 3000 ms).</li>
+</ol>
+<p><strong>How the fan-out works.</strong> For <code>region</code>, the target set is every agent in this region; for <code>global</code>,
+every agent in every region. Each child is queried <strong>concurrently</strong> (one daemon thread per child)
+with a node-scoped <code>getmetricinventory</code>, timeout <code>metrics_fanout_timeout_ms</code> (default 12000 ms). The
+join deadline is that timeout + 1000 ms; unreachable/slow nodes are skipped. Whole-mesh latency is
+therefore bounded by the slowest single node, not the sum of all nodes.</p>
+<p>Final shape: <code>{ node, metrics_by_source:{…}, [resource_summary], scope, [children:{…}] }</code>. Both
+<a href="../../clients/overview/">client libraries</a> expose <code>get_metric_inventory(...)</code> to pull it.</p>
+<hr />
+<h1 id="the-full-metric-catalog">The full metric catalog<a class="headerlink" href="#the-full-metric-catalog" title="Permanent link">&para;</a></h1>
+<p>Every metric the fabric emits, grouped by source. Format: <strong><code>metric.name</code></strong> (group, type, unit) —
+how it is measured — what it means.</p>
+<h2 id="controller-native-metrics">Controller — native metrics<a class="headerlink" href="#controller-native-metrics" title="Permanent link">&para;</a></h2>
+<p>Registered by <code>PerfControllerMonitor</code> on the controller's <code>MeasurementEngine</code> at startup.</p>
 <table>
 <thead>
 <tr>
-<th>Signal</th>
-<th>Source</th>
+<th>Metric</th>
+<th>Group / type</th>
+<th>How measured</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>RTT + jitter (Jacobson/Karels smoothed)</td>
-<td>the existing parent ping/pong RPC, timed</td>
+<td><strong><code>message.transaction.time</code></strong></td>
+<td><code>controller</code>, TIMER</td>
+<td><code>updateTimer(...)</code> in <code>MsgRouter</code> records <code>nanoTime − messageTimestamp</code> for each routed message</td>
+<td>End-to-end message-routing latency through the controller (mean / max / total / count)</td>
 </tr>
 <tr>
-<td>tx/rx throughput, producer send-latency</td>
-<td>passive instrumentation of the send path</td>
+<td><strong><code>cep.queries.active</code></strong></td>
+<td><code>cep</code>, GAUGE</td>
+<td>supplier reads <code>DataPlaneServiceImpl.getActiveCEPCount()</code></td>
+<td>Number of active Complex-Event-Processing (Siddhi) queries in the embedded in-process CEP engine</td>
 </tr>
 <tr>
-<td>broker backlog</td>
-<td>ActiveMQ <code>QueueSize</code> via JMX</td>
+<td><strong><code>brokered.agent.count</code></strong></td>
+<td><code>regional</code>, GAUGE</td>
+<td>supplier reads <code>controllerEngine.getBrokeredAgents().size()</code></td>
+<td>Agents currently brokered by this regional controller (reads 0 on a leaf agent)</td>
 </tr>
 <tr>
-<td>NIC capacity ceiling</td>
-<td><code>sysinfo</code> link speed</td>
+<td><strong><code>reachable.agent.count</code></strong></td>
+<td><code>global</code>, GAUGE</td>
+<td>supplier reads <code>controllerEngine.reachableAgents().size()</code></td>
+<td>Agents reachable in this controller's view of the mesh</td>
+</tr>
+<tr>
+<td><strong><code>incoming.candidate.brokers</code></strong></td>
+<td><code>global</code>, GAUGE</td>
+<td>supplier reads <code>controllerEngine.getIncomingCanidateBrokers().size()</code></td>
+<td>Depth of the discovery candidate-broker queue awaiting processing</td>
 </tr>
 </tbody>
 </table>
-<p>These feed the <a href="../health/"><code>link:quality</code></a> health check, an <strong>auto-tuner</strong> control loop (<code>AutoTuner</code>) that
-adapts socket buffers, block sizes, and bridge connection counts to the bandwidth-delay product, and a
-composite link <strong>cost</strong> model intended for performance-aware routing (see the link-metrics and
-optimal-routing design docs via <a href="../../reference/design-docs/">Design Docs</a>).</p>
+<h2 id="controller-jvm-system-micrometer-binders">Controller — JVM &amp; system (Micrometer binders)<a class="headerlink" href="#controller-jvm-system-micrometer-binders" title="Permanent link">&para;</a></h2>
+<p>The controller binds four standard Micrometer binders (<code>JvmMemoryMetrics</code>, <code>JvmThreadMetrics</code>,
+<code>ClassLoaderMetrics</code>, <code>ProcessorMetrics</code>) to its registry and adopts the following into the <code>jvm</code>
+group. (<code>JvmGcMetrics</code> and <code>system.load.average.1m</code> are intentionally not adopted — the latter
+misbehaves on Windows; sysinfo carries load average instead.)</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>jvm.memory.used</code></strong></td>
+<td>Bytes of JVM memory in use, per pool (heap / non-heap)</td>
+</tr>
+<tr>
+<td><strong><code>jvm.memory.committed</code></strong></td>
+<td>Bytes committed (guaranteed available), per pool</td>
+</tr>
+<tr>
+<td><strong><code>jvm.memory.max</code></strong></td>
+<td>Max bytes the JVM will attempt to use per pool (<code>-1</code> where unbounded)</td>
+</tr>
+<tr>
+<td><strong><code>jvm.buffer.memory.used</code></strong></td>
+<td>Bytes of direct/mapped NIO buffer memory in use</td>
+</tr>
+<tr>
+<td><strong><code>jvm.buffer.total.capacity</code></strong></td>
+<td>Total capacity of NIO buffers per pool</td>
+</tr>
+<tr>
+<td><strong><code>jvm.buffer.count</code></strong></td>
+<td>Number of buffers in the pool</td>
+</tr>
+<tr>
+<td><strong><code>jvm.threads.live</code></strong></td>
+<td>Live threads (daemon + non-daemon)</td>
+</tr>
+<tr>
+<td><strong><code>jvm.threads.daemon</code></strong></td>
+<td>Daemon threads</td>
+</tr>
+<tr>
+<td><strong><code>jvm.threads.peak</code></strong></td>
+<td>Peak live threads since JVM start</td>
+</tr>
+<tr>
+<td><strong><code>jvm.classes.loaded</code></strong></td>
+<td>Classes currently loaded</td>
+</tr>
+<tr>
+<td><strong><code>jvm.classes.unloaded</code></strong></td>
+<td>Classes unloaded since JVM start (counter)</td>
+</tr>
+<tr>
+<td><strong><code>system.cpu.count</code></strong></td>
+<td>Logical processors available to the JVM</td>
+</tr>
+<tr>
+<td><strong><code>system.cpu.usage</code></strong></td>
+<td>Recent whole-system CPU usage (0–1)</td>
+</tr>
+<tr>
+<td><strong><code>process.cpu.usage</code></strong></td>
+<td>Recent CPU usage of this JVM process (0–1)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="controller-network-link-metrics-netlink">Controller — network link metrics (<code>netlink</code>)<a class="headerlink" href="#controller-network-link-metrics-netlink" title="Permanent link">&para;</a></h2>
+<p>The <code>netlink</code> group carries <strong>per-edge link quality</strong>, one set of gauges per neighbor edge, named
+<code>link.&lt;region_agent&gt;.&lt;metric&gt;</code> (non-alphanumerics in the path become <code>_</code>). Values are pushed on the
+<code>AutoTuner</code> loop interval. These feed the <a href="../health/#linkquality-tags-link-linkquality"><code>link:quality</code></a>
+health check, the auto-tuner control loop (which adapts socket buffers, block sizes, and bridge
+connection counts to the bandwidth-delay product), and a composite link <strong>cost</strong> used for
+performance-aware routing.</p>
+<table>
+<thead>
+<tr>
+<th>Metric (per edge)</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>link.&lt;path&gt;.rtt_ms</code></strong></td>
+<td>GAUGE_DOUBLE, ms</td>
+<td>Jacobson/Karels smoothed RTT (<code>srtt</code>, α=1/8) of the parent health-ping RPC</td>
+<td>Smoothed round-trip latency to the neighbor</td>
+</tr>
+<tr>
+<td><strong><code>link.&lt;path&gt;.jitter_ms</code></strong></td>
+<td>GAUGE_DOUBLE, ms</td>
+<td>Jacobson/Karels RTT variation (<code>rttvar</code>, β=1/4) computed alongside srtt</td>
+<td>RTT variability / jitter of the edge</td>
+</tr>
+<tr>
+<td><strong><code>link.&lt;path&gt;.tx_mbps</code></strong></td>
+<td>GAUGE_DOUBLE, MB/s</td>
+<td>windowed rate from a <code>LongAdder</code> fed by <code>dp_bytes</code> on the producer send path</td>
+<td>Transmit throughput on the edge</td>
+</tr>
+<tr>
+<td><strong><code>link.&lt;path&gt;.rx_mbps</code></strong></td>
+<td>GAUGE_DOUBLE, MB/s</td>
+<td>windowed rate from the receive-byte adder</td>
+<td>Receive throughput on the edge</td>
+</tr>
+<tr>
+<td><strong><code>link.&lt;path&gt;.sendlat_ms</code></strong></td>
+<td>GAUGE_DOUBLE, ms</td>
+<td>EWMA (α=0.2) of producer <code>send()</code> dwell time</td>
+<td>Backpressure/congestion signal — rises when the broker is flow-controlled or memory-pressured</td>
+</tr>
+<tr>
+<td><strong><code>link.&lt;path&gt;.backlog</code></strong></td>
+<td>GAUGE_LONG, messages</td>
+<td>broker <code>QueueSize</code> via JMX, sampled by the auto-tuner</td>
+<td>Broker pending-message backlog on the edge (native congestion signal)</td>
+</tr>
+</tbody>
+</table>
+<p>Derived link values used internally by the cost-aware router but not published as gauges:
+<code>rttHigh = srtt + 4·rttvar</code>, link <code>utilization</code> (tx bits ÷ NIC speed ceiling from OSHI), and a
+composite <code>cost = rttHigh + sendLatEwma + backlog·0.1 + 50/throughput</code>.</p>
+<h2 id="plugin-sysinfo-host-telemetry-richest-set">Plugin: <code>sysinfo</code> — host telemetry (richest set)<a class="headerlink" href="#plugin-sysinfo-host-telemetry-richest-set" title="Permanent link">&para;</a></h2>
+<p><code>sysinfo</code> registers 30 gauges on its own <code>MeasurementEngine</code> from OSHI (<code>SystemInfo</code> →
+<code>HardwareAbstractionLayer</code>/<code>OperatingSystem</code>). All are always emitted (0 where the platform can't
+report a value). <code>getmetrics</code> caches the serialized result for <code>sysinfo_metrics_ttl_ms</code> (default
+5000 ms) because NIC/filesystem enumeration is expensive.</p>
+<h3 id="group-processor">Group <code>processor</code><a class="headerlink" href="#group-processor" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>system.cpu.count</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>cpu.getLogicalProcessorCount()</code></td>
+<td>Logical CPU count</td>
+</tr>
+<tr>
+<td><strong><code>system.cpu.load</code></strong></td>
+<td>GAUGE_DOUBLE, 0–1</td>
+<td><code>cpu.getSystemCpuLoadBetweenTicks()</code> (tick deltas across calls, non-blocking)</td>
+<td>System CPU load since last read</td>
+</tr>
+<tr>
+<td><strong><code>system.load.average.1m</code></strong></td>
+<td>GAUGE_DOUBLE</td>
+<td><code>cpu.getSystemLoadAverage(1)[0]</code> (<code>-1</code> if unsupported)</td>
+<td>1-minute load average</td>
+</tr>
+<tr>
+<td><strong><code>cpu.context.switches</code></strong></td>
+<td>GAUGE_LONG</td>
+<td><code>cpu.getContextSwitches()</code></td>
+<td>Context switches since boot</td>
+</tr>
+<tr>
+<td><strong><code>cpu.interrupts</code></strong></td>
+<td>GAUGE_LONG</td>
+<td><code>cpu.getInterrupts()</code></td>
+<td>Interrupts since boot</td>
+</tr>
+</tbody>
+</table>
+<h3 id="group-memory">Group <code>memory</code><a class="headerlink" href="#group-memory" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>memory.total</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td><code>mem.getTotal()</code></td>
+<td>Total physical RAM</td>
+</tr>
+<tr>
+<td><strong><code>memory.available</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td><code>mem.getAvailable()</code></td>
+<td>Available physical RAM</td>
+</tr>
+<tr>
+<td><strong><code>memory.swap.total</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td><code>getVirtualMemory().getSwapTotal()</code></td>
+<td>Total swap</td>
+</tr>
+<tr>
+<td><strong><code>memory.swap.used</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td><code>getSwapUsed()</code></td>
+<td>Used swap</td>
+</tr>
+</tbody>
+</table>
+<h3 id="group-disk">Group <code>disk</code><a class="headerlink" href="#group-disk" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>disk.total</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td>Σ <code>fs.getTotalSpace()</code> over all file stores</td>
+<td>Total filesystem space</td>
+</tr>
+<tr>
+<td><strong><code>disk.available</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td>Σ <code>fs.getUsableSpace()</code></td>
+<td>Usable filesystem space</td>
+</tr>
+<tr>
+<td><strong><code>disk.read.bytes</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td>Σ <code>disk.getReadBytes()</code> over all disk stores</td>
+<td>Bytes read across all disks since boot</td>
+</tr>
+<tr>
+<td><strong><code>disk.write.bytes</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td>Σ <code>disk.getWriteBytes()</code></td>
+<td>Bytes written across all disks since boot</td>
+</tr>
+</tbody>
+</table>
+<h3 id="group-network">Group <code>network</code><a class="headerlink" href="#group-network" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>net.bytes.sent</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td>Σ <code>net.getBytesSent()</code> over all NICs</td>
+<td>Bytes sent, all interfaces</td>
+</tr>
+<tr>
+<td><strong><code>net.bytes.recv</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td>Σ <code>net.getBytesRecv()</code></td>
+<td>Bytes received, all interfaces</td>
+</tr>
+<tr>
+<td><strong><code>net.packets.sent</code></strong></td>
+<td>GAUGE_LONG</td>
+<td>Σ <code>net.getPacketsSent()</code></td>
+<td>Packets sent, all interfaces</td>
+</tr>
+<tr>
+<td><strong><code>net.packets.recv</code></strong></td>
+<td>GAUGE_LONG</td>
+<td>Σ <code>net.getPacketsRecv()</code></td>
+<td>Packets received, all interfaces</td>
+</tr>
+</tbody>
+</table>
+<h3 id="group-sensors">Group <code>sensors</code><a class="headerlink" href="#group-sensors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>sensor.cpu.temperature</code></strong></td>
+<td>GAUGE_DOUBLE, °C</td>
+<td><code>sensors.getCpuTemperature()</code> (0 if unavailable)</td>
+<td>CPU temperature</td>
+</tr>
+<tr>
+<td><strong><code>sensor.cpu.voltage</code></strong></td>
+<td>GAUGE_DOUBLE, V</td>
+<td><code>sensors.getCpuVoltage()</code> (0 if unavailable)</td>
+<td>CPU voltage</td>
+</tr>
+<tr>
+<td><strong><code>sensor.fan.max.rpm</code></strong></td>
+<td>GAUGE_INT, RPM</td>
+<td>max of <code>sensors.getFanSpeeds()</code> (0 if unavailable)</td>
+<td>Fastest fan speed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="group-power">Group <code>power</code><a class="headerlink" href="#group-power" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>power.remaining.percent</code></strong></td>
+<td>GAUGE_DOUBLE, 0–100</td>
+<td>mean <code>ps.getRemainingCapacityPercent()</code> ×100 (<code>-1</code> if no battery)</td>
+<td>Battery remaining</td>
+</tr>
+<tr>
+<td><strong><code>power.remaining.seconds</code></strong></td>
+<td>GAUGE_DOUBLE, s</td>
+<td><code>getTimeRemainingEstimated()</code> (<code>-1</code> on AC/unknown)</td>
+<td>Estimated runtime on battery</td>
+</tr>
+</tbody>
+</table>
+<h3 id="group-system">Group <code>system</code><a class="headerlink" href="#group-system" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>system.uptime.seconds</code></strong></td>
+<td>GAUGE_LONG, s</td>
+<td><code>os.getSystemUptime()</code></td>
+<td>OS uptime</td>
+</tr>
+<tr>
+<td><strong><code>system.process.count</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>os.getProcessCount()</code></td>
+<td>Running processes (OS-wide)</td>
+</tr>
+<tr>
+<td><strong><code>system.thread.count</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>os.getThreadCount()</code></td>
+<td>Running threads (OS-wide)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="group-gpu">Group <code>gpu</code><a class="headerlink" href="#group-gpu" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>gpu.count</code></strong></td>
+<td>GAUGE_INT</td>
+<td>count of <code>hal.getGraphicsCards()</code></td>
+<td>Graphics cards detected</td>
+</tr>
+<tr>
+<td><strong><code>gpu.vram.total</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td>Σ <code>g.getVRam()</code></td>
+<td>Total VRAM capacity (OSHI cannot report live GPU load)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="group-devices">Group <code>devices</code><a class="headerlink" href="#group-devices" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>display.count</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>hal.getDisplays().size()</code></td>
+<td>Attached displays</td>
+</tr>
+<tr>
+<td><strong><code>usb.device.count</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>hal.getUsbDevices(false).size()</code></td>
+<td>Connected USB devices</td>
+</tr>
+<tr>
+<td><strong><code>soundcard.count</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>hal.getSoundCards().size()</code></td>
+<td>Sound cards</td>
+</tr>
+</tbody>
+</table>
+<h2 id="plugin-executor">Plugin: <code>executor</code><a class="headerlink" href="#plugin-executor" title="Permanent link">&para;</a></h2>
+<h3 id="inventory-gauges-group-executor">Inventory gauges (group <code>executor</code>)<a class="headerlink" href="#inventory-gauges-group-executor" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>executor.runners.configured</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>runnerEngine.getRunnerCount()</code></td>
+<td>Configured runners (running or not)</td>
+</tr>
+<tr>
+<td><strong><code>executor.runners.active</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>runnerEngine.getActiveCount()</code></td>
+<td>Runners currently executing a process</td>
+</tr>
+</tbody>
+</table>
+<h3 id="per-runner-process-telemetry-dataplane-stream-opt-in-metricstrue">Per-runner process telemetry (dataplane stream, opt-in <code>metrics=true</code>)<a class="headerlink" href="#per-runner-process-telemetry-dataplane-stream-opt-in-metricstrue" title="Permanent link">&para;</a></h3>
+<p>When a runner is configured with <code>metrics=true</code>, a <code>RunnerMetrics</code> thread samples the launched
+process tree (root PID + descendants via <code>ProcessHandle</code>) every 5 s and publishes a JMS <code>MapMessage</code>
+on the node-local <code>AGENT</code> topic. Each row is scoped <code>APP</code>, grouped <code>runner-&lt;streamName&gt;</code>, summed
+across the tree: <code>process.count</code>, <code>bytes.read</code>, <code>bytes.written</code>, <code>kernel.time</code> (ms),
+<code>thread.count</code>, <code>set.size</code> (RSS bytes), <code>virtual.size</code> (bytes).</p>
+<h2 id="plugin-filerepo">Plugin: <code>filerepo</code><a class="headerlink" href="#plugin-filerepo" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Group / type</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>filerepo.files.count</code></strong></td>
+<td><code>filerepo</code>, GAUGE_LONG</td>
+<td><code>repoEngine.getRepoCount()</code></td>
+<td>Files tracked in the local repo catalog</td>
+</tr>
+<tr>
+<td><strong><code>filerepo.active.transfers</code></strong></td>
+<td><code>filerepo</code>, GAUGE_INT</td>
+<td><code>transferStreams.size()</code></td>
+<td>In-flight <code>streamfile</code> transfers</td>
+</tr>
+</tbody>
+</table>
+<h2 id="plugin-repo">Plugin: <code>repo</code><a class="headerlink" href="#plugin-repo" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Group / type</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>repo.plugin.count</code></strong></td>
+<td><code>repo</code>, GAUGE_INT</td>
+<td><code>getPluginInventory(repoDir).size()</code></td>
+<td>Plugin jars in the local repository</td>
+</tr>
+<tr>
+<td><strong><code>repo.bytes</code></strong></td>
+<td><code>repo</code>, GAUGE_LONG, bytes</td>
+<td>Σ <code>f.length()</code> over <code>*.jar</code> in the repo dir</td>
+<td>Total on-disk size of repository jars</td>
+</tr>
+</tbody>
+</table>
+<h2 id="plugin-stunnel">Plugin: <code>stunnel</code><a class="headerlink" href="#plugin-stunnel" title="Permanent link">&para;</a></h2>
+<h3 id="inventory-gauges-group-stunnel">Inventory gauges (group <code>stunnel</code>)<a class="headerlink" href="#inventory-gauges-group-stunnel" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>stunnel.active.tunnels</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>activeServerChannels.size()</code></td>
+<td>Active SRC tunnel listeners</td>
+</tr>
+<tr>
+<td><strong><code>stunnel.active.clients</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>activeClientChannels.size()</code></td>
+<td>Active client channels</td>
+</tr>
+<tr>
+<td><strong><code>stunnel.active.targets</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>activeTargetChannels.size()</code></td>
+<td>Active target (destination) channels</td>
+</tr>
+</tbody>
+</table>
+<h3 id="per-tunnel-throughput-dataplane-stats-stream">Per-tunnel throughput (dataplane <code>stats</code> stream)<a class="headerlink" href="#per-tunnel-throughput-dataplane-stats-stream" title="Permanent link">&para;</a></h3>
+<p>Each tunnel direction runs a <code>PerformanceMonitor</code> that accumulates transferred bytes in a
+<code>LongAdder</code> and, every <code>performance_report_rate</code> ms (default 5000), publishes a JSON <code>TextMessage</code>
+on the <code>GLOBAL</code> topic with <code>type=stats</code>: <code>bits_per_second</code> (the primary throughput number,
+<code>bytesDelta/elapsed × 8</code>), <code>bytes_delta</code> (this interval), <code>total_bytes</code> (cumulative), plus
+<code>stunnel_id</code>, <code>direction</code>, <code>is_healthy</code>, <code>elapsed_time</code>, <code>buffer_size</code>.</p>
+<h2 id="plugin-wsapi">Plugin: <code>wsapi</code><a class="headerlink" href="#plugin-wsapi" title="Permanent link">&para;</a></h2>
+<p>The <code>wsapi</code> gauges (group <code>wsapi</code>) read process-wide atomics maintained by the Netty dataplane
+handler — one wsapi plugin per JVM, so the counts are node-wide.</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type / unit</th>
+<th>How measured</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>wsapi.dataplane.connections</code></strong></td>
+<td>GAUGE_INT</td>
+<td><code>ACTIVE_CONNECTIONS</code> atomic, incremented on <code>channelActive</code></td>
+<td>Active dataplane WebSocket connections</td>
+</tr>
+<tr>
+<td><strong><code>wsapi.dataplane.bytes</code></strong></td>
+<td>GAUGE_LONG, bytes</td>
+<td><code>DATAPLANE_BYTES</code> atomic, added per text/binary frame</td>
+<td>Total dataplane bytes ingested from clients</td>
+</tr>
+<tr>
+<td><strong><code>wsapi.dataplane.messages</code></strong></td>
+<td>GAUGE_LONG</td>
+<td><code>DATAPLANE_MESSAGES</code> atomic, incremented per frame</td>
+<td>Total dataplane messages ingested from clients</td>
+</tr>
+</tbody>
+</table>
+<p>Each forwarded binary dataplane message is stamped with <code>dp_bytes</code>, which is what feeds the
+controller's per-edge <code>link.*.tx_mbps</code> throughput accounting above.</p>
+<hr />
+<h2 id="legacy-complementary-telemetry">Legacy / complementary telemetry<a class="headerlink" href="#legacy-complementary-telemetry" title="Permanent link">&para;</a></h2>
+<p>Two richer, non-Micrometer streams predate the unified model and are folded in for back-compat:</p>
+<ul>
+<li><strong><code>sysinfo</code> <code>perf</code> stream + <code>getsysinfo</code></strong> — <code>PerfSysMonitor</code> publishes a per-component JSON
+  <code>MapMessage</code> every <code>perftimer</code> ms (default 10000) on the <code>AGENT</code> topic, and the <code>getsysinfo</code> EXEC
+  returns the same on demand: full per-CPU/mem/disk/filesystem/partition/NIC/OS/process records
+  (e.g. per-NIC <code>link-speed</code>, <code>mac</code>, <code>errors-in/out</code>; per-disk <code>disk-readbytes</code>/<code>disk-writebytes</code>;
+  sampled <code>cpu-user-load</code>/<code>cpu-sys-load</code>/<code>cpu-idle-load</code>). This is what the controller's
+  <code>resourceinfo</code> path parses to build region/agent resource totals (<code>cpu_core_count</code>,
+  <code>mem_available</code>, <code>mem_total</code>, <code>disk_available</code>, <code>disk_total</code>).</li>
+</ul>
 <h2 id="benchmarks">Benchmarks<a class="headerlink" href="#benchmarks" title="Permanent link">&para;</a></h2>
-<p>On-demand CPU benchmarking (SciMark2) is available via <code>sysinfo</code>'s <code>getbenchmark</code> action — deliberately not
-run at startup, to keep node bring-up cheap.</p>
+<p>On-demand CPU benchmarking (SciMark2) is available via <code>sysinfo</code>'s <code>getbenchmark</code> action —
+deliberately not run at startup, to keep node bring-up cheap. See the metrics-unification design doc
+via <a href="../../reference/design-docs/">Design Docs</a>.</p>
 
 
 

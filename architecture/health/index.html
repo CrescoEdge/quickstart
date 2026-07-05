@@ -907,6 +907,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#the-status-vocabulary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The status vocabulary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-health-executor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -915,13 +926,52 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="The health executor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduling-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling &amp; configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-grace-sticky-state-machine-raw-vs-effective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The grace / sticky state machine (raw vs effective)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggregation-snapshots-the-summary-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aggregation, snapshots &amp; the summary log
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-checks" class="md-nav__link">
+  <a href="#querying-health-gethealthinventory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The checks
+        Querying health — gethealthinventory
       
     </span>
   </a>
@@ -944,17 +994,6 @@
     <span class="md-ellipsis">
       
         Health drives state
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-state-machine" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The state machine
       
     </span>
   </a>
@@ -1260,6 +1299,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../plugins/filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../plugins/sysinfo/" class="md-nav__link">
         
   
@@ -1324,6 +1391,34 @@
     
   
     stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
   
 
     
@@ -2254,6 +2349,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#the-status-vocabulary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The status vocabulary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-health-executor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2262,13 +2368,52 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="The health executor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduling-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scheduling &amp; configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-grace-sticky-state-machine-raw-vs-effective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The grace / sticky state machine (raw vs effective)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggregation-snapshots-the-summary-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aggregation, snapshots &amp; the summary log
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-checks" class="md-nav__link">
+  <a href="#querying-health-gethealthinventory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The checks
+        Querying health — gethealthinventory
       
     </span>
   </a>
@@ -2291,17 +2436,6 @@
     <span class="md-ellipsis">
       
         Health drives state
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-state-machine" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The state machine
       
     </span>
   </a>
@@ -2331,93 +2465,323 @@
 <h1 id="health-state">Health &amp; State<a class="headerlink" href="#health-state" title="Permanent link">&para;</a></h1>
 <p>Cresco separates <strong>health</strong> (pass/fail verdicts about whether things are working) from
 <a href="../metrics/">metrics</a> (continuous measurements). Health is built on <strong>Felix Health Checks</strong> (OSGi
-<code>org.apache.felix.hc.api.HealthCheck</code>), so any bundle can contribute a check that is discovered and run
-centrally.</p>
-<h2 id="the-health-executor">The health executor<a class="headerlink" href="#the-health-executor" title="Permanent link">&para;</a></h2>
-<p><code>CrescoHealthExecutor</code> discovers all registered health-check services and runs them on a schedule. Its
-verdict logic is deliberately anti-flap:</p>
-<ul>
-<li><strong>Grace window</strong> — a check that goes <code>TEMPORARILY_UNAVAILABLE</code> only escalates to <code>CRITICAL</code> if it stays
-  down past the grace window (avoids single-blip failovers).</li>
-<li><strong>Sticky window</strong> — a recently-failed check stays <code>WARN</code> for a while after recovery (avoids rapid
-  oscillation).</li>
-<li>Results are cached and rolled up; <code>aggregate(tags)</code> returns the worst status among matching checks.</li>
-</ul>
-<h2 id="the-checks">The checks<a class="headerlink" href="#the-checks" title="Permanent link">&para;</a></h2>
-<p>Checks are grouped by <strong>tag</strong>:</p>
+<code>org.apache.felix.hc.api.HealthCheck</code>): any bundle — the controller or any plugin — can contribute a
+check that is discovered and run centrally, with no wiring beyond registering an OSGi service.</p>
+<p>This page is exhaustive: it documents the health machinery (discovery, the grace/sticky state
+machine, aggregation, propagation), then <strong>every health check the fabric runs</strong> — what it inspects,
+every status it can return and the exact condition for each, and its message format.</p>
+<h2 id="the-status-vocabulary">The status vocabulary<a class="headerlink" href="#the-status-vocabulary" title="Permanent link">&para;</a></h2>
+<p>Every check returns one <code>Result.Status</code>. They are strictly ordered worst-wins (aggregation compares
+ordinals):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>OK  &lt;  WARN  &lt;  TEMPORARILY_UNAVAILABLE  &lt;  CRITICAL  &lt;  HEALTH_CHECK_ERROR
+</code></pre></div>
 <table>
 <thead>
 <tr>
-<th>Tag</th>
-<th>Check</th>
-<th>Verifies</th>
+<th>Status</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>local</code></td>
-<td><code>broker</code></td>
-<td>embedded ActiveMQ broker up (region/global)</td>
+<td><code>OK</code></td>
+<td>working normally</td>
 </tr>
 <tr>
-<td><code>local</code></td>
-<td><code>dataplane</code></td>
-<td>JMS fault URI connection active</td>
+<td><code>WARN</code></td>
+<td>degraded but functional / recently recovered (see sticky)</td>
 </tr>
 <tr>
-<td><code>local</code></td>
-<td><code>db</code></td>
-<td>Derby database reachable</td>
+<td><code>TEMPORARILY_UNAVAILABLE</code></td>
+<td>not ready or a transient outage; <strong>not yet</strong> fatal (see grace)</td>
 </tr>
 <tr>
-<td><code>local</code></td>
-<td><code>disk</code></td>
-<td>free disk above a floor</td>
+<td><code>CRITICAL</code></td>
+<td>a real, sustained failure</td>
 </tr>
 <tr>
-<td><code>local</code></td>
-<td><code>memory</code></td>
-<td>JVM heap below a threshold</td>
-</tr>
-<tr>
-<td><code>local</code></td>
-<td><code>plugins</code></td>
-<td>worst plugin status</td>
-</tr>
-<tr>
-<td><code>local</code></td>
-<td><code>link:quality</code></td>
-<td>parent link RTT/jitter within bounds (reads <a href="../metrics/">metrics</a>)</td>
-</tr>
-<tr>
-<td><code>link</code></td>
-<td><code>link:parent</code></td>
-<td>parent controller reachable (liveness)</td>
-</tr>
-<tr>
-<td><code>mesh</code></td>
-<td><code>mesh:subtree</code></td>
-<td>rolled-up child health</td>
+<td><code>HEALTH_CHECK_ERROR</code></td>
+<td>the check itself threw or returned null — the most severe, because the signal is untrustworthy</td>
 </tr>
 </tbody>
 </table>
+<h2 id="the-health-executor">The health executor<a class="headerlink" href="#the-health-executor" title="Permanent link">&para;</a></h2>
+<p><code>CrescoHealthExecutor</code> is the scheduler and aggregator. It is started during controller start (inside
+a try/catch, so a missing Health-Check API bundle can never block startup) and opens a
+<code>ServiceTracker</code> over <code>HealthCheck</code> services: each service is read <strong>once at registration</strong>, wrapped
+in a <code>CheckState</code>, and scheduled on a 2-thread daemon pool named <code>CrescoHealth</code>.</p>
+<p>Per-check properties are read from the OSGi service registration: <code>HealthCheck.NAME</code> (else the class
+simple name), <code>HealthCheck.TAGS</code>, an optional per-check interval (<code>ASYNC_INTERVAL_IN_SEC</code>), grace
+(<code>hc.cresco.graceInSec</code>), and sticky (<code>KEEP_NON_OK_RESULTS_STICKY_FOR_SEC</code>) — anything unset inherits
+the executor defaults.</p>
+<h3 id="scheduling-configuration">Scheduling &amp; configuration<a class="headerlink" href="#scheduling-configuration" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Config key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>health_check_interval_ms</code></td>
+<td><strong>5000 ms</strong></td>
+<td>default run interval per check</td>
+</tr>
+<tr>
+<td><code>health_grace_ms</code></td>
+<td><strong>20000 ms</strong></td>
+<td>default grace window</td>
+</tr>
+<tr>
+<td><code>health_sticky_ms</code></td>
+<td><strong>60000 ms</strong></td>
+<td>default sticky window</td>
+</tr>
+<tr>
+<td><code>health_summary_interval_ms</code></td>
+<td><strong>30000 ms</strong></td>
+<td>interval of the one-line rollup log (<code>0</code> disables)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-grace-sticky-state-machine-raw-vs-effective">The grace / sticky state machine (raw vs effective)<a class="headerlink" href="#the-grace-sticky-state-machine-raw-vs-effective" title="Permanent link">&para;</a></h3>
+<p>Each run computes both a <strong>raw</strong> status (what <code>execute()</code> literally returned) and an <strong>effective</strong>
+status (what grace + sticky produce, and what aggregation uses). Before the first run a check is
+<code>TEMPORARILY_UNAVAILABLE</code> ("not yet run").</p>
+<ol>
+<li><strong>Execute + capture raw.</strong> A <code>null</code> return → <code>HEALTH_CHECK_ERROR "null result"</code>; a thrown
+   exception → <code>HEALTH_CHECK_ERROR "check threw: …"</code>. Otherwise raw = the returned status.</li>
+<li><strong>Grace — sustained <code>TEMPORARILY_UNAVAILABLE</code> → <code>CRITICAL</code>.</strong> The first time a check reports
+   <code>TEMPORARILY_UNAVAILABLE</code>, a timer starts. Only once it has stayed unavailable for longer than the
+   grace window is it promoted to <code>CRITICAL</code>. This absorbs a transient link blip or GC pause so it
+   never triggers a spurious failover; a freshly-unavailable check stays <code>TEMPORARILY_UNAVAILABLE</code>
+   until the window elapses. Any other status resets the timer.</li>
+<li><strong>Sticky — recovered-but-recently-bad held at <code>WARN</code>.</strong> When a check that was non-OK returns to
+   <code>OK</code>, its <strong>effective</strong> status is held at <code>WARN</code> for the remainder of the sticky window. A flap
+   that self-heals is therefore not silently masked — you see <code>WARN</code> for ~60 s after recovery, then
+   <code>OK</code>. (This is why a freshly-registered, healthy check reads <code>WARN</code> briefly before settling.)</li>
+<li><strong>Transition + listeners.</strong> If the effective status changed, the executor logs
+   <code>health '&lt;name&gt;' &lt;old&gt; -&gt; &lt;new&gt; (&lt;message&gt;)</code> and notifies every <code>HealthListener</code>.</li>
+</ol>
+<h3 id="aggregation-snapshots-the-summary-log">Aggregation, snapshots &amp; the summary log<a class="headerlink" href="#aggregation-snapshots-the-summary-log" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>aggregate(tags…)</code> returns the <strong>worst effective</strong> status among matching checks (OK if none match).</li>
+<li>Tag matching: an empty query matches all; a <code>-tag</code> entry is an explicit exclusion; positive tags
+  are OR'd.</li>
+<li><code>execute(tags…)</code> / <code>all()</code> return cached <code>HealthResult</code> snapshots — a cheap atomic read, <strong>not</strong> a
+  re-run. (This is why an on-demand read can lag a just-changed state by up to one check interval;
+  metric gauges are live, health snapshots are periodic.)</li>
+<li>Every <code>health_summary_interval_ms</code> the executor logs one line:
+  <code>health summary [&lt;worst&gt;]: broker=OK db=OK … cep=OK executor=OK …</code>.</li>
+</ul>
+<p>A <code>HealthResult</code> is immutable: <code>name</code>, <code>tags</code>, <code>status</code> (effective), <code>rawStatus</code>, <code>message</code>,
+<code>lastRunTs</code>.</p>
+<h2 id="querying-health-gethealthinventory">Querying health — <code>gethealthinventory</code><a class="headerlink" href="#querying-health-gethealthinventory" title="Permanent link">&para;</a></h2>
+<p><code>gethealthinventory</code> is the queryable surface for health — the parallel of
+<a href="../metrics/#mesh-wide-aggregation-getmetricinventory"><code>getmetricinventory</code></a>. It returns this node's
+full health snapshot as JSON:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;node&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;region&gt;_&lt;agent&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">&quot;aggregate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;worst-effective-status&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">&quot;checks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cep&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OK&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;rawStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cep OK: 0 active queries&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;lastRunTs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1720000000000</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>It is exposed on all three controller tiers (<code>AgentExecutor</code>, <code>GlobalExecutor</code>, and
+<code>RegionalExecutor</code>, which delegates to the global handler). If the executor hasn't started, it
+returns <code>aggregate: "UNKNOWN"</code> with an empty <code>checks</code> list.</p>
 <h2 id="liveness-and-the-mesh-rollup">Liveness and the mesh rollup<a class="headerlink" href="#liveness-and-the-mesh-rollup" title="Permanent link">&para;</a></h2>
-<p>Each node actively pings its parent (agent → region, region → global) every few seconds and stamps the
-last successful pong. <code>ParentLinkHealthCheck</code> reads that timestamp: a stale pong → <code>TEMPORARILY_UNAVAILABLE</code>
-→ (after the grace window) <code>CRITICAL</code>. Health also <strong>rides the existing ping/pong</strong> — <code>MeshHealthPing</code>
-stamps a child's rolled-up health on its ping and the parent's health on the pong, so a parent learns its
-subtree's health and a child learns its parent's, with no extra messages. <code>MeshHealth</code>/<code>SubtreeHealthCheck</code>
-surface child degradation at the parent.</p>
+<p>Each node actively pings its parent (agent → region, region → global) every few seconds and stamps
+the last successful pong; <code>link:parent</code> reads that timestamp. Health also <strong>rides the existing
+ping/pong</strong> with no extra messages — <code>MeshHealthPing</code> stamps a child's rolled-up health on its ping
+and the parent's health on the pong, so a parent learns its subtree's health and a child learns its
+parent's. A node advertises <code>aggregate("local","mesh")</code> — deliberately <strong>excluding</strong> <code>link</code>, so a
+node's own parent-link liveness is never conflated with its health when propagating upward.</p>
 <h2 id="health-drives-state">Health drives state<a class="headerlink" href="#health-drives-state" title="Permanent link">&para;</a></h2>
-<p>Only one thing crosses from health into the state machine: when <code>link:parent</code> goes <code>CRITICAL</code>,
-<code>HealthMinaBridge</code> fires the corresponding loss event (<code>regionalControllerLost</code> for an agent,
-<code>globalControllerLost</code> for a region) — which triggers recovery/re-discovery. All other checks are pure
-observability. <code>StatusAdapter</code> maps legacy node/plugin status codes into Felix HC statuses.</p>
+<p>Exactly one thing crosses from health into the state machine: when <strong><code>link:parent</code></strong> reaches
+<code>CRITICAL</code>, <code>HealthMinaBridge</code> fires the corresponding loss event (<code>regionalControllerLost</code> for an
+agent, <code>globalControllerLost</code> for a region), which triggers recovery/re-discovery. Every other check
+is pure observability — <code>plugins</code>, <code>subtree</code>, and <code>link:quality</code> are truthful-but-non-failover by
+design. MINA remains the state authority; the bridge only feeds it a clean, grace-protected loss
+signal.</p>
+<hr />
+<h1 id="the-full-health-check-catalog">The full health-check catalog<a class="headerlink" href="#the-full-health-check-catalog" title="Permanent link">&para;</a></h1>
+<p>Format per check: <strong>name</strong> (tags) — what it inspects — the statuses it can return and the exact
+condition for each.</p>
+<h2 id="controller-local-checks">Controller — <code>local</code> checks<a class="headerlink" href="#controller-local-checks" title="Permanent link">&para;</a></h2>
+<p>Registered by <code>LocalHealthChecks</code> with <code>tags=[local]</code>; they inherit the executor defaults
+(interval 5 s / grace 20 s / sticky 60 s).</p>
+<h3 id="broker-tags-local"><code>broker</code> (tags: <code>local</code>)<a class="headerlink" href="#broker-tags-local" title="Permanent link">&para;</a></h3>
+<p>The embedded ActiveMQ broker (regional and global controllers run one; a plain agent does not).</p>
+<ul>
+<li><strong>OK</strong> — no local broker on this role (<code>"n/a (no local broker on this role)"</code>), or broker healthy
+  and its manager active (<code>"broker healthy"</code>).</li>
+<li><strong>TEMPORARILY_UNAVAILABLE</strong> — broker not yet started (<code>"broker not yet started"</code>), or broker
+  manager not active (<code>"broker manager not active"</code>).</li>
+<li><strong>CRITICAL</strong> — broker present but <code>!isHealthy()</code> (<code>"broker not started/healthy"</code>).</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h3 id="dataplane-tags-local"><code>dataplane</code> (tags: <code>local</code>)<a class="headerlink" href="#dataplane-tags-local" title="Permanent link">&para;</a></h3>
+<p>This node's own JMS messaging-plane connection (the "fault" URI to its broker).</p>
+<ul>
+<li><strong>OK</strong> — fault URI active (<code>"messaging plane active"</code>).</li>
+<li><strong>TEMPORARILY_UNAVAILABLE</strong> — active client not ready, or fault URI not active. (Grace promotes a
+  sustained outage to CRITICAL.)</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h3 id="db-tags-local"><code>db</code> (tags: <code>local</code>)<a class="headerlink" href="#db-tags-local" title="Permanent link">&para;</a></h3>
+<p>The controller state store (Derby), probed with a benign read of this node's own agent record.</p>
+<ul>
+<li><strong>OK</strong> — DB handle present pre-registration, or <code>getANode(agent)</code> returns without throwing
+  (<code>"db reachable"</code>) — any result proves the DB is up.</li>
+<li><strong>TEMPORARILY_UNAVAILABLE</strong> — DB handle not ready.</li>
+<li><strong>CRITICAL</strong> — the read threw (Derby unreachable) (<code>"db query failed: …"</code>).</li>
+</ul>
+<h3 id="disk-tags-local"><code>disk</code> (tags: <code>local</code>)<a class="headerlink" href="#disk-tags-local" title="Permanent link">&para;</a></h3>
+<p>Free usable space under the Cresco data dir. Floor = <code>health_disk_floor_mb</code> (default <strong>100 MB</strong>).</p>
+<ul>
+<li><strong>CRITICAL</strong> — free &lt; floor (<code>"low disk: &lt;free&gt;MB free &lt; floor &lt;floor&gt;MB (&lt;dir&gt;)"</code>).</li>
+<li><strong>WARN</strong> — free &lt; floor × 2 (<code>"disk approaching floor: …"</code>).</li>
+<li><strong>OK</strong> — otherwise (<code>"&lt;free&gt;MB free (&lt;dir&gt;)"</code>).</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h3 id="memory-tags-local"><code>memory</code> (tags: <code>local</code>)<a class="headerlink" href="#memory-tags-local" title="Permanent link">&para;</a></h3>
+<p>JVM heap pressure = <code>(total − free) / max × 100</code>. Thresholds <code>health_mem_warn_pct</code> (default <strong>85</strong>),
+<code>health_mem_crit_pct</code> (default <strong>95</strong>). Message base: <code>"heap &lt;pct&gt;% used (&lt;used&gt;MB/&lt;max&gt;MB)"</code>.</p>
+<ul>
+<li><strong>CRITICAL</strong> — pct ≥ crit.</li>
+<li><strong>WARN</strong> — pct ≥ warn.</li>
+<li><strong>OK</strong> — otherwise.</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h3 id="plugins-tags-local"><code>plugins</code> (tags: <code>local</code>)<a class="headerlink" href="#plugins-tags-local" title="Permanent link">&para;</a></h3>
+<p>Aggregates every hosted plugin: each plugin's <code>status_code</code> is mapped to a status and the worst
+wins. A sick plugin is a signal only; it does not by itself drive a state transition.</p>
+<ul>
+<li><strong>TEMPORARILY_UNAVAILABLE</strong> — plugin admin not ready.</li>
+<li><strong>OK</strong> — no plugins loaded, or all plugins OK.</li>
+<li><strong>worst-of-mapped</strong> — <code>"&lt;n&gt; plugin(s): name[id]=code(STATUS), …"</code>. Code mapping: <code>10</code>/<code>8</code> → OK;
+  <code>3</code>/<code>40</code> (init / WATCHDOG stale) → TEMPORARILY_UNAVAILABLE; <code>90</code>/<code>91</code>/<code>92</code> (shutdown/verify/disable
+  timeouts) → WARN; <code>7</code>/<code>9</code>/<code>50</code>/<code>80</code> (could-not-start / install / WATCHDOG lost / failed) → CRITICAL;
+  <code>41</code> (missing status) → HEALTH_CHECK_ERROR; unknown → WARN.</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h3 id="cep-tags-local"><code>cep</code> (tags: <code>local</code>)<a class="headerlink" href="#cep-tags-local" title="Permanent link">&para;</a></h3>
+<p>The embedded Siddhi Complex-Event-Processing engine (runs in-process in the controller's
+DataPlaneService; the standalone cep plugin was removed).</p>
+<ul>
+<li><strong>TEMPORARILY_UNAVAILABLE</strong> — dataplane not ready (<code>"dataplane not ready"</code>), or Siddhi still
+  initializing (<code>"cep engine initializing"</code>).</li>
+<li><strong>OK</strong> — ready (<code>"cep OK: &lt;n&gt; active query"</code> / <code>"… queries"</code>, from the active-query count).</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h2 id="controller-mesh-link-checks">Controller — mesh &amp; link checks<a class="headerlink" href="#controller-mesh-link-checks" title="Permanent link">&para;</a></h2>
+<p>Registered on every controller; a leaf agent has no children and reports OK.</p>
+<h3 id="linkparent-tags-link-linkparent"><code>link:parent</code> (tags: <code>link</code>, <code>link:parent</code>)<a class="headerlink" href="#linkparent-tags-link-linkparent" title="Permanent link">&para;</a></h3>
+<p>Parent-controller reachability — the <strong>only</strong> check that drives a state transition (a <code>CRITICAL</code> here
+fires <code>regionalControllerLost</code>/<code>globalControllerLost</code> via <code>HealthMinaBridge</code>). Interval
+<code>health_link_interval_sec</code> (default <strong>5 s</strong>), grace <code>health_link_grace_sec</code> (default <strong>10 s</strong>). The
+verdict is computed <strong>locally</strong> from the last-pong age (staleness threshold <code>health_link_stale_ms</code>,
+else <code>max(2×ping interval, 10 s)</code>); only the ping/pong crosses the wire.</p>
+<ul>
+<li><strong>OK</strong> — pong age &lt; stale threshold (<code>"&lt;label&gt; link ok (pong age &lt;age&gt;ms)"</code>); or no parent link on
+  this role (global/standalone: <code>"no parent link (&lt;mode&gt;)"</code>); or a region→global link that uses the
+  broker-bridge signal instead of a ping (<code>"global link via broker bridge …"</code>).</li>
+<li><strong>TEMPORARILY_UNAVAILABLE</strong> — pong stale (<code>"&lt;label&gt; link stale (pong age …)"</code>), or state/watcher
+  not ready. (Grace, default 10 s, promotes to CRITICAL → the loss event fires.)</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h3 id="linkquality-tags-link-linkquality"><code>link:quality</code> (tags: <code>link</code>, <code>link:quality</code>)<a class="headerlink" href="#linkquality-tags-link-linkquality" title="Permanent link">&para;</a></h3>
+<p>Parent-edge <strong>quality</strong> from continuous <a href="../metrics/#controller-network-link-metrics-netlink">link metrics</a>.
+Deliberately never CRITICAL — quality never drives failover. Interval <code>health_link_interval_sec</code>
+(5 s).</p>
+<ul>
+<li><strong>OK</strong> — metrics not ready, or no RTT samples yet (<code>"no samples yet for &lt;path&gt;"</code>), or all
+  thresholds clear (<code>"parent link ok [&lt;path&gt;] srtt=… jitter=… sendLat=…"</code>).</li>
+<li><strong>WARN</strong> — any threshold exceeded (<code>"parent link degraded [&lt;path&gt;]: &lt;why&gt;"</code>), where <code>why</code> lists
+  whichever fired: <code>rttHi</code> &gt; <code>link_quality_rtt_warn_ms</code> (default <strong>50</strong>), <code>jitter</code> &gt;
+  <code>link_quality_jitter_warn_ms</code> (default <strong>25</strong>), <code>sendLat</code> &gt; <code>link_quality_sendlat_warn_ms</code>
+  (default <strong>25</strong>), <code>backlog</code> &gt; <code>link_quality_backlog_warn</code> (default <strong>1000</strong>).</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h3 id="subtree-tags-mesh"><code>subtree</code> (tags: <code>mesh</code>)<a class="headerlink" href="#subtree-tags-mesh" title="Permanent link">&para;</a></h3>
+<p>Rolls up children's advertised health (worst-wins). Interval <code>health_subtree_interval_sec</code> (default
+<strong>10 s</strong>). A child older than <code>health_subtree_stale_ms</code> (default <strong>30 s</strong>) is aged out, not reported
+CRITICAL — this is not a liveness check and never drives a transition.</p>
+<ul>
+<li><strong>OK</strong> — no children, no fresh children, or all fresh children OK (<code>"&lt;n&gt; child(ren) ok"</code>).</li>
+<li><strong>worst-of-fresh</strong> — <code>"&lt;n&gt; child(ren), worst=&lt;status&gt; &lt;path&gt; (&lt;detail&gt;)"</code> (can be WARN /
+  TEMPORARILY_UNAVAILABLE / CRITICAL / HEALTH_CHECK_ERROR depending on the worst fresh child).</li>
+<li><strong>HEALTH_CHECK_ERROR</strong> — the check threw.</li>
+</ul>
+<h2 id="plugin-checks">Plugin checks<a class="headerlink" href="#plugin-checks" title="Permanent link">&para;</a></h2>
+<p>Each plugin registers its own check (best-effort; a missing Health-Check API bundle never breaks the
+plugin) with <code>tags=[local]</code>. They share one guard pattern: <strong>TEMPORARILY_UNAVAILABLE</strong> while starting
+up (plugin null / not active / subsystem not ready), <strong>OK</strong> with a descriptive message when active,
+<strong>WARN</strong> on any exception. They never return CRITICAL directly — a sustained TEMPORARILY_UNAVAILABLE
+(a plugin that never comes up) is promoted to CRITICAL by the executor's grace window.</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>OK message</th>
+<th>TEMPORARILY_UNAVAILABLE when</th>
+<th>WARN when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>executor</code></strong></td>
+<td><code>executor OK: &lt;active&gt; running / &lt;configured&gt; configured runner(s)</code></td>
+<td>plugin/​runnerEngine not ready</td>
+<td>exception</td>
+</tr>
+<tr>
+<td><strong><code>filerepo</code></strong></td>
+<td><code>filerepo OK: &lt;n&gt; file(s) cataloged, repo dir=&lt;dir&gt;</code></td>
+<td>plugin/​repoEngine not ready</td>
+<td>repo dir not writable, or exception</td>
+</tr>
+<tr>
+<td><strong><code>repo</code></strong></td>
+<td><code>repo OK: &lt;n&gt; plugin jar(s)</code></td>
+<td>plugin/​executor not ready</td>
+<td>exception</td>
+</tr>
+<tr>
+<td><strong><code>sysinfo</code></strong></td>
+<td><code>sysinfo OK: host telemetry available</code></td>
+<td>plugin/​builder not ready</td>
+<td>exception</td>
+</tr>
+<tr>
+<td><strong><code>wsapi</code></strong></td>
+<td><code>wsapi OK: wss listening on port &lt;port&gt;</code></td>
+<td>plugin not active</td>
+<td>exception</td>
+</tr>
+<tr>
+<td><strong><code>stunnel</code></strong></td>
+<td><code>stunnel OK: &lt;n&gt; configured tunnel(s)</code></td>
+<td>plugin/​socketController not ready</td>
+<td>exception</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>wsapi</code> check is registered only <strong>after</strong> the Netty server binds, so "active" implies
+"listening". A clean single-node global therefore settles to a full <code>[OK]</code> summary across all
+checks — broker, dataplane, db, disk, memory, plugins, cep, link:parent, link:quality, subtree, and
+the six plugin checks.</p>
 <h2 id="the-state-machine">The state machine<a class="headerlink" href="#the-state-machine" title="Permanent link">&para;</a></h2>
 <p>The controller runs a state machine over the <a href="../overview/#nodes-and-the-hierarchy">controller modes</a>
 (<code>STANDALONE</code> / <code>AGENT</code> / <code>REGION</code> / <code>REGION_GLOBAL</code> / <code>GLOBAL</code>). Node, plugin, and edge status
-(<code>ACTIVE</code>, <code>STALE</code>, <code>LOST</code>, …) is persisted per-controller in <strong>Derby</strong>; regional and global watchdogs age
-out stale nodes. The health subsystem and the state machine together give the fabric its self-healing
+(<code>ACTIVE</code>, <code>STALE</code>, <code>LOST</code>, …) is persisted per-controller in <strong>Derby</strong>; regional and global
+watchdogs age out stale nodes. <code>StatusAdapter</code> maps legacy node/plugin status codes into Felix HC
+statuses. The health subsystem and the state machine together give the fabric its self-healing
 behavior. Design detail: the health-check design doc via <a href="../../reference/design-docs/">Design Docs</a>.</p>
 
 

@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../metrics-unification-design/">
+        <link rel="prev" href="../repo/">
       
       
-        <link rel="next" href="../cresco-tools-reference/">
+        <link rel="next" href="../sysinfo/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Capability Inventory - Cresco Documentation</title>
+        <title>filerepo - Cresco Documentation</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cresco-self-describing-capability-inventory-for-llm-tool-calling" class="md-skip">
+        <a href="#filerepo-distributed-fileartifact-repository" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Capability Inventory
+              filerepo
             
           </span>
         </div>
@@ -282,11 +282,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../plugins/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
           
   
   
@@ -382,13 +384,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../distributed-identity-trust-design/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../design/distributed-identity-trust-design/" class="md-tabs__link">
           
   
   
@@ -902,26 +902,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -939,7 +944,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -957,7 +962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -985,7 +990,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/agent/" class="md-nav__link">
+      <a href="../agent/" class="md-nav__link">
         
   
   
@@ -1013,7 +1018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/library/" class="md-nav__link">
+      <a href="../library/" class="md-nav__link">
         
   
   
@@ -1041,7 +1046,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/controller/" class="md-nav__link">
+      <a href="../controller/" class="md-nav__link">
         
   
   
@@ -1069,7 +1074,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/core/" class="md-nav__link">
+      <a href="../core/" class="md-nav__link">
         
   
   
@@ -1097,7 +1102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/logger/" class="md-nav__link">
+      <a href="../logger/" class="md-nav__link">
         
   
   
@@ -1125,7 +1130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/repo/" class="md-nav__link">
+      <a href="../repo/" class="md-nav__link">
         
   
   
@@ -1150,10 +1155,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../plugins/filerepo/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1169,6 +1201,92 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executor-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Executor actions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration read
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1181,7 +1299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/sysinfo/" class="md-nav__link">
+      <a href="../sysinfo/" class="md-nav__link">
         
   
   
@@ -1209,7 +1327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/wsapi/" class="md-nav__link">
+      <a href="../wsapi/" class="md-nav__link">
         
   
   
@@ -1237,7 +1355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/stunnel/" class="md-nav__link">
+      <a href="../stunnel/" class="md-nav__link">
         
   
   
@@ -1265,7 +1383,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../plugins/executor/" class="md-nav__link">
+      <a href="../executor/" class="md-nav__link">
         
   
   
@@ -1841,31 +1959,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -1883,7 +1996,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1901,7 +2014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../distributed-identity-trust-design/" class="md-nav__link">
+      <a href="../../design/distributed-identity-trust-design/" class="md-nav__link">
         
   
   
@@ -1929,7 +2042,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tenant-isolation-design/" class="md-nav__link">
+      <a href="../../design/tenant-isolation-design/" class="md-nav__link">
         
   
   
@@ -1957,7 +2070,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../optimal-global-routing-plan/" class="md-nav__link">
+      <a href="../../design/optimal-global-routing-plan/" class="md-nav__link">
         
   
   
@@ -1985,7 +2098,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../broker-performance/" class="md-nav__link">
+      <a href="../../design/broker-performance/" class="md-nav__link">
         
   
   
@@ -2013,7 +2126,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../region-federation-design/" class="md-nav__link">
+      <a href="../../design/region-federation-design/" class="md-nav__link">
         
   
   
@@ -2041,7 +2154,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../link-metrics-design/" class="md-nav__link">
+      <a href="../../design/link-metrics-design/" class="md-nav__link">
         
   
   
@@ -2069,7 +2182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../health-check-design/" class="md-nav__link">
+      <a href="../../design/health-check-design/" class="md-nav__link">
         
   
   
@@ -2097,7 +2210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../metrics-unification-design/" class="md-nav__link">
+      <a href="../../design/metrics-unification-design/" class="md-nav__link">
         
   
   
@@ -2122,37 +2235,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Capability Inventory
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../design/capability-inventory-design/" class="md-nav__link">
         
   
   
@@ -2168,131 +2254,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-current-reality" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Current reality
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-descriptor-model-iocrescolibrarycapability" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Descriptor model — io.cresco.library.capability
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Descriptor model — io.cresco.library.capability">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Types
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-delivery-surfaces-all-three" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Delivery surfaces (all three)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-osgi-classservice-inventory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. OSGi class/service inventory
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-clients-mcp-tool-runner-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Clients + MCP tool-runner (test)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-drift-protection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Drift protection
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-phasing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Phasing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2305,7 +2266,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cresco-tools-reference/" class="md-nav__link">
+      <a href="../../design/cresco-tools-reference/" class="md-nav__link">
         
   
   
@@ -2360,10 +2321,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-current-reality" class="md-nav__link">
+  <a href="#at-a-glance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Current reality
+        At a glance
       
     </span>
   </a>
@@ -2371,38 +2332,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-descriptor-model-iocrescolibrarycapability" class="md-nav__link">
+  <a href="#what-it-does" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Descriptor model — io.cresco.library.capability
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Descriptor model — io.cresco.library.capability">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#types" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Types
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-delivery-surfaces-all-three" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Delivery surfaces (all three)
+        What it does
       
     </span>
   </a>
@@ -2410,10 +2343,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-osgi-classservice-inventory" class="md-nav__link">
+  <a href="#executor-actions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. OSGi class/service inventory
+        Executor actions
       
     </span>
   </a>
@@ -2421,10 +2354,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-clients-mcp-tool-runner-test" class="md-nav__link">
+  <a href="#configuration-read" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Clients + MCP tool-runner (test)
+        Configuration read
       
     </span>
   </a>
@@ -2432,10 +2365,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-drift-protection" class="md-nav__link">
+  <a href="#observability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Drift protection
+        Observability
       
     </span>
   </a>
@@ -2443,21 +2376,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-phasing" class="md-nav__link">
+  <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Phasing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Verification
+        See also
       
     </span>
   </a>
@@ -2484,104 +2406,182 @@
   
 
 
-<h1 id="cresco-self-describing-capability-inventory-for-llm-tool-calling">Cresco — Self-Describing Capability Inventory for LLM Tool-Calling<a class="headerlink" href="#cresco-self-describing-capability-inventory-for-llm-tool-calling" title="Permanent link">&para;</a></h1>
-<p><strong>Status:</strong> ✅ SHIPPED + PROVEN (2026-07-03). Live mesh test <code>run/tests/capability_inventory_test.sh</code>
-<strong>10/10</strong> — one <code>getcapabilityinventory</code> (scope=global) returns <strong>89 tools</strong> across all 7 namespaces
-(agent/regional/global controller tiers + sysinfo/stunnel/wsapi/repo plugins), every one well-formed
-Anthropic tool JSON, and an action (<code>cresco_global_listagents</code>) was <strong>invoked using only its
-descriptor/binding</strong> via the MCP tool-runner. Drift check <code>capability_drift.py</code> PASS (all 89 switch cases
-match their annotations). No regression: metrics 11/11, tenant isolation 10/10.</p>
-<p><strong>Key constraint (user):</strong> external clients reach Cresco only over the WebSocket message bus, so <strong>only
-MsgEvent actions are callable tools.</strong> The OSGi service/package surface is included as <em>informational
-metadata</em> (opt-in, <code>include_osgi</code>) and is never turned into a tool — the tool-runner walks only
-<code>capabilities_by_source[*].actions</code>. The client's <code>get_capability_inventory</code> defaults <code>include_osgi=false</code>
-(MsgEvent-only view).</p>
-<p><strong>No hardcoded identity:</strong> bundle symbolic name + version come from the OSGi manifest via
-<code>FrameworkUtil.getBundle(clazz)</code> — never hardcoded in source.</p>
-<p>Built on user direction: every bundle (controller tiers + every plugin) publishes, via the inventory, a
-machine-readable description of every MsgEvent action it handles AND the classes/services it exposes via
-OSGi — in a form an LLM can consume <strong>directly as tool definitions</strong>.</p>
-<p><strong>Decisions (locked with the user):</strong>
-- <strong>Authoring = annotations on handlers.</strong> <code>@CrescoAction</code>/<code>@CrescoParam</code>/<code>@CrescoReturn</code> on per-action
-  methods, scanned by reflection. A drift test asserts every <code>switch</code> case has a matching annotation.
-- <strong>Scope = message actions + OSGi services/packages.</strong> Also enumerate each bundle's <code>Export-Package</code>
-  and registered service interfaces.
-- <strong>Client depth = full, incl. MCP tool-runner — but the runner is a TEST harness</strong> in <code>run/tests/</code>
-  (proves the catalog can drive Cresco), NOT a new plugin/library.</p>
-<p>Mirrors the proven metrics-unification pattern one layer up: per-bundle EXEC (<code>getcapabilities</code>) →
-controller aggregation (<code>getcapabilityinventory</code>, node/region/global fan-out) → client pull → (test) runner.</p>
-<h2 id="1-current-reality">1. Current reality<a class="headerlink" href="#1-current-reality" title="Permanent link">&para;</a></h2>
-<p>7 executor classes (Agent/Regional/Global controllers + stunnel/sysinfo/wsapi/repo) implement the
-<code>io.cresco.library.plugin.Executor</code> interface (<code>executeEXEC/CONFIG/DISCOVER/ERROR/INFO/WATCHDOG/KPI</code>),
-each dispatching a bare <code>switch(incoming.getParam("action"))</code> over ~60 total actions. <strong>No metadata
-exists</strong> — params are read ad-hoc (<code>getParam("action_region")</code>), returns set ad-hoc; semantics live only
-in code + sparse comments. The action surface is completely opaque to any caller.</p>
-<h2 id="2-descriptor-model-iocrescolibrarycapability">2. Descriptor model — <code>io.cresco.library.capability</code><a class="headerlink" href="#2-descriptor-model-iocrescolibrarycapability" title="Permanent link">&para;</a></h2>
-<p>Each action → an <code>ActionDescriptor</code> with two faces:</p>
-<p><strong>LLM-facing (Anthropic tool spec):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;cresco_global_listagents&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;List agents in the fabric, optionally filtered by region. Use before targeting a command to discover which agents are online. Agents are the unit of plugin placement.&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;input_schema&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;object&quot;</span><span class="p">,</span><span class="nt">&quot;properties&quot;</span><span class="p">:{</span><span class="nt">&quot;action_region&quot;</span><span class="p">:{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Region filter; omit for all.&quot;</span><span class="p">}},</span><span class="nt">&quot;required&quot;</span><span class="p">:[]}</span><span class="w"> </span><span class="p">}</span>
-</code></pre></div>
-<strong>Cresco binding (how a runner invokes it):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;msg_type&quot;</span><span class="p">:</span><span class="s2">&quot;EXEC&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="s2">&quot;global&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="s2">&quot;listagents&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">&quot;routing_params&quot;</span><span class="p">:[],</span><span class="w"> </span><span class="nt">&quot;returns&quot;</span><span class="p">:{</span><span class="nt">&quot;agentslist&quot;</span><span class="p">:</span><span class="s2">&quot;compressed JSON {agents:[...]}&quot;</span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
-</code></pre></div>
-<code>target</code> ∈ {global, regional, agent, plugin}; <code>routing_params</code> names identity params a caller must
-supply to route (plugin actions need region+agent+pluginid). This is what lets a generic runner build the
-right <code>global_controller_msgevent</code>/<code>plugin_msgevent</code>, set action+params, send RPC, and parse the reply.</p>
-<h3 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h3>
+<h1 id="filerepo-distributed-fileartifact-repository">filerepo — Distributed File/Artifact Repository<a class="headerlink" href="#filerepo-distributed-fileartifact-repository" title="Permanent link">&para;</a></h1>
+<p>The <code>filerepo</code> plugin (bundle <code>io.cresco.filerepo</code>) stores, catalogs, and moves files and plugin JARs
+across the fabric. Where <a href="../repo/"><code>repo</code></a> is specialized for plugin JARs, <code>filerepo</code> is a general
+file repository: it watches a directory, tracks every file in an embedded catalog, and moves files of
+<strong>any size</strong> across the mesh — inline for small files, byte-range dataplane streaming for large ones,
+watched-directory sync between peers, and push-to-remote-repo.</p>
+<h2 id="at-a-glance">At a glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Module path</td>
+<td><code>code/filerepo</code></td>
+</tr>
+<tr>
+<td>Bundle symbolic name</td>
+<td><code>io.cresco.filerepo</code></td>
+</tr>
+<tr>
+<td>Catalog</td>
+<td>Embedded Derby (file path / md5 / size / mtime)</td>
+</tr>
+<tr>
+<td>Loaded</td>
+<td>At runtime by the controller (default-on for a global).</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>Functional plugin (<code>@Component</code> implementing <code>PluginService</code>).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h2>
+<p>A <strong>repo</strong> is a directory of files tracked in a Derby catalog. In <em>producer</em> mode <code>filerepo</code> scans a
+<code>scan_dir</code> on an interval and keeps the catalog current; in <em>consumer</em> mode it receives files pushed
+or synced from peers. Files move by one of three mechanisms:</p>
 <ul>
-<li><code>@CrescoCapabilities</code> (class-level): <code>namespace</code> (e.g. "global","stunnel"), <code>target</code> default, shared
-  <code>routingParams</code> default, human bundle summary.</li>
-<li><code>@CrescoAction</code> (method-level): <code>name</code>, <code>type</code> (MsgEvent.Type, default EXEC), <code>summary</code>, <code>why</code>,
-  <code>params()=@CrescoParam[]</code>, <code>returns()=@CrescoReturn[]</code>, optional <code>target</code>/<code>routingParams</code> override.</li>
-<li><code>@CrescoParam</code> / <code>@CrescoReturn</code> (nested): <code>name</code>, <code>type</code> (json schema type), <code>required</code>, <code>description</code>,
-  <code>compressed</code> (rides as a gzip+base64 param).</li>
-<li>DTOs: <code>ParamDescriptor</code>, <code>ActionDescriptor</code>, <code>ServiceDescriptor</code>, <code>CapabilityDocument</code>
-  (bundle id/version/summary + actions[] + services[] + packages[]).</li>
-<li><code>CapabilityScanner</code>: <code>scanActions(Object executor)</code> (reflect annotations) + <code>scanOsgi(BundleContext)</code>
-  (Export-Package headers + <code>getRegisteredServices()</code> interface names).</li>
-<li><code>ToolSpecSerializer</code>: <code>toAnthropicTools(List&lt;ActionDescriptor&gt;)</code> → tool JSON + binding; name =
-  <code>cresco_&lt;namespace&gt;_&lt;action&gt;</code>.</li>
-<li><code>AbstractCapabilityInventoryPrinter</code>: implements Felix <code>InventoryPrinter</code> (JSON), prints the
-  <code>CapabilityDocument</code>. Felix inventory API imported optional so the library still resolves without it.</li>
+<li><strong>Inline</strong> (<code>getfile</code> / <code>getjar</code>) — the whole file rides back in one control-plane reply. Guarded by
+  <code>max_inline_bytes</code> (default 512 KB) so an inline read can never exceed the wss frame limit; larger
+  files must stream.</li>
+<li><strong>Streaming</strong> (<code>streamfile</code>) — a byte-range is sent over the dataplane in chunks, each carrying a
+  <code>transfer_id</code> + <code>seq_num</code> header the receiver reassembles by. Any size; the chunk size is clamped
+  to a safe ceiling so a caller can't oversize a frame.</li>
+<li><strong>Directory sync</strong> (<code>repolistin</code> / <code>repoconfirm</code>) — a producer's catalog diff is sent to a consumer,
+  which pulls only the changed files.</li>
 </ul>
-<h2 id="3-delivery-surfaces-all-three">3. Delivery surfaces (all three)<a class="headerlink" href="#3-delivery-surfaces-all-three" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong><code>getcapabilities</code> EXEC</strong> on every bundle — returns this bundle's <code>CapabilityDocument</code> JSON. Uniform,
-   fabric-reachable, identical local + remote (same contract as <code>getmetrics</code>).</li>
-<li><strong><code>InventoryPrinter</code> (JSON)</strong> per bundle — same data through the Felix inventory (shows in
-   <code>/system/console/status</code> + the support-ZIP). Plus a bundles/services printer for the OSGi half.</li>
-<li><strong><code>getcapabilityinventory</code></strong> on the controller — aggregates every local bundle's <code>getcapabilities</code> +
-   the controller tiers' own actions, <code>scope=node|region|global</code> with the concurrent bounded fan-out
-   reused verbatim from <code>getmetricinventory</code>. Emits ONE tool catalog for the whole mesh.</li>
-</ol>
-<h2 id="4-osgi-classservice-inventory">4. OSGi class/service inventory<a class="headerlink" href="#4-osgi-classservice-inventory" title="Permanent link">&para;</a></h2>
-<p><code>CapabilityScanner.scanOsgi</code> walks <code>bundleContext.getBundles()</code>: <code>Bundle-SymbolicName</code>/version/
-<code>Bundle-Description</code>, <code>Export-Package</code>, and <code>getRegisteredServices()</code> interface names → folded into
-<code>CapabilityDocument.services/packages</code>. Answers "what classes/services does this node expose via OSGi".</p>
-<h2 id="5-clients-mcp-tool-runner-test">5. Clients + MCP tool-runner (test)<a class="headerlink" href="#5-clients-mcp-tool-runner-test" title="Permanent link">&para;</a></h2>
+<p>Safeguards throughout: all catalog queries are parameterized (SQL-injection-safe); <code>putjar</code>/<code>getfile</code>
+paths are canonicalized and confined to the repo dir (path-traversal-safe); md5 is verified on write
+(a mismatch is deleted and rejected); the transfer pool is bounded and cleaned up on stop.</p>
+<h2 id="executor-actions">Executor actions<a class="headerlink" href="#executor-actions" title="Permanent link">&para;</a></h2>
+<p><code>ExecutorImpl</code> handles EXEC actions (<a href="../../api/msgevent/"><code>MsgEvent</code></a> type <code>EXEC</code>). <code>status</code>/
+<code>status_code</code> <code>10</code> = success; <code>object</code> returns are gzip+base64 compressed, <code>bytes</code> returns are base64.
+Full table: <a href="../../api/plugin-actions/#filerepo-plugin">Plugin Actions › filerepo</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getrepofilelist</code></td>
+<td>List catalog rows (path/md5/size/mtime), paginated via <code>limit</code>/<code>offset</code>.</td>
+</tr>
+<tr>
+<td><code>repolist</code></td>
+<td>Plugin/jar inventory of the repo dir + server identity.</td>
+</tr>
+<tr>
+<td><code>getfile</code> / <code>getjar</code></td>
+<td>Return a cataloged file / plugin jar inline (size-guarded).</td>
+</tr>
+<tr>
+<td><code>putjar</code> / <code>putfiles</code></td>
+<td>Write a jar (md5-verified) / land pushed files into a repo.</td>
+</tr>
+<tr>
+<td><code>putfilesremote</code></td>
+<td>Push a set of local files to another agent's repo.</td>
+</tr>
+<tr>
+<td><code>streamfile</code> / <code>streamfilecancel</code></td>
+<td>Stream a byte-range over the dataplane (any size) / cancel it.</td>
+</tr>
+<tr>
+<td><code>removefile</code> / <code>clearrepo</code></td>
+<td>Remove one file / wipe a repo (disk + catalog).</td>
+</tr>
+<tr>
+<td><code>repolistin</code> / <code>repoconfirm</code></td>
+<td>Directory-sync consumer side / handshake ack.</td>
+</tr>
+<tr>
+<td><code>getscandir</code></td>
+<td>Report the configured scan directory.</td>
+</tr>
+<tr>
+<td><code>getmetrics</code></td>
+<td>Central metrics — see <a href="#observability">Observability</a>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration-read">Configuration read<a class="headerlink" href="#configuration-read" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scan_dir</code></td>
+<td><em>(unset)</em></td>
+<td>Directory to watch/catalog (producer mode).</td>
+</tr>
+<tr>
+<td><code>filerepo_name</code></td>
+<td><em>(unset)</em></td>
+<td>Logical repo name for mesh discovery/sync.</td>
+</tr>
+<tr>
+<td><code>enable_scan</code></td>
+<td><code>true</code></td>
+<td>Enable the periodic scan.</td>
+</tr>
+<tr>
+<td><code>scan_delay</code> / <code>scan_period</code></td>
+<td><code>5000</code> / <code>15000</code> ms</td>
+<td>First-scan delay / scan interval.</td>
+</tr>
+<tr>
+<td><code>repo_dir</code></td>
+<td><code>filerepo</code></td>
+<td>Repo directory for on-demand/consumer storage.</td>
+</tr>
+<tr>
+<td><code>max_inline_bytes</code></td>
+<td><code>524288</code> (512 KB)</td>
+<td>Max file size returned inline by <code>getfile</code>/<code>getjar</code>.</td>
+</tr>
+<tr>
+<td><code>stream_buffer_size</code></td>
+<td><code>262144</code> (256 KB)</td>
+<td>Default streamfile chunk size (hard-capped at 768 KB).</td>
+</tr>
+<tr>
+<td><code>transfer_threads</code></td>
+<td><code>8</code></td>
+<td>Max concurrent streamfile transfers (bounded pool).</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="../../getting-started/configuration/">Configuration</a>.</p>
+<h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>clientlib</code> (Java) + <code>pycrescolib</code> (Python): <code>get_capability_inventory(scope=…)</code> → the tool catalog.</li>
-<li><strong><code>run/tests/mcp_tool_runner.py</code> (TEST, not a bundle):</strong> loads the catalog, exposes each descriptor as
-  an MCP/LLM tool, and on invocation builds+routes the MsgEvent from the <code>binding</code> block and returns the
-  parsed reply — proving an LLM can drive Cresco from the catalog alone.</li>
+<li><strong>Metrics</strong> — <code>getmetrics</code> exposes <code>MeasurementEngine</code> gauges <code>filerepo.files.count</code> (catalog size)
+  and <code>filerepo.active.transfers</code> (in-flight <code>streamfile</code> count); aggregated by the controller's
+  <code>getmetricinventory</code>. See <a href="../../architecture/metrics/#plugin-filerepo">Metrics &amp; Measurements</a>.</li>
+<li><strong>Health</strong> — registers the <code>filerepo</code> Felix HealthCheck (tag <code>local</code>), discovered by the
+  controller's health executor: reports the catalog size and verifies the repo dir is writable
+  (<code>WARN</code> if not). See <a href="../../architecture/health/#plugin-checks">Health &amp; State</a>.</li>
 </ul>
-<h2 id="6-drift-protection">6. Drift protection<a class="headerlink" href="#6-drift-protection" title="Permanent link">&para;</a></h2>
-<p>A test (<code>CapabilityDrift</code>) reflects each executor's <code>switch</code> cases (via source scan or a declared case
-list) and asserts a 1:1 match with <code>@CrescoAction</code> names — the inventory can never silently lie.</p>
-<h2 id="7-phasing">7. Phasing<a class="headerlink" href="#7-phasing" title="Permanent link">&para;</a></h2>
-<p>P0 library package · P1 controller tiers · P2 plugins · P3 OSGi scan · P4 clients + drift test + docs ·
-P5 MCP tool-runner test · Proof mesh test (pull catalog → validate tool JSON → invoke an action using
-only its descriptor). All additive, gated by <code>capabilities_enabled</code> (default on for read; no behavior
-change to existing actions).</p>
-<h2 id="8-verification">8. Verification<a class="headerlink" href="#8-verification" title="Permanent link">&para;</a></h2>
-<p><code>run/tests/capability_inventory_test.sh</code>: bring up global+region+agent, pull <code>getcapabilityinventory</code>
-(scope=global), assert (a) it's well-formed Anthropic-tool JSON for every bundle+tier, (b) counts match
-the known action surface, (c) the MCP runner invokes a described action (e.g. <code>listagents</code>) purely from
-its descriptor and gets the documented return. No regression to metrics/security/startup suites.
-</content></p>
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../repo/">repo</a> — the plugin-JAR-specialized sibling repository.</li>
+<li><a href="../../api/plugin-actions/#filerepo-plugin">Plugin Actions</a> — the full action table.</li>
+<li><a href="../../architecture/dataplane/">Data Plane</a> — how <code>streamfile</code> chunks ride the mesh.</li>
+</ul>
 
 
 

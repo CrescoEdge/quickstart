@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../repo/">
+        <link rel="prev" href="../filerepo/">
       
       
         <link rel="next" href="../wsapi/">
@@ -1155,6 +1155,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../filerepo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    filerepo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1284,6 +1312,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1346,6 +1385,34 @@
     
   
     stunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../executor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    executor
   
 
     
@@ -2342,6 +2409,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2496,6 +2574,16 @@
 <p>See <a href="../../getting-started/configuration/">Configuration</a>.</p>
 <h2 id="where-it-fits">Where it fits<a class="headerlink" href="#where-it-fits" title="Permanent link">&para;</a></h2>
 <p>The <a href="../controller/">controller</a>'s <code>PerfControllerMonitor</code> serves on-demand region/agent/plugin resource queries by RPCing <code>getsysinfo</code> to <code>io.cresco.sysinfo</code>. The plugin is therefore the authoritative source of a host's resource picture, both pushed (via the data-plane sampler) and pulled (via the controller's <code>getMetrics</code>/<code>getSysInfo</code> path).</p>
+<h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Metrics</strong> — <code>getmetrics</code> exposes <strong>30 <code>MeasurementEngine</code> gauges</strong> across the <code>processor</code>,
+  <code>memory</code>, <code>disk</code>, <code>network</code>, <code>sensors</code>, <code>power</code>, <code>system</code>, <code>gpu</code>, and <code>devices</code> groups (CPU load,
+  RAM, disk/NIC I/O, temperature, battery, uptime, and more), aggregated by <code>getmetricinventory</code>.
+  Every gauge, its OSHI source, and its meaning is catalogued in
+  <a href="../../architecture/metrics/#plugin-sysinfo-host-telemetry-richest-set">Metrics &amp; Measurements › sysinfo</a>.</li>
+<li><strong>Health</strong> — registers the <code>sysinfo</code> Felix HealthCheck (tag <code>local</code>): OK while host telemetry is
+  being served. See <a href="../../architecture/health/#plugin-checks">Health &amp; State</a>.</li>
+</ul>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../architecture/metrics/">Metrics &amp; Measurements</a> — how sysinfo feeds the measurement subsystem.</li>
