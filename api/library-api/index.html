@@ -1453,6 +1453,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="PluginBuilder — the plugin&#39;s handle to the fabric">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#message-factories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message factories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1515,6 +1532,17 @@
     <span class="md-ellipsis">
       
         Capability annotations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exported-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exported packages
       
     </span>
   </a>
@@ -2340,6 +2368,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="PluginBuilder — the plugin&#39;s handle to the fabric">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#message-factories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message factories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2408,6 +2453,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#exported-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exported packages
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2457,15 +2513,57 @@ messaging, RPC, and services.</p>
 </tr>
 <tr>
 <td>Messaging</td>
-<td><code>msgIn(MsgEvent)</code>, <code>msgOut(MsgEvent)</code>, <code>sendRPC(MsgEvent, timeoutMs)</code></td>
-</tr>
-<tr>
-<td>Message factories</td>
-<td><code>getGlobalControllerMsgEvent(type)</code>, <code>getRegionalControllerMsgEvent(type)</code>, <code>getAgentMsgEvent(type)</code>, <code>getKPIMsgEvent()</code></td>
+<td><code>msgIn(MsgEvent)</code>, <code>msgOut(MsgEvent)</code>, <code>sendRPC(MsgEvent)</code></td>
 </tr>
 <tr>
 <td>Services</td>
-<td>access to <code>AgentService</code> / <code>DataPlaneService</code></td>
+<td><code>getAgentService()</code> → <code>AgentService</code> (→ <code>getDataPlaneService()</code>), <code>getCrescoMeterRegistry()</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="message-factories">Message factories<a class="headerlink" href="#message-factories" title="Permanent link">&para;</a></h3>
+<p><code>PluginBuilder</code> builds a correctly-addressed, correctly-scoped <code>MsgEvent</code> for you — one factory per
+(tier × target). Pass a <a href="../msgevent/"><code>MsgEvent.Type</code></a> and, for the non-controller targets, the
+destination identity:</p>
+<table>
+<thead>
+<tr>
+<th>Factory</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getGlobalControllerMsgEvent(type)</code></td>
+<td>the global controller</td>
+</tr>
+<tr>
+<td><code>getGlobalAgentMsgEvent(type, region, agent)</code></td>
+<td>a specific agent, routed via global</td>
+</tr>
+<tr>
+<td><code>getGlobalPluginMsgEvent(type, region, agent, plugin)</code></td>
+<td>a specific plugin, routed via global</td>
+</tr>
+<tr>
+<td><code>getRegionalControllerMsgEvent(type)</code></td>
+<td>this node's region controller</td>
+</tr>
+<tr>
+<td><code>getRegionalAgentMsgEvent(type, region, agent)</code></td>
+<td>an agent in this region</td>
+</tr>
+<tr>
+<td><code>getRegionalPluginMsgEvent(type, region, agent, plugin)</code></td>
+<td>a plugin in this region</td>
+</tr>
+<tr>
+<td><code>getAgentMsgEvent(type)</code></td>
+<td>this agent's controller</td>
+</tr>
+<tr>
+<td><code>getKPIMsgEvent()</code></td>
+<td>the KPI/metrics sink</td>
 </tr>
 </tbody>
 </table>
@@ -2487,7 +2585,10 @@ In brief: a typed message (<code>EXEC</code>, <code>CONFIG</code>, <code>INFO</c
 list. Build one from a <code>PluginBuilder</code> factory, set params (including <code>action</code> for a plugin
 <a href="../plugin-actions/">action</a>), and <code>msgOut()</code> or <code>sendRPC()</code> it.</p>
 <h2 id="dataplaneservice-streaming">DataPlaneService — streaming<a class="headerlink" href="#dataplaneservice-streaming" title="Permanent link">&para;</a></h2>
-<p>The pub/sub streaming interface; see <a href="../../architecture/dataplane/">Data Plane</a> for concepts.</p>
+<p>The pub/sub streaming interface (<code>io.cresco.library.data.DataPlaneService</code>); see
+<a href="../../architecture/dataplane/">Data Plane</a> for concepts. Reached via
+<code>plugin.getAgentService().getDataPlaneService()</code>.</p>
+<p><strong>Subscribe / publish</strong></p>
 <table>
 <thead>
 <tr>
@@ -2497,24 +2598,71 @@ list. Build one from a <code>PluginBuilder</code> factory, set params (including
 </thead>
 <tbody>
 <tr>
-<td><code>addMessageListener(TopicType, MessageListener, selector)</code></td>
+<td><code>addMessageListener(TopicType, MessageListener, selector)</code> → <code>String id</code></td>
 <td>subscribe to a scope with an optional JMS selector</td>
+</tr>
+<tr>
+<td><code>addMessageListener(TopicType, MessageListener, selector, int shard)</code></td>
+<td>subscribe on a specific shard (for high-throughput streams)</td>
+</tr>
+<tr>
+<td><code>removeMessageListener(String id)</code></td>
+<td>unsubscribe</td>
 </tr>
 <tr>
 <td><code>sendMessage(TopicType, Message)</code></td>
 <td>publish to a scope</td>
 </tr>
 <tr>
-<td><code>createTextMessage(...)</code> / <code>createBytesMessage(...)</code></td>
-<td>build messages</td>
+<td><code>sendMessage(TopicType, Message, int deliveryMode, int priority, int timeToLive)</code></td>
+<td>publish with JMS delivery options</td>
 </tr>
 <tr>
-<td><code>removeMessageListener(id)</code></td>
-<td>unsubscribe</td>
+<td><code>sendMessage(TopicType, Message, int deliveryMode, int priority, int timeToLive, int shard)</code></td>
+<td>publish to a specific shard</td>
+</tr>
+<tr>
+<td><code>sendMessage(MsgEvent.Type, TopicType, Message)</code></td>
+<td>publish with an explicit message type</td>
+</tr>
+<tr>
+<td><code>shardFor(String routingKey)</code> → <code>int</code></td>
+<td>deterministic shard for a stream/routing key (pair with the sharded overloads)</td>
+</tr>
+<tr>
+<td><code>isFaultURIActive()</code> → <code>boolean</code></td>
+<td>is this node's messaging-plane connection up (the signal behind the <code>dataplane</code> health check)</td>
 </tr>
 </tbody>
 </table>
-<p><code>TopicType</code> is <code>AGENT</code>, <code>REGION</code>, or <code>GLOBAL</code>.</p>
+<p><strong>Message factories</strong> (all no-arg unless noted)</p>
+<p><code>createTextMessage()</code>, <code>createBytesMessage()</code>, <code>createMapMessage()</code>, <code>createObjectMessage()</code>,
+<code>createStreamMessage()</code>, <code>createMessage()</code>, <code>createMessage(InputStream)</code>, and
+<code>getInputMessageStream(Message)</code> to read a streamed message back.</p>
+<p><strong>Embedded CEP</strong> (Complex-Event-Processing over dataplane streams; the engine runs in the controller)</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createCEP(inputSchema, inputStream, outputStream, outputAttributes, query)</code> → <code>String cepId</code></td>
+<td>register a Siddhi streaming query</td>
+</tr>
+<tr>
+<td><code>inputCEP(streamName, jsonPayload)</code></td>
+<td>feed one event into a CEP input stream</td>
+</tr>
+<tr>
+<td><code>removeCEP(String cepId)</code> → <code>boolean</code></td>
+<td>tear a query down</td>
+</tr>
+</tbody>
+</table>
+<p><code>TopicType</code> is <code>AGENT</code> (node-local), <code>REGION</code>, or <code>GLOBAL</code> (mesh-reachable via wsapi).</p>
 <h2 id="measurementengine-metrics">MeasurementEngine — metrics<a class="headerlink" href="#measurementengine-metrics" title="Permanent link">&para;</a></h2>
 <p>Register and update metrics; see <a href="../../architecture/metrics/">Metrics &amp; Measurements</a>.</p>
 <table>
@@ -2573,8 +2721,54 @@ list. Build one from a <code>PluginBuilder</code> factory, set params (including
 </tbody>
 </table>
 <h2 id="capability-annotations">Capability annotations<a class="headerlink" href="#capability-annotations" title="Permanent link">&para;</a></h2>
-<p>Plugin actions are declared with <code>@CrescoAction</code> (and <code>@CrescoParam</code> / <code>@CrescoReturn</code>), which makes them
-self-describing and aggregatable into the fabric-wide <a href="../plugin-actions/">capability inventory</a>.</p>
+<p>Under <code>io.cresco.library.capability</code>. Actions are declared with annotations that make a plugin
+self-describing and aggregatable into the fabric-wide <a href="../plugin-actions/">capability inventory</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>On</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@CrescoCapabilities</code></td>
+<td>the Executor class</td>
+<td>declares the plugin's <code>namespace</code>, <code>target</code>, routing params, and summary</td>
+</tr>
+<tr>
+<td><code>@CrescoActions</code></td>
+<td>the Executor class</td>
+<td>container holding the <code>@CrescoAction</code> list</td>
+</tr>
+<tr>
+<td><code>@CrescoAction</code></td>
+<td>(inside <code>@CrescoActions</code>)</td>
+<td>one callable action — <code>name</code>, <code>type</code>, <code>summary</code>, <code>why</code></td>
+</tr>
+<tr>
+<td><code>@CrescoParam</code></td>
+<td>inside <code>@CrescoAction</code></td>
+<td>one action parameter — name, required, type, description</td>
+</tr>
+<tr>
+<td><code>@CrescoReturn</code></td>
+<td>inside <code>@CrescoAction</code></td>
+<td>one reply field — name, type, description, <code>compressed</code></td>
+</tr>
+</tbody>
+</table>
+<p>At runtime <code>CapabilityResponder.respond(incoming, this)</code> answers the <code>getcapabilities</code> action by
+scanning these annotations (<code>CapabilityScanner</code>) into a <code>CapabilityDocument</code>; the controller's
+<code>getcapabilityinventory</code> aggregates every plugin's document into one tool catalog. Versions come from
+the OSGi manifest — never hard-coded.</p>
+<h2 id="exported-packages">Exported packages<a class="headerlink" href="#exported-packages" title="Permanent link">&para;</a></h2>
+<p>The <code>library</code> bundle exports the whole <code>io.cresco.library.*</code> API — <code>agent</code> (<code>AgentService</code>),
+<code>plugin</code> (<code>PluginBuilder</code>, <code>Config</code>, <code>PluginService</code>, <code>Executor</code>), <code>messaging</code> (<code>MsgEvent</code>),
+<code>data</code> (<code>DataPlaneService</code>, <code>TopicType</code>), <code>metrics</code> (<code>MeasurementEngine</code>, <code>CMetric</code>), <code>capability</code>,
+<code>security</code>, <code>core</code>, <code>app</code>, and <code>utilities</code> (<code>CLogger</code>) — plus the shared embedded runtime it
+re-exports for plugins (Guava, jakarta.jms, Micrometer, Siddhi). See <a href="../../plugins/library/">library</a>.</p>
 
 
 
