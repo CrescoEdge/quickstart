@@ -730,6 +730,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../architecture/dynamic-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Cost-Aware Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/dataplane/" class="md-nav__link">
         
   
@@ -2710,6 +2738,7 @@
 <p><strong>Health</strong> is a separate Felix Health Check subsystem, distinct from state. <code>CrescoHealthExecutor</code> schedules <code>HealthCheck</code> services and debounces their verdicts (grace/sticky). <code>LocalHealthChecks</code> register the broker/dataplane/DB/disk/memory/plugin <strong>and <code>cep</code></strong> checks (the <code>cep</code> check monitors the embedded in-process Siddhi engine, whose active-query count is also exported as the <code>cep.queries.active</code> metric); <code>LinkHealthChecks</code> verdict the parent link; <code>MeshHealthChecks</code> roll up children's health carried on the ping/pong. Every deployed plugin additionally registers its own <code>local</code>-tagged check (executor/filerepo/repo/sysinfo/wsapi/stunnel), discovered by the same executor. The whole set is queryable over the <code>gethealthinventory</code> action — the parallel of <code>getmetricinventory</code>. Only a sustained <code>link:parent</code> → <code>CRITICAL</code> drives a state-machine transition, via the one-directional <code>HealthMinaBridge</code>. See <a href="../../architecture/health/">Health &amp; State</a>.</p>
 <h3 id="netmetrics-measurement">netmetrics &amp; measurement<a class="headerlink" href="#netmetrics-measurement" title="Permanent link">&para;</a></h3>
 <p><code>PerfControllerMonitor</code> registers Micrometer JVM/system meters into the shared <code>MeasurementEngine</code> and serves on-demand resource/KPI queries (RPC <code>getsysinfo</code> to <a href="../sysinfo/">sysinfo</a>). <code>PerfMonitorNet</code> pushes network-discovery topology as a compressed KPI <code>MsgEvent</code>. See <a href="../../architecture/metrics/">Metrics &amp; Measurements</a>.</p>
+<p>The <code>netmetrics</code> package also hosts <a href="../../architecture/dynamic-routing/">cost-aware routing</a>: <code>LinkMetrics</code>/<code>LinkMetricsRegistry</code> (per-edge smoothed RTT + composite cost), <code>AutoTuner</code> (the control loop that scales bridge connectors and drives advertising), <code>RouteAdvertiser</code>/<code>RouteView</code> (link-state pushed over the data plane and assembled into a mesh-wide graph), <code>RouteComputer</code> (Dijkstra path + waypoint stack), <code>PathTable</code> (per-peer direct-vs-via-global choice with hysteresis), and <code>NetworkStateJson</code> (live topology for the dashboard). <code>RegionHealthWatcher</code> runs the probe/infer/verify loop and <code>MsgRouter</code> enforces the chosen path and relays transit traffic.</p>
 <h3 id="data-the-data-plane">data — the data plane<a class="headerlink" href="#data-the-data-plane" title="Permanent link">&para;</a></h3>
 <p><code>DataPlaneServiceImpl</code> is the concrete <code>DataPlaneService</code>: agent/region/global JMS topics, QoS classification, Siddhi CEP creation, and chunked file transfer (5 MB parts, MD5-verified). <code>CEPEngine</code>/<code>CEPInstance</code> bridge a data-plane input listener to a Siddhi runtime and republish results. See <a href="../../architecture/dataplane/">Data Plane</a>.</p>
 <h2 id="key-configuration">Key configuration<a class="headerlink" href="#key-configuration" title="Permanent link">&para;</a></h2>

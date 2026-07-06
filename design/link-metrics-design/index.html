@@ -730,6 +730,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../architecture/dynamic-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Cost-Aware Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/dataplane/" class="md-nav__link">
         
   
@@ -2509,8 +2537,9 @@ re-measuring. The control loop (AutoTuner) also consumes them, and <strong>lives
   read at each tunnel bootstrap). <strong>Validated end-to-end:</strong> AutoTuner adapted block size 256KB→64KB
   from a measured 42 MB/s and both plugins logged <code>applyNetTuning readChunk=65536</code>.</li>
 <li><strong>Connections</strong> — <code>addBridgeConnections</code>/<code>removeBridgeConnections</code> scale the <strong>region↔region
-  federation</strong> bridge (validated for correctness; needs a multi-region mesh to validate throughput). The
-  <strong>agent→region</strong> funnel scales via per-shard dedicated connections (validated, +40%).</li>
+  federation</strong> bridge (validated for correctness; now exercised on a redundant multi-region mesh, where the
+  live connector count is advertised in link-state and feeds <a href="../../architecture/dynamic-routing/">cost-aware routing</a>).
+  The <strong>agent→region</strong> funnel scales via per-shard dedicated connections (validated, +40%).</li>
 <li><strong>Backlog</strong> — <code>ActiveBroker.getBrokerPendingBacklog()</code> reads DestinationViewMBean QueueSize in-process
   (JMX); the AutoTuner polls it onto the uplink each cycle.</li>
 </ul>
@@ -2532,9 +2561,11 @@ re-measuring. The control loop (AutoTuner) also consumes them, and <strong>lives
    peer's ping responder never answers. Validated on a live global+region mesh (bridge forms;
    <code>Link[global-region_global-controller]</code> srtt≈109–121 ms, samples&gt;150) and asserted by the suite's
    phase-2 (<code>federation:broker-bridge</code>, <code>federation:edge-rtt</code>).</li>
-<li><strong>DONE (gated)</strong> — cost model (<code>LinkMetrics.cost()</code>, <code>LinkMetricsRegistry.costOf/lowestCostEdge</code>) +
-   <code>MsgRouter</code> per-hop cost annotation (<code>net_cost_routing</code>). Actual min-cost SELECTION activates only
-   where redundant federation bridges exist (none in the strict tree) — the honest limit of this layer.</li>
+<li><strong>DONE + PROVEN</strong> — cost model (<code>LinkMetrics.cost()</code>, <code>LinkMetricsRegistry.costOf/lowestCostEdge</code>) +
+   <code>MsgRouter</code> per-hop cost annotation (<code>net_cost_routing</code>). Min-cost <strong>selection is now live</strong> on a
+   redundant multi-region mesh: <code>RouteComputer</code> runs Dijkstra over the pushed-link-state <code>RouteView</code> and
+   <code>MsgRouter</code> injects the chosen source route. Proven in the containerlab mesh with independent
+   receiver-side hop stamps. See <a href="../../architecture/dynamic-routing/">Dynamic Cost-Aware Routing</a>.</li>
 </ol>
 
 

@@ -16,7 +16,7 @@
         <link rel="prev" href="../overview/">
       
       
-        <link rel="next" href="../dataplane/">
+        <link rel="next" href="../dynamic-routing/">
       
       
         
@@ -836,6 +836,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Cost-Aware Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2445,10 +2473,14 @@ global? is the destination local?), then dispatches to one of a fixed set of for
 </tr>
 </tbody>
 </table>
-<p>Routing is <strong>single-path and metric-blind</strong> today: the message follows the tree (agent → region → global →
-region → agent). Loop safety is provided by a <strong>BrokerPath</strong> trail on each message plus a TTL cap. A
-performance-aware, multi-path evolution is designed in the
-<a href="../../reference/design-docs/">optimal global routing plan</a>.</p>
+<p>Loop safety is provided by a <strong>BrokerPath</strong> trail on each message plus a TTL cap.</p>
+<p>By default the message follows the tree (agent → region → global → region → agent). When
+<a href="../dynamic-routing/"><strong>cost-aware routing</strong></a> is enabled, <code>MsgRouter</code> additionally measures the real latency
+of candidate paths, learns a mesh-wide link-state graph pushed over the data plane, computes the
+lowest-latency path (Dijkstra), and <strong>injects a source-route waypoint stack at the origin</strong> so a flow can be
+steered onto a faster multi-hop path (e.g. <code>R1 → G → R2</code> around a slow direct link) instead of ActiveMQ's
+arbitrary default. Transit regions then <strong>relay</strong> the flow toward its destination. See
+<a href="../dynamic-routing/">Dynamic Cost-Aware Routing</a> for the full mechanism.</p>
 <div class="admonition note">
 <p class="admonition-title">Relays preserve, they do not re-address</p>
 <p>A message keeps its <code>(dst_region, dst_agent, dst_plugin)</code> end-to-end; each relay recomputes only the
@@ -2520,6 +2552,11 @@ or evicted by a flood. See the broker-performance design doc via <a href="../../
 <p>Request/response is built on MsgEvent: a sender sets a reply destination and blocks for the correlated
 reply (<code>PluginBuilder.sendRPC(msg, timeoutMs)</code>). The <a href="../../clients/overview/">client libraries</a> expose this
 as ordinary method calls.</p>
+<p>The wait is <strong>event-driven</strong>: each outstanding call registers a <code>CompletableFuture</code> keyed by its call id and
+the reply completes it directly (the no-timeout overload defaults to 30 s). An earlier implementation polled
+in 100 ms increments, which quantized every measured round-trip up to the next 100 ms boundary — harmless for
+ordinary RPC but fatal for the latency measurements that feed <a href="../dynamic-routing/">cost-aware routing</a>, where
+a 10 ms link must not read as ~100 ms.</p>
 
 
 

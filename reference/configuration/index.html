@@ -730,6 +730,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../architecture/dynamic-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Cost-Aware Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/dataplane/" class="md-nav__link">
         
   
@@ -3177,6 +3205,12 @@ subsystems on or off.</p>
 <td>Prefetch limit on each inter-broker bridge connector.</td>
 </tr>
 <tr>
+<td><code>broker_bridge_decrease_consumer_priority</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Decrease a bridged consumer's priority by hop count so ActiveMQ's demand-forwarding prefers the fewest-broker-hop (direct) path. This gives <a href="../../architecture/dynamic-routing/">cost-aware routing</a> a stable baseline to deliberately override when the direct link is the slow one.</td>
+</tr>
+<tr>
 <td><code>broker_tls_ready_probe</code></td>
 <td>boolean</td>
 <td><code>true</code></td>
@@ -3777,10 +3811,34 @@ buffer sizes used when auto-tuning is off.</p>
 <td>Configured uplink capacity (bits/s) used as a BDP cap; <code>0</code> = unknown.</td>
 </tr>
 <tr>
+<td><code>net_source_routing</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Carry and honor a source-route waypoint stack (<code>srcroute</code>) so a flow can be steered along a chosen multi-hop path. See <a href="../../architecture/dynamic-routing/">Dynamic Routing</a>.</td>
+</tr>
+<tr>
 <td><code>net_cost_routing</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
-<td>Annotate messages with link cost so routing can prefer lower-cost paths.</td>
+<td>Measure candidate-path latency, select the lowest-cost path (Dijkstra over the pushed link-state graph), and <strong>inject</strong> its route at the origin. Requires <code>net_source_routing</code> to enforce multi-hop paths.</td>
+</tr>
+<tr>
+<td><code>net_route_advertise_interval_sec</code></td>
+<td>int</td>
+<td><code>5</code></td>
+<td>How often each controller pushes its link-state advertisement onto the <code>GLOBAL</code> data-plane topic.</td>
+</tr>
+<tr>
+<td><code>net_route_stale_sec</code></td>
+<td>int</td>
+<td><code>20</code></td>
+<td>Age after which a silent node's advertisement is dropped from the mesh-wide <code>RouteView</code>.</td>
+</tr>
+<tr>
+<td><code>net_route_hysteresis_ms</code></td>
+<td>double</td>
+<td><code>10.0</code></td>
+<td>Margin (ms) by which an alternate path must beat the incumbent before the selection flips (anti-flap).</td>
 </tr>
 <tr>
 <td><code>net_metrics_log</code></td>

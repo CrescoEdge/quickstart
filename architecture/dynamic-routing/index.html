@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../../clients/python/">
+        <link rel="prev" href="../messaging/">
       
       
-        <link rel="next" href="../testing/">
+        <link rel="next" href="../dataplane/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Deployment - Cresco Documentation</title>
+        <title>Dynamic Cost-Aware Routing - Cresco Documentation</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#deployment" class="md-skip">
+        <a href="#dynamic-cost-aware-routing" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deployment
+              Dynamic Cost-Aware Routing
             
           </span>
         </div>
@@ -262,11 +262,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../architecture/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
           
   
   
@@ -342,13 +344,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../operations/deployment/" class="md-tabs__link">
           
   
   
@@ -619,26 +619,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -656,7 +661,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -674,7 +679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -702,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/messaging/" class="md-nav__link">
+      <a href="../messaging/" class="md-nav__link">
         
   
   
@@ -727,10 +732,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../architecture/dynamic-routing/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Cost-Aware Routing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -746,6 +778,186 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-activemq-alone-is-not-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why ActiveMQ alone is not enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-pieces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The pieces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-a-path-is-chosen-and-enforced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How a path is chosen and enforced
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How a path is chosen and enforced">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-measure-every-node-probes-its-neighbours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Measure — every node probes its neighbours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-share-link-state-is-pushed-over-the-data-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Share — link-state is PUSHED over the data plane
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-compute-dijkstra-over-the-learned-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Compute — Dijkstra over the learned graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-enforce-source-routing-at-the-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Enforce — source routing at the ingress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relaying-a-region-acts-as-a-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relaying: a region acts as a router
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-organizing-link-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-organizing link inference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic-link-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic link scaling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-this-is-proven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How this is proven
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -758,7 +970,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/dataplane/" class="md-nav__link">
+      <a href="../dataplane/" class="md-nav__link">
         
   
   
@@ -786,7 +998,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/discovery/" class="md-nav__link">
+      <a href="../discovery/" class="md-nav__link">
         
   
   
@@ -814,7 +1026,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/security/" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
         
   
   
@@ -842,7 +1054,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/tenancy/" class="md-nav__link">
+      <a href="../tenancy/" class="md-nav__link">
         
   
   
@@ -870,7 +1082,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/health/" class="md-nav__link">
+      <a href="../health/" class="md-nav__link">
         
   
   
@@ -898,7 +1110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/metrics/" class="md-nav__link">
+      <a href="../metrics/" class="md-nav__link">
         
   
   
@@ -1639,31 +1851,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1681,7 +1888,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1696,37 +1903,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Deployment
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../operations/deployment/" class="md-nav__link">
         
   
   
@@ -1742,92 +1922,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#topology-building-blocks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Topology building blocks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ports" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Ports
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#one-node-one-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        One node, one directory
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#securing-a-fabric" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Securing a fabric
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#multi-global-meshes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-global meshes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#operational-hygiene" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Operational hygiene
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1840,7 +1934,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../testing/" class="md-nav__link">
+      <a href="../../operations/testing/" class="md-nav__link">
         
   
   
@@ -2349,10 +2443,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#topology-building-blocks" class="md-nav__link">
+  <a href="#why-activemq-alone-is-not-enough" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Topology building blocks
+        Why ActiveMQ alone is not enough
       
     </span>
   </a>
@@ -2360,10 +2454,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ports" class="md-nav__link">
+  <a href="#the-pieces" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ports
+        The pieces
       
     </span>
   </a>
@@ -2371,10 +2465,82 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#one-node-one-directory" class="md-nav__link">
+  <a href="#how-a-path-is-chosen-and-enforced" class="md-nav__link">
     <span class="md-ellipsis">
       
-        One node, one directory
+        How a path is chosen and enforced
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How a path is chosen and enforced">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-measure-every-node-probes-its-neighbours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Measure — every node probes its neighbours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-share-link-state-is-pushed-over-the-data-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Share — link-state is PUSHED over the data plane
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-compute-dijkstra-over-the-learned-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Compute — Dijkstra over the learned graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-enforce-source-routing-at-the-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Enforce — source routing at the ingress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relaying-a-region-acts-as-a-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relaying: a region acts as a router
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-organizing-link-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-organizing link inference
       
     </span>
   </a>
@@ -2382,10 +2548,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#securing-a-fabric" class="md-nav__link">
+  <a href="#dynamic-link-scaling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Securing a fabric
+        Dynamic link scaling
       
     </span>
   </a>
@@ -2393,10 +2559,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#multi-global-meshes" class="md-nav__link">
+  <a href="#how-this-is-proven" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Multi-global meshes
+        How this is proven
       
     </span>
   </a>
@@ -2404,10 +2570,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#operational-hygiene" class="md-nav__link">
+  <a href="#observability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Operational hygiene
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
       
     </span>
   </a>
@@ -2434,107 +2622,232 @@
   
 
 
-<h1 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h1>
-<p>This page covers running Cresco beyond a single dev node: multi-host meshes, secured/multi-tenant fabrics,
-and operational hygiene. For first bring-up see the <a href="../../getting-started/quickstart/">Quickstart</a>.</p>
-<h2 id="topology-building-blocks">Topology building blocks<a class="headerlink" href="#topology-building-blocks" title="Permanent link">&para;</a></h2>
+<h1 id="dynamic-cost-aware-routing">Dynamic Cost-Aware Routing<a class="headerlink" href="#dynamic-cost-aware-routing" title="Permanent link">&para;</a></h1>
+<p>Cresco decides message paths <strong>itself</strong> — it does not defer path selection to ActiveMQ. Every controller
+learns a live, mesh-wide picture of link latency, computes the lowest-latency path to any destination, and
+enforces that path on real traffic. When a link slows down, when a faster alternative appears, or when two
+regions that were never wired together turn out to be reachable, the routing follows automatically.</p>
+<p>This page documents the shipped mechanism. It is the implementation of the
+<a href="../../design/optimal-global-routing-plan/">Optimal Global Routing plan</a> phases A/C/D (distributed-cost-first
+per deviation <strong>D1</strong>), plus a self-organizing link-inference capability beyond the original plan. It builds
+directly on the per-edge measurements in the <a href="../../design/link-metrics-design/">Network Link Metrics design</a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Gating flags</p>
+<p>The routing behaviours below are gated and can be enabled independently:
+<code>net_source_routing</code> (carry/honor a waypoint stack), <code>net_cost_routing</code> (measure, select, and inject the
+cheaper path), <code>net_autotune</code> (drive the advertise/probe/scale control loop). See the
+<a href="../../reference/configuration/#network-link-metrics-auto-tuning">Configuration reference</a>.</p>
+</div>
+<h2 id="why-activemq-alone-is-not-enough">Why ActiveMQ alone is not enough<a class="headerlink" href="#why-activemq-alone-is-not-enough" title="Permanent link">&para;</a></h2>
+<p>The <a href="../messaging/#federation-network-of-brokers">broker federation</a> resolves <em>reachability</em>: a
+demand-forwarded message will find <em>a</em> path to a subscriber. But ActiveMQ pins one arbitrary bridge per
+destination and never re-routes around a slow link or load-balances across alternatives. In a redundant mesh
+— say region <strong>R1</strong> reachable both directly and via the global <strong>G</strong> — that arbitrary choice is frequently
+the <em>worse</em> path, and nothing corrects it.</p>
+<p>Cresco corrects it. The controller measures the real cost of each candidate path and, at the message's
+origin, attaches the waypoint stack for the cheaper one. ActiveMQ still moves the bytes one broker hop at a
+time; <strong>Cresco decides which hops.</strong></p>
+<h2 id="the-pieces">The pieces<a class="headerlink" href="#the-pieces" title="Permanent link">&para;</a></h2>
+<p>All of the routing classes live in the controller's <code>netmetrics</code> package
+(<a href="../../plugins/controller/#netmetrics-measurement"><code>controller</code> plugin</a>).</p>
 <table>
 <thead>
 <tr>
-<th>You want</th>
-<th>Run</th>
-<th>Notes</th>
+<th>Class</th>
+<th>Role</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>A self-contained fabric</td>
-<td>one <strong>global</strong></td>
-<td>acts as its own region + agent; exposes wsapi <code>:8282</code></td>
+<td><code>LinkMetrics</code> / <code>LinkMetricsRegistry</code></td>
+<td>per-edge measured latency (Jacobson/Karels smoothed RTT), jitter, backlog, throughput, and the composite <code>cost()</code> — see <a href="../../design/link-metrics-design/">link-metrics design</a></td>
 </tr>
 <tr>
-<td>Scale within a site</td>
-<td>globals + <strong>regions</strong></td>
-<td>each region runs its own broker; agents attach locally, region federates up</td>
+<td><code>RouteAdvertiser</code></td>
+<td><strong>pushes</strong> this node's link-state onto the data plane and subscribes to every peer's</td>
 </tr>
 <tr>
-<td>Leaf workloads</td>
-<td><strong>agents</strong></td>
-<td>no broker; attach directly to a region's broker</td>
+<td><code>RouteView</code></td>
+<td>the mesh-wide link-state graph assembled from those pushed advertisements</td>
 </tr>
 <tr>
-<td>Redundancy / scale-out</td>
-<td>multiple <strong>globals</strong></td>
-<td>globals federate to each other (multi-global mesh)</td>
+<td><code>RouteComputer</code></td>
+<td>Dijkstra over the <code>RouteView</code>, weighted by measured RTT → lowest-latency path + waypoint stack</td>
+</tr>
+<tr>
+<td><code>PathTable</code></td>
+<td>per-peer direct-vs-via-global decision from explicit probing, with anti-flap hysteresis</td>
+</tr>
+<tr>
+<td><code>MsgRouter</code></td>
+<td>enforces the chosen path at ingress and relays transit traffic between regions</td>
+</tr>
+<tr>
+<td><code>RegionHealthWatcher</code></td>
+<td>the control loop: probes paths, infers new links, verifies computed routes</td>
+</tr>
+<tr>
+<td><code>NetworkStateJson</code></td>
+<td>serializes the live view for the <a href="#observability">dashboard / observability</a></td>
 </tr>
 </tbody>
 </table>
-<p>Each node needs a unique <code>regionname</code>/<code>agentname</code>. Regions and globals need reachable
-<a href="../../architecture/discovery/">discovery</a> + broker ports.</p>
-<h2 id="ports">Ports<a class="headerlink" href="#ports" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Port (default)</th>
-<th>Service</th>
-<th>Who needs it</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>32005</code></td>
-<td>discovery listener</td>
-<td>parents (region/global)</td>
-</tr>
-<tr>
-<td><code>32010</code></td>
-<td>ActiveMQ broker</td>
-<td>parents; children connect here</td>
-</tr>
-<tr>
-<td><code>8282</code></td>
-<td>wsapi (<code>wss://</code>)</td>
-<td>globals that serve clients</td>
-</tr>
-<tr>
-<td><code>8080</code></td>
-<td>Felix console / HTTP</td>
-<td>optional</td>
-</tr>
-</tbody>
-</table>
-<p>On a <strong>single host</strong>, give each node distinct <code>broker_port</code> / <code>netdiscoveryport</code> and its own working
-directory (the launch scripts do this — <code>run/nodes/&lt;region&gt;-&lt;agent&gt;/</code>).</p>
-<h2 id="one-node-one-directory">One node, one directory<a class="headerlink" href="#one-node-one-directory" title="Permanent link">&para;</a></h2>
-<p>Every node keeps on-disk state (Felix cache, Derby DB, ActiveMQ journal) under <code>cresco-data/</code> in its
-working directory. <strong>Two nodes must never share a directory</strong> or they corrupt each other's state. Run each
-from its own directory.</p>
-<h2 id="securing-a-fabric">Securing a fabric<a class="headerlink" href="#securing-a-fabric" title="Permanent link">&para;</a></h2>
-<p>Turn the security stack on in order (details in <a href="../../architecture/security/">Security</a> and
-<a href="../../architecture/tenancy/">Multi-Tenancy</a>); each step is flag-gated and can be staged region-by-region:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. shared join secrets + service key (fabric-wide, fixed)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>-Ddiscovery_secret_global<span class="o">=</span>...<span class="w"> </span>-Ddiscovery_secret_region<span class="o">=</span>...<span class="w"> </span>-Ddiscovery_secret_agent<span class="o">=</span>...
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>-Dcresco_service_key<span class="o">=</span>...
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 2. distributed trust</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>-Dsecurity_regional_ca<span class="o">=</span><span class="nb">true</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># 3. mutual TLS (non-spoofable identity)</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>-Dbroker_require_client_auth<span class="o">=</span><span class="nb">true</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># 4. tenant authorization + isolation</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>-Dbroker_security_enabled<span class="o">=</span><span class="nb">true</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>-Dtenant_namespacing<span class="o">=</span><span class="nb">true</span><span class="w"> </span>-Dtenant_id<span class="o">=</span>&lt;tenant&gt;
-</code></pre></div>
-<p>Validate each stage with the <a href="../testing/">test harnesses</a> before enabling the next.</p>
-<h2 id="multi-global-meshes">Multi-global meshes<a class="headerlink" href="#multi-global-meshes" title="Permanent link">&para;</a></h2>
-<p>Multiple globals can coexist and federate for redundancy and scale. On the same host, distinguish them with
-distinct ports (<code>global_controller_port</code> / <code>discovery_port_remote</code>) and stagger their launches so discovery
-settles. This has been exercised at mesh scale (see the <a href="../../reference/design-docs/">design docs</a>).</p>
-<h2 id="operational-hygiene">Operational hygiene<a class="headerlink" href="#operational-hygiene" title="Permanent link">&para;</a></h2>
+<h2 id="how-a-path-is-chosen-and-enforced">How a path is chosen and enforced<a class="headerlink" href="#how-a-path-is-chosen-and-enforced" title="Permanent link">&para;</a></h2>
+<h3 id="1-measure-every-node-probes-its-neighbours">1. Measure — every node probes its neighbours<a class="headerlink" href="#1-measure-every-node-probes-its-neighbours" title="Permanent link">&para;</a></h3>
+<p><code>RegionHealthWatcher</code> periodically times each neighbour with a lightweight <code>ping</code> action
+(<a href="../../api/plugin-actions/">plugin action</a>) and records the round-trip as the edge's smoothed RTT. It times
+several candidate paths to each connected region:</p>
 <ul>
-<li><strong>Reset state between test runs / after rebuilds:</strong> <code>rm -rf run/cresco-data run/nodes</code>.</li>
-<li><strong>Shut down cleanly:</strong> <code>run/stop.sh</code> (or <code>pkill -9 -f agent-1.3-SNAPSHOT.jar</code>).</li>
-<li><strong>Watch health:</strong> the <a href="../../architecture/health/">health</a> subsystem logs a periodic rollup; a stale
-  parent link self-heals via re-discovery.</li>
-<li><strong>Watch metrics:</strong> pull <code>getmetricinventory</code> at <code>region</code>/<code>global</code> scope for a mesh-wide view.</li>
+<li>the <strong>direct</strong> region↔region bridge,</li>
+<li>the <strong>via-global</strong> path (2-hop, forced with a source-route waypoint),</li>
+<li>and any <strong>steered</strong> multi-hop path the graph suggests.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">RTT must be measured, not polled</p>
+<p>RPC replies complete <strong>event-driven</strong> (a <code>CompletableFuture</code> per call), not on a 100 ms poll. The old
+poll quantized every measurement up to the next 100 ms boundary, so a 10 ms link read as ~100 ms and the
+cost model could not tell fast links from slow ones. See <a href="../messaging/#rpc">messaging → RPC</a>.</p>
+</div>
+<h3 id="2-share-link-state-is-pushed-over-the-data-plane">2. Share — link-state is PUSHED over the data plane<a class="headerlink" href="#2-share-link-state-is-pushed-over-the-data-plane" title="Permanent link">&para;</a></h3>
+<p>Each node's <code>RouteAdvertiser</code> publishes its own neighbour edges (smoothed RTT, composite cost, and the live
+AutoTuner connector count so <a href="#dynamic-link-scaling">dynamic scaling</a> shows up in the graph) plus its
+dialable addresses onto the <code>GLOBAL</code> <a href="../dataplane/#internal-use-link-state-advertisements">data-plane topic</a>,
+and subscribes to everyone else's. Every controller thus assembles the same mesh-wide <code>RouteView</code>.</p>
+<p>This is <strong>publish/subscribe, not an RPC fan-out</strong>. Metrics are pushed as they change; a pull that asked every
+node for its state on every routing decision would not scale. RPC stays reserved for configuration, queries,
+and one-time reconciliation. Advertisements are <code>NON_PERSISTENT</code>, lowest priority, and short-TTL, so they
+never sit in a queue, never compete with data traffic, and a missed one is simply refreshed next tick — and
+a node that goes silent ages out of the view.</p>
+<h3 id="3-compute-dijkstra-over-the-learned-graph">3. Compute — Dijkstra over the learned graph<a class="headerlink" href="#3-compute-dijkstra-over-the-learned-graph" title="Permanent link">&para;</a></h3>
+<p><code>RouteComputer</code> runs Dijkstra from this node to the destination over the <code>RouteView</code>, weighting each edge by
+its <strong>measured RTT</strong> — so the result is the genuinely lowest-latency path, not the fewest broker hops. The
+graph is treated as undirected (an advertised edge A→B implies B→A). For a destination two or more hops away
+it emits the waypoint stack <code>"region,agent;region,agent;…"</code>; for a trivial direct destination it returns
+nothing and lets default routing carry it.</p>
+<p><code>PathTable</code> holds the simpler per-peer direct-vs-via-global decision as a fast fallback and applies
+<strong>hysteresis</strong>: a path must beat the incumbent by a configurable margin
+(<code>net_route_hysteresis_ms</code>) before the selection flips, so a near-tie or a noisy sample cannot make the route
+flap.</p>
+<h3 id="4-enforce-source-routing-at-the-ingress">4. Enforce — source routing at the ingress<a class="headerlink" href="#4-enforce-source-routing-at-the-ingress" title="Permanent link">&para;</a></h3>
+<p><code>MsgRouter.maybeInjectCostRoute()</code> runs at the origin region. If this node originated the message, it is
+bound for another region, it carries no explicit route yet, and a cheaper path exists, the router attaches
+that waypoint stack (<code>srcroute</code> param; the head becomes the message's <code>forwardDst</code>). From there the
+source-routing machinery carries it:</p>
+<p><code>advanceSourceRoute()</code> runs at every hop. The <code>srcroute</code> param is an ordered <code>;</code>-separated stack of
+<code>region,agent</code> waypoints still to visit; the message's <code>forwardDst</code> is always the head, so ActiveMQ delivers
+it to that node because that node <strong>is</strong> the head. The node pops itself and:</p>
+<ul>
+<li>if waypoints remain → re-address <code>forwardDst</code> to the next waypoint and forward (one ActiveMQ leg);</li>
+<li>if the stack is now empty → restore the true destination, drop the routing headers, deliver locally.</li>
+</ul>
+<p>Only locally-originated traffic is steered (a transiting message is never re-injected, which would loop), the
+stack is length-capped, and the message's <code>BrokerPath</code> + TTL still bound total hops as defense-in-depth.</p>
+<h3 id="relaying-a-region-acts-as-a-router">Relaying: a region acts as a router<a class="headerlink" href="#relaying-a-region-acts-as-a-router" title="Permanent link">&para;</a></h3>
+<p>Steering a flow across <code>R1 → G → R2</code> requires <strong>G to relay</strong> traffic that is neither from nor for itself.
+<code>MsgRouter</code> resolves any message it cannot match to a static delivery case <strong>by destination</strong>: addressed to
+this node → deliver locally; addressed elsewhere → <strong>relay it toward its destination</strong>. That relay <em>is</em> the
+point of a bridge — a region forwarding other regions' traffic so the mesh can carry, and steer, cross-region
+flows.</p>
+<div class="admonition warning">
+<p class="admonition-title">Relaying is bounded, not an open relay</p>
+<p>Every message that reaches the relay path already arrived over an mTLS-authenticated, secret-gated broker
+bridge (trusted fabric traffic). It is forwarded only toward the destination named in its own header, and
+the TTL drops it past a hop bound so a loop cannot amplify. Which bridge a transit hop takes is the path
+lookup itself (gated by <code>net_source_routing</code> / the cost selector).</p>
+</div>
+<h2 id="self-organizing-link-inference">Self-organizing link inference<a class="headerlink" href="#self-organizing-link-inference" title="Permanent link">&para;</a></h2>
+<p>A computational mesh is not wired fully; it must <strong>learn who can connect</strong>. Because every advertisement
+carries the sender's dialable addresses, a node can discover that a region it was never configured to peer
+with is nonetheless reachable. <code>RegionHealthWatcher.inferConnections()</code> looks for a region it is
+(transitively) connected to but not <em>directly</em> linked to, learns its address from the <code>RouteView</code>, and — where
+physically possible — forms a direct bridge. It then probes the new link and <strong>adopts it only if it is
+faster</strong> than the incumbent path; the hysteresis rule keeps a marginal new link from causing churn.</p>
+<p>This was proven in the reference mesh: R1, with no configured peering to R4, learned R4's address from pushed
+link-state, formed a direct link, and adopted it (≈16 ms direct vs ≈44 ms via-global) — confirmed by R4's own
+receiver-side hop stamps showing zero transit hops.</p>
+<div class="admonition note">
+<p class="admonition-title">Not full mesh, and not region-under-region</p>
+<p>Inference adds <em>direct region↔region</em> links where they help; it does not force a full mesh, and it does
+not create control-hierarchy nesting (a region's controller still uplinks to a global — see the
+<a href="../../design/region-federation-design/">region federation design</a>).</p>
+</div>
+<h2 id="dynamic-link-scaling">Dynamic link scaling<a class="headerlink" href="#dynamic-link-scaling" title="Permanent link">&para;</a></h2>
+<p>Independently of path selection, the <a href="../../design/link-metrics-design/"><code>AutoTuner</code></a> scales the number of
+parallel bridge connectors on a link up or down with load (backlog / send-latency thresholds). That connector
+count is advertised as part of each edge's link-state, so capacity changes are visible in the <code>RouteView</code> and
+feed back into the cost picture. Scaling and routing are complementary: scaling adds throughput to a chosen
+link; routing chooses which link.</p>
+<h2 id="how-this-is-proven">How this is proven<a class="headerlink" href="#how-this-is-proven" title="Permanent link">&para;</a></h2>
+<p>The routing claims are validated with evidence that does <strong>not</strong> come from the node that made the decision:</p>
+<ul>
+<li><strong>Independent receiver stamps.</strong> Intermediate nodes stamp <code>srcroute-hop-*</code> params as a message transits
+  them; the destination logs the trail on <code>PING-RECEIVED</code>. An empty trail means a direct single-broker hop; a
+  trail naming the global proves the message physically went via-G — evidence written by other nodes, not the
+  sender.</li>
+<li><strong>Physics.</strong> A message cannot cross a 300 ms link in 30 ms. Latency measurements are cross-checked against
+  the <code>tc netem</code> delays injected per link in the simulation.</li>
+<li><strong>Causal intervention.</strong> Flipping or spiking a link's latency (via <code>netem</code>) and observing the path change
+  in the next probe cycle demonstrates the routing is reacting to the live metric, not a static config.</li>
+</ul>
+<p>See <a href="../../operations/testing/">Operations → Testing</a> and the
+<a href="../../operations/deployment/">containerlab simulation</a> for the reference mesh used to produce this evidence.</p>
+<h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
+<p><code>getnetworkstate</code> (<a href="../../api/plugin-actions/">plugin action</a>, served by <code>AgentExecutor</code>/<code>GlobalExecutor</code>)
+returns the live dynamic topology as JSON via <code>NetworkStateJson</code>: every fresh node, every advertised edge with
+its <code>rtt</code>/<code>cost</code>/<code>conns</code>, and the observer's own per-peer path choices. Invoked on the global — which receives
+every node's advertisement — it renders the whole mesh. A dashboard consumes this to show the learned graph,
+inferred links appearing, connector scaling, and path flips as they happen. Because the underlying transport
+is data-plane pub/sub, the same state can be <strong>streamed</strong> to a browser over the
+<a href="../../plugins/wsapi/">wsapi WebSocket bridge</a> rather than polled.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>net_source_routing</code></td>
+<td><code>false</code></td>
+<td>Carry and honor the <code>srcroute</code> waypoint stack (source routing).</td>
+</tr>
+<tr>
+<td><code>net_cost_routing</code></td>
+<td><code>false</code></td>
+<td>Measure path cost, select the cheaper path, and inject its route at ingress.</td>
+</tr>
+<tr>
+<td><code>net_route_advertise_interval_sec</code></td>
+<td><code>5</code></td>
+<td>How often each node pushes its link-state advertisement.</td>
+</tr>
+<tr>
+<td><code>net_route_stale_sec</code></td>
+<td><code>20</code></td>
+<td>Age after which a silent node's advertisement is dropped from the view.</td>
+</tr>
+<tr>
+<td><code>net_route_hysteresis_ms</code></td>
+<td><code>10.0</code></td>
+<td>Margin by which a path must beat the incumbent before the route flips.</td>
+</tr>
+<tr>
+<td><code>broker_bridge_decrease_consumer_priority</code></td>
+<td><code>true</code></td>
+<td>Make ActiveMQ default to the direct 1-hop bridge so the cost selector has a stable baseline to override.</td>
+</tr>
+</tbody>
+</table>
+<p>Full list in the <a href="../../reference/configuration/#network-link-metrics-auto-tuning">Configuration reference</a>.</p>
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../messaging/">Messaging &amp; Routing</a> — addressing, the forwarders, QoS tiers</li>
+<li><a href="../dataplane/">Data Plane</a> — the pub/sub transport link-state rides on</li>
+<li><a href="../../design/link-metrics-design/">Network Link Metrics &amp; Auto-Tuning</a> — the cost model and tuner</li>
+<li><a href="../../design/optimal-global-routing-plan/">Optimal Global Routing plan</a> — the design this implements</li>
 </ul>
 
 

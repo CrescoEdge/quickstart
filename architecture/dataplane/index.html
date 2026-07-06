@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../messaging/">
+        <link rel="prev" href="../dynamic-routing/">
       
       
         <link rel="next" href="../discovery/">
@@ -732,6 +732,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Cost-Aware Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -810,6 +838,17 @@
     <span class="md-ellipsis">
       
         Using it (from a plugin)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-use-link-state-advertisements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal use: link-state advertisements
       
     </span>
   </a>
@@ -2343,6 +2382,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#internal-use-link-state-advertisements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal use: link-state advertisements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#streaming-to-external-clients" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2459,6 +2509,17 @@ same-tenant cross-region flow still works.</p>
 </code></pre></div>
 <p>Selectors are JMS message selectors, letting subscribers filter by message properties without the broker
 delivering everything.</p>
+<h2 id="internal-use-link-state-advertisements">Internal use: link-state advertisements<a class="headerlink" href="#internal-use-link-state-advertisements" title="Permanent link">&para;</a></h2>
+<p>Cresco uses this same pub/sub channel for its own control signalling where a <strong>push</strong> fits better than an
+RPC pull. <a href="../dynamic-routing/">Cost-aware routing</a> rides the <code>GLOBAL</code> topic: each controller's
+<code>RouteAdvertiser</code> publishes its link-state (per-neighbour smoothed RTT, cost, connector count, and dialable
+addresses) with the message property <code>cresco_msg_type = 'route_lsa'</code>, and every controller subscribes with
+that JMS selector to assemble a mesh-wide <code>RouteView</code>.</p>
+<p>These advertisements are deliberately cheap: <code>NON_PERSISTENT</code>, lowest JMS priority, and a short time-to-live
+(a few advertise intervals), so they never queue, never compete with application data, and a dropped one is
+simply refreshed on the next tick. This is the canonical example of the design rule — <strong>metrics are pushed as
+they change (scales); routing state is never pulled per-decision (does not scale)</strong> — RPC is reserved for
+configuration, queries, and one-time reconciliation.</p>
 <h2 id="streaming-to-external-clients">Streaming to external clients<a class="headerlink" href="#streaming-to-external-clients" title="Permanent link">&para;</a></h2>
 <p>The <a href="../../plugins/wsapi/">wsapi</a> plugin bridges the data plane to external <a href="../../clients/overview/">clients</a>
 over WebSockets: a client opens a data-plane stream and receives topic messages as text or binary frames.
