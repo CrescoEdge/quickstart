@@ -91,6 +91,7 @@ nav:
       - Distributed Identity & Trust: design/distributed-identity-trust-design.md
       - Tenant Isolation: design/tenant-isolation-design.md
       - Optimal Global Routing: design/optimal-global-routing-plan.md
+      - Coordinator Decentralization: design/coordinator-decentralization-plan.md
       - Broker & Data-Plane Performance: design/broker-performance.md
       - Region Federation: design/region-federation-design.md
       - Network Link Metrics & Auto-Tuning: design/link-metrics-design.md
