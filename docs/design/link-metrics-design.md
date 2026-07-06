@@ -64,8 +64,9 @@ re-measuring. The control loop (AutoTuner) also consumes them, and **lives in th
   read at each tunnel bootstrap). **Validated end-to-end:** AutoTuner adapted block size 256KB→64KB
   from a measured 42 MB/s and both plugins logged `applyNetTuning readChunk=65536`.
 - **Connections** — `addBridgeConnections`/`removeBridgeConnections` scale the **region↔region
-  federation** bridge (validated for correctness; needs a multi-region mesh to validate throughput). The
-  **agent→region** funnel scales via per-shard dedicated connections (validated, +40%).
+  federation** bridge (validated for correctness; now exercised on a redundant multi-region mesh, where the
+  live connector count is advertised in link-state and feeds [cost-aware routing](../architecture/dynamic-routing.md)).
+  The **agent→region** funnel scales via per-shard dedicated connections (validated, +40%).
 - **Backlog** — `ActiveBroker.getBrokerPendingBacklog()` reads DestinationViewMBean QueueSize in-process
   (JMX); the AutoTuner polls it onto the uplink each cycle.
 
@@ -89,6 +90,8 @@ re-measuring. The control loop (AutoTuner) also consumes them, and **lives in th
    peer's ping responder never answers. Validated on a live global+region mesh (bridge forms;
    `Link[global-region_global-controller]` srtt≈109–121 ms, samples>150) and asserted by the suite's
    phase-2 (`federation:broker-bridge`, `federation:edge-rtt`).
-5. **DONE (gated)** — cost model (`LinkMetrics.cost()`, `LinkMetricsRegistry.costOf/lowestCostEdge`) +
-   `MsgRouter` per-hop cost annotation (`net_cost_routing`). Actual min-cost SELECTION activates only
-   where redundant federation bridges exist (none in the strict tree) — the honest limit of this layer.
+5. **DONE + PROVEN** — cost model (`LinkMetrics.cost()`, `LinkMetricsRegistry.costOf/lowestCostEdge`) +
+   `MsgRouter` per-hop cost annotation (`net_cost_routing`). Min-cost **selection is now live** on a
+   redundant multi-region mesh: `RouteComputer` runs Dijkstra over the pushed-link-state `RouteView` and
+   `MsgRouter` injects the chosen source route. Proven in the containerlab mesh with independent
+   receiver-side hop stamps. See [Dynamic Cost-Aware Routing](../architecture/dynamic-routing.md).

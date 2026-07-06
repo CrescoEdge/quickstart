@@ -139,6 +139,7 @@ Core embedded ActiveMQ broker settings — listener, transport, persistence, and
 | `broker_message_ttl` | int | `5` | Default message time-to-live, **in minutes**; expired messages are discarded. |
 | `broker_bridge_connections` | int | `1` | Number of parallel network-bridge connectors per remote peer broker (spreads load across sockets). |
 | `broker_bridge_prefetch` | int | `100` | Prefetch limit on each inter-broker bridge connector. |
+| `broker_bridge_decrease_consumer_priority` | boolean | `true` | Decrease a bridged consumer's priority by hop count so ActiveMQ's demand-forwarding prefers the fewest-broker-hop (direct) path. This gives [cost-aware routing](../architecture/dynamic-routing.md) a stable baseline to deliberately override when the direct link is the slow one. |
 | `broker_tls_ready_probe` | boolean | `true` | Probe the broker TLS listener for readiness before proceeding through the boot state machine. |
 | `broker_tls_ready_wait_ms` | long | `15000` | Maximum milliseconds to wait for the TLS listener to become ready when probing. |
 
@@ -303,7 +304,11 @@ buffer sizes used when auto-tuning is off.
 | `net_autotune_sendlat_low_ms` | double | `2.0` | Send-latency (ms) below which idle links are scaled down. |
 | `net_autotune_bdp_safety` | double | `3.0` | Bandwidth-delay-product multiplier used to size socket buffers with headroom. |
 | `net_link_speed_bps` | long | `0` | Configured uplink capacity (bits/s) used as a BDP cap; `0` = unknown. |
-| `net_cost_routing` | boolean | `false` | Annotate messages with link cost so routing can prefer lower-cost paths. |
+| `net_source_routing` | boolean | `false` | Carry and honor a source-route waypoint stack (`srcroute`) so a flow can be steered along a chosen multi-hop path. See [Dynamic Routing](../architecture/dynamic-routing.md). |
+| `net_cost_routing` | boolean | `false` | Measure candidate-path latency, select the lowest-cost path (Dijkstra over the pushed link-state graph), and **inject** its route at the origin. Requires `net_source_routing` to enforce multi-hop paths. |
+| `net_route_advertise_interval_sec` | int | `5` | How often each controller pushes its link-state advertisement onto the `GLOBAL` data-plane topic. |
+| `net_route_stale_sec` | int | `20` | Age after which a silent node's advertisement is dropped from the mesh-wide `RouteView`. |
+| `net_route_hysteresis_ms` | double | `10.0` | Margin (ms) by which an alternate path must beat the incumbent before the selection flips (anti-flap). |
 | `net_metrics_log` | boolean | `false` | Log detailed per-link network metrics each tuning cycle. |
 | `net_connections_per_link` | int | `1` | Initial number of concurrent bridge connections per remote link. |
 | `net_connections_min` | int | `1` | Floor on concurrent connections per link. |

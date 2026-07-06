@@ -1,10 +1,23 @@
 # Cresco — Optimal, Tenant-Aware, QoS-Enforced Global Routing — Implementation Plan
 
-**Date:** 2026-07-03
-**Status:** DRAFT / **planning only — execution ON HOLD until the metrics-unification merge lands**
-(per direction 2026-07-03). Re-baselines an external architecture report against Cresco's actual in-tree
-state and sequences the real remaining work. **No calendar/effort estimates here** — phases are a
-*dependency order*, not a schedule.
+**Date:** 2026-07-03 · **Updated:** 2026-07-06
+**Status:** PARTIALLY IMPLEMENTED. Phases **A** (redundant mesh + activate cost routing), **C** (route
+computation + per-class-capable path math), and **D** (source-routing data plane) have **shipped**, taking
+the *distributed-cost-first* path of deviation **D1** (each node builds a mesh-wide link-state view from
+**pushed** advertisements and runs Dijkstra locally, rather than a central FIB push) and adding a
+**self-organizing link-inference** capability beyond the original plan. See the shipped-feature reference:
+[Dynamic Cost-Aware Routing](../architecture/dynamic-routing.md). Phases **B** (tenant namespacing across
+bridges), **E** (per-tenant fairness), and **F** (joint routing/capacity) remain. Re-baselines an external
+architecture report against Cresco's actual in-tree state and sequences the real remaining work.
+**No calendar/effort estimates here** — phases are a *dependency order*, not a schedule.
+
+!!! success "Implemented 2026-07-06"
+    W1 (redundant mesh + `net_cost_routing` selection), W3 (route computation — distributed variant D1, via
+    pushed link-state `RouteView` + `RouteComputer` Dijkstra), W4 (source-routing data plane —
+    `net_source_routing`, `srcroute` waypoint stacks, `MsgRouter.advanceSourceRoute`), and W8's hysteresis
+    (`PathTable`, `net_route_hysteresis_ms`) are live and proven in the containerlab mesh. **New beyond the
+    plan:** self-organizing inference — a region learns an un-configured peer's address from link-state and
+    forms a direct link when it is faster (`RegionHealthWatcher.inferConnections`).
 **Siblings:** [`link-metrics-design.md`](link-metrics-design.md) (metrics/cost/tuning — *shipped*),
 [`distributed-identity-trust-design.md`](distributed-identity-trust-design.md) (identity/trust/tenant
 authz — *shipped through Phase 2*), [`region-federation-design.md`](region-federation-design.md),

@@ -20,7 +20,8 @@ knowledge lives in one place.
 
 | Document | Covers |
 |----------|--------|
-| [Optimal Global Routing Plan](../design/optimal-global-routing-plan.md) | performance-aware, tenant-aware, QoS-enforced multi-path routing (roadmap) |
+| [Dynamic Cost-Aware Routing](../architecture/dynamic-routing.md) | **shipped** — link-state push, Dijkstra path selection, source-route enforcement, self-organizing link inference |
+| [Optimal Global Routing Plan](../design/optimal-global-routing-plan.md) | the design/roadmap; phases A/C/D are now implemented (see the architecture page above), B/E/F remain |
 | [Broker & Data-Plane Performance](../design/broker-performance.md) | every broker/data-path performance change with measured effect and the config lever |
 | [Region Federation](../design/region-federation-design.md) | same-host region federation, identity-vs-IP self-detection |
 | [Network Link Metrics + Auto-Tuning](../design/link-metrics-design.md) | per-edge RTT/jitter/throughput/backlog, the auto-tuner control loop, the link cost model |

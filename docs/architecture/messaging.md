@@ -24,10 +24,15 @@ global? is the destination local?), then dispatches to one of a fixed set of for
 | `forwardToRemoteRegionalController` / `forwardToRemoteRegion` | across a broker to another region |
 | `forwardToLocalGlobal` / `forwardToRemoteGlobal` | up to / across to a global |
 
-Routing is **single-path and metric-blind** today: the message follows the tree (agent → region → global →
-region → agent). Loop safety is provided by a **BrokerPath** trail on each message plus a TTL cap. A
-performance-aware, multi-path evolution is designed in the
-[optimal global routing plan](../reference/design-docs.md).
+Loop safety is provided by a **BrokerPath** trail on each message plus a TTL cap.
+
+By default the message follows the tree (agent → region → global → region → agent). When
+[**cost-aware routing**](dynamic-routing.md) is enabled, `MsgRouter` additionally measures the real latency
+of candidate paths, learns a mesh-wide link-state graph pushed over the data plane, computes the
+lowest-latency path (Dijkstra), and **injects a source-route waypoint stack at the origin** so a flow can be
+steered onto a faster multi-hop path (e.g. `R1 → G → R2` around a slow direct link) instead of ActiveMQ's
+arbitrary default. Transit regions then **relay** the flow toward its destination. See
+[Dynamic Cost-Aware Routing](dynamic-routing.md) for the full mechanism.
 
 !!! note "Relays preserve, they do not re-address"
     A message keeps its `(dst_region, dst_agent, dst_plugin)` end-to-end; each relay recomputes only the
@@ -78,3 +83,9 @@ or evicted by a flood. See the broker-performance design doc via [Design Docs](.
 Request/response is built on MsgEvent: a sender sets a reply destination and blocks for the correlated
 reply (`PluginBuilder.sendRPC(msg, timeoutMs)`). The [client libraries](../clients/overview.md) expose this
 as ordinary method calls.
+
+The wait is **event-driven**: each outstanding call registers a `CompletableFuture` keyed by its call id and
+the reply completes it directly (the no-timeout overload defaults to 30 s). An earlier implementation polled
+in 100 ms increments, which quantized every measured round-trip up to the next 100 ms boundary — harmless for
+ordinary RPC but fatal for the latency measurements that feed [cost-aware routing](dynamic-routing.md), where
+a 10 ms link must not read as ~100 ms.

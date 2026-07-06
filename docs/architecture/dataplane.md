@@ -41,6 +41,20 @@ dp.sendMessage(TopicType.GLOBAL, dp.createTextMessage("payload"));
 Selectors are JMS message selectors, letting subscribers filter by message properties without the broker
 delivering everything.
 
+## Internal use: link-state advertisements
+
+Cresco uses this same pub/sub channel for its own control signalling where a **push** fits better than an
+RPC pull. [Cost-aware routing](dynamic-routing.md) rides the `GLOBAL` topic: each controller's
+`RouteAdvertiser` publishes its link-state (per-neighbour smoothed RTT, cost, connector count, and dialable
+addresses) with the message property `cresco_msg_type = 'route_lsa'`, and every controller subscribes with
+that JMS selector to assemble a mesh-wide `RouteView`.
+
+These advertisements are deliberately cheap: `NON_PERSISTENT`, lowest JMS priority, and a short time-to-live
+(a few advertise intervals), so they never queue, never compete with application data, and a dropped one is
+simply refreshed on the next tick. This is the canonical example of the design rule — **metrics are pushed as
+they change (scales); routing state is never pulled per-decision (does not scale)** — RPC is reserved for
+configuration, queries, and one-time reconciliation.
+
 ## Streaming to external clients
 
 The [wsapi](../plugins/wsapi.md) plugin bridges the data plane to external [clients](../clients/overview.md)

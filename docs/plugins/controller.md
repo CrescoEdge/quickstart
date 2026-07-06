@@ -81,6 +81,8 @@ Message dispatch is layered per role:
 
 `PerfControllerMonitor` registers Micrometer JVM/system meters into the shared `MeasurementEngine` and serves on-demand resource/KPI queries (RPC `getsysinfo` to [sysinfo](sysinfo.md)). `PerfMonitorNet` pushes network-discovery topology as a compressed KPI `MsgEvent`. See [Metrics & Measurements](../architecture/metrics.md).
 
+The `netmetrics` package also hosts [cost-aware routing](../architecture/dynamic-routing.md): `LinkMetrics`/`LinkMetricsRegistry` (per-edge smoothed RTT + composite cost), `AutoTuner` (the control loop that scales bridge connectors and drives advertising), `RouteAdvertiser`/`RouteView` (link-state pushed over the data plane and assembled into a mesh-wide graph), `RouteComputer` (Dijkstra path + waypoint stack), `PathTable` (per-peer direct-vs-via-global choice with hysteresis), and `NetworkStateJson` (live topology for the dashboard). `RegionHealthWatcher` runs the probe/infer/verify loop and `MsgRouter` enforces the chosen path and relays transit traffic.
+
 ### data — the data plane
 
 `DataPlaneServiceImpl` is the concrete `DataPlaneService`: agent/region/global JMS topics, QoS classification, Siddhi CEP creation, and chunked file transfer (5 MB parts, MD5-verified). `CEPEngine`/`CEPInstance` bridge a data-plane input listener to a Siddhi runtime and republish results. See [Data Plane](../architecture/dataplane.md).
