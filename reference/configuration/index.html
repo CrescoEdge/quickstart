@@ -1695,6 +1695,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#coordinator-decentralization-region-first-multi-global" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coordinator decentralization (region-first, multi-global)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#data-plane" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2713,6 +2724,17 @@
     <span class="md-ellipsis">
       
         Network link metrics &amp; auto-tuning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coordinator-decentralization-region-first-multi-global" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coordinator decentralization (region-first, multi-global)
       
     </span>
   </a>
@@ -3933,6 +3955,77 @@ buffer sizes used when auto-tuning is off.</p>
 <td>int</td>
 <td><code>2 MB</code></td>
 <td>Outbound-buffer high-water mark that triggers write backpressure.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="coordinator-decentralization-region-first-multi-global">Coordinator decentralization (region-first, multi-global)<a class="headerlink" href="#coordinator-decentralization-region-first-multi-global" title="Permanent link">&para;</a></h2>
+<p>Decompose the single static global into a region-first mesh with elected/sharded coordinators. All flags
+default to the prior single-static-global behaviour; see the
+<a href="../../design/coordinator-decentralization-plan/">Coordinator Decentralization plan</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>global_optional</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Region-first autonomy: a region comes up and peers with <strong>no global present</strong>, starting its discovery engine + peer maintenance immediately and bounding the global-join instead of blocking.</td>
+</tr>
+<tr>
+<td><code>global_connect_attempts</code></td>
+<td>int</td>
+<td><code>3</code></td>
+<td>With <code>global_optional</code>, how many times to try joining a global before settling into region-first <code>REGION</code> steady state.</td>
+</tr>
+<tr>
+<td><code>failure_phi_suspect</code></td>
+<td>double</td>
+<td><code>4.0</code></td>
+<td>φ-accrual suspicion at which SWIM indirect probing of a peer begins.</td>
+</tr>
+<tr>
+<td><code>failure_phi_dead</code></td>
+<td>double</td>
+<td><code>8.0</code></td>
+<td>φ-accrual suspicion at which (after SWIM also fails) a peer is concluded unreachable.</td>
+</tr>
+<tr>
+<td><code>failure_swim_k</code></td>
+<td>int</td>
+<td><code>2</code></td>
+<td>Number of other peers asked to indirect-probe a suspected peer (SWIM).</td>
+</tr>
+<tr>
+<td><code>coordinator_expected</code></td>
+<td>int</td>
+<td><code>0</code></td>
+<td>Stable coordinator-cluster size for quorum (2f+1). <code>0</code> = infer from the high-water mark. Set it to the intended count so a lone survivor cannot self-commit.</td>
+</tr>
+<tr>
+<td><code>coordinator_election_policy</code></td>
+<td>String</td>
+<td><code>identity</code></td>
+<td>Leader policy: <code>identity</code> (lowest coordinator path) or <code>centroid</code> (k-center: most central over the learned latency graph).</td>
+</tr>
+<tr>
+<td><code>coordinator_lease_sec</code></td>
+<td>int</td>
+<td><code>15</code></td>
+<td>Coordinator heartbeat/lease window; a coordinator silent this long drops from the live set.</td>
+</tr>
+<tr>
+<td><code>security_peer_federation</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Two independently-rooted regions cross-trust as <strong>equals</strong> (bilateral CA exchange, identity preserved) instead of one being subordinated under a common issuer — removes the need for a global as trust broker.</td>
 </tr>
 </tbody>
 </table>

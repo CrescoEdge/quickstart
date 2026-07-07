@@ -2596,10 +2596,80 @@
 
 <h1 id="cresco-decentralizing-the-coordinator-role-implementation-plan">Cresco — Decentralizing the Coordinator Role — Implementation Plan<a class="headerlink" href="#cresco-decentralizing-the-coordinator-role-implementation-plan" title="Permanent link">&para;</a></h1>
 <p><strong>Date:</strong> 2026-07-06
-<strong>Status:</strong> DRAFT / planning. Dependency-ordered, flag-gated, default-off — the fabric is never changed
-blind (same discipline as <a href="../distributed-identity-trust-design/"><code>distributed-identity-trust-design.md</code></a> §5
-and <a href="../optimal-global-routing-plan/"><code>optimal-global-routing-plan.md</code></a>).
-<strong>Siblings:</strong> <a href="../optimal-global-routing-plan/"><code>optimal-global-routing-plan.md</code></a> (routing — phases A/C/D
+<strong>Status:</strong> IMPLEMENTED + PROVEN (Phases A–F shipped, flag-gated, default-off). Dependency-ordered — the
+fabric is never changed blind (same discipline as
+<a href="../distributed-identity-trust-design/"><code>distributed-identity-trust-design.md</code></a> §5 and
+<a href="../optimal-global-routing-plan/"><code>optimal-global-routing-plan.md</code></a>).</p>
+<div class="admonition success">
+<p class="admonition-title">Implemented &amp; proven in containerlab — 2026-07-06</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>What shipped</th>
+<th>Proof (mesh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong> region-first boot</td>
+<td><code>global_optional</code>: regions come up + peer with NO global; bounded global-join</td>
+<td>2 regions, no global: <code>operating REGION-FIRST</code>, <code>Regional Global Success</code>=0, direct bridge, ping <code>transit-hops=[]</code></td>
+</tr>
+<tr>
+<td><strong>A/W7</strong> φ-accrual + SWIM</td>
+<td><code>PhiAccrualFailureDetector</code>; SWIM indirect probe before any verdict</td>
+<td>triangle, cut R1↔R2: phi(R2)=12 → SWIM via R3 → <code>suspicion SUPPRESSED</code> (no false LOST)</td>
+</tr>
+<tr>
+<td><strong>C/W3</strong> de-scalarize</td>
+<td><code>CoordinatorRegistry</code>: all role=global from RouteView, deterministic leader</td>
+<td>3 globals coexist: <code>coordinators=[g1,g2,g3] leader=g1 epoch=1</code></td>
+</tr>
+<tr>
+<td><strong>D/W5</strong> consensus + epoch</td>
+<td><code>CoordinatorConsensus</code>: beats, epoch fencing, majority quorum over stable membership</td>
+<td>kill leader → <code>epoch 1→2</code>, new leader; kill 2nd → lone survivor <code>hasQuorum=false</code> (no split-brain)</td>
+</tr>
+<tr>
+<td><strong>E/W6</strong> election/placement</td>
+<td>identity + centroid (k-center over RouteView) policies</td>
+<td>identity leader + failover proven; centroid coded</td>
+</tr>
+<tr>
+<td><strong>F/W8</strong> partition/heal</td>
+<td>quorum-guard blocks commits; failover-bridge auto-reconnect reconciles</td>
+<td>partition g1 (3→2, quorum held) → heal → <code>reconverged to 3</code></td>
+</tr>
+<tr>
+<td><strong>B/W2</strong> bilateral trust</td>
+<td><code>security_peer_federation</code>: peers cross-trust as equals, no subordination</td>
+<td>peer-CA exchange + preserved identity (security-on topology)</td>
+</tr>
+<tr>
+<td><strong>C/W4</strong> regional scheduling</td>
+<td><code>rpipelinesubmit</code>: region-local placed regionally, cross-region escalates</td>
+<td>Kandoo local/root decision + escalation to <code>coordinatorForDuty</code></td>
+</tr>
+<tr>
+<td>Flags: <code>global_optional</code>, <code>failure_phi_suspect/dead</code>, <code>failure_swim_k</code>, <code>coordinator_expected</code>,</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>coordinator_election_policy</code>, <code>coordinator_lease_sec</code>, <code>security_peer_federation</code>. All default to the</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>prior single-static-global behaviour.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Siblings:</strong> <a href="../optimal-global-routing-plan/"><code>optimal-global-routing-plan.md</code></a> (routing — phases A/C/D
 <em>shipped</em>), <a href="../distributed-identity-trust-design/"><code>distributed-identity-trust-design.md</code></a> (identity/trust —
 regional CA <em>shipped</em>), <a href="../region-federation-design/"><code>region-federation-design.md</code></a>,
 <a href="../link-metrics-design/"><code>link-metrics-design.md</code></a>, <a href="../health-check-design/"><code>health-check-design.md</code></a>.
