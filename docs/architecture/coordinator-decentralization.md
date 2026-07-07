@@ -83,11 +83,42 @@ Region-local operation and single-writer placement stay available (yield 100%); 
 without a quorum (consistency over availability, no split-brain); membership/directory reads serve reduced
 harvest; on heal, the coordinator set and directory reconverge automatically.
 
-## Configuration
+## Observability
 
-`global_optional`, `global_connect_attempts`, `failure_phi_suspect`, `failure_phi_dead`, `failure_swim_k`,
-`coordinator_expected`, `coordinator_election_policy`, `coordinator_lease_sec`, `security_peer_federation` —
-see the [Configuration reference](../reference/configuration.md#coordinator-decentralization-region-first-multi-global).
+Two actions expose the live state (both served by the global's `GlobalExecutor` and by `AgentExecutor`):
+
+- **`getnetworkstate`** — the pushed RouteView graph (every node, every edge with rtt/cost/connectors) plus
+  this node's path choices.
+- **`getcoordinators`** — the coordinator set, elected leader, epoch, and `live / quorum` (with
+  `has_quorum` and the stale-epoch fence count).
+
+The **[live mesh dashboard](https://github.com/CrescoEdge/dashboard)** (standalone `pycrescolib` visualizer)
+renders these: a topology graph with the agent → region → global hierarchy, and a **Globals** tab showing the
+full coordinator set, leader (★), epoch, and quorum.
+
+## Scale &amp; operational notes
+
+The control plane is a broker network-of-brokers, and link-state / coordinator state ride the **`GLOBAL`
+dataplane topic**, which fan-outs to every node across every bridge. That makes the dominant cost roughly
+**O(N) message deliveries per advertisement per node** (O(N²) fabric-wide per round), concentrated on the
+globals. Practical consequences validated on an 85-node mesh (5 globals · 40 regions · 40 agents):
+
+- **The advertise interval is the primary fan-out knob.** `net_route_advertise_interval_sec` (default 5s)
+  directly scales the per-global message rate; raising it (e.g. 20–30s) cuts the storm several-fold and lets
+  large meshes converge. `net_route_stale_sec` should track ~3× the advertise interval.
+- **Only coordinators heartbeat.** Coordinator beats are published solely by `role=global` nodes — a
+  region/agent computes the leader from the shared RouteView but must not beat, or every node floods the
+  coordinator topic and the `live`/quorum count is polluted.
+- **Keystore generation is a boot cost.** Each node generates RSA keypairs at boot; for large scale tests
+  lower `messagekeysize` (e.g. 1024) and/or cache the keystore (`keystorefile`/`truststorefile`) so nodes
+  reuse it across restarts instead of regenerating.
+- **Per-node CPU vs host load.** Inside a container, `/proc/loadavg` and `system.cpu.*` are **host-wide**
+  (not cgroup-scoped) — they read identically on every node. Use `process.cpu.usage × cpu_count` (this JVM's
+  own cores) for a true per-node figure; the central metrics collect both, so read the process metric for
+  per-node CPU.
+
+The single embedded broker per node is the per-node bottleneck; hierarchical/sharded aggregation of link-state
+(so not every node sees every advertisement) is the path to much larger meshes and is future work.
 
 ## See also
 
