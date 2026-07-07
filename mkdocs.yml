@@ -53,6 +53,7 @@ nav:
       - Overview: architecture/overview.md
       - Messaging & Routing: architecture/messaging.md
       - Dynamic Cost-Aware Routing: architecture/dynamic-routing.md
+      - Coordinator Decentralization: architecture/coordinator-decentralization.md
       - Data Plane: architecture/dataplane.md
       - Discovery: architecture/discovery.md
       - Security & Identity: architecture/security.md
