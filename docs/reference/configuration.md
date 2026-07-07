@@ -323,6 +323,26 @@ buffer sizes used when auto-tuning is off.
 
 ---
 
+## Coordinator decentralization (region-first, multi-global)
+
+Decompose the single static global into a region-first mesh with elected/sharded coordinators. All flags
+default to the prior single-static-global behaviour; see the
+[Coordinator Decentralization plan](../design/coordinator-decentralization-plan.md).
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `global_optional` | boolean | `false` | Region-first autonomy: a region comes up and peers with **no global present**, starting its discovery engine + peer maintenance immediately and bounding the global-join instead of blocking. |
+| `global_connect_attempts` | int | `3` | With `global_optional`, how many times to try joining a global before settling into region-first `REGION` steady state. |
+| `failure_phi_suspect` | double | `4.0` | φ-accrual suspicion at which SWIM indirect probing of a peer begins. |
+| `failure_phi_dead` | double | `8.0` | φ-accrual suspicion at which (after SWIM also fails) a peer is concluded unreachable. |
+| `failure_swim_k` | int | `2` | Number of other peers asked to indirect-probe a suspected peer (SWIM). |
+| `coordinator_expected` | int | `0` | Stable coordinator-cluster size for quorum (2f+1). `0` = infer from the high-water mark. Set it to the intended count so a lone survivor cannot self-commit. |
+| `coordinator_election_policy` | String | `identity` | Leader policy: `identity` (lowest coordinator path) or `centroid` (k-center: most central over the learned latency graph). |
+| `coordinator_lease_sec` | int | `15` | Coordinator heartbeat/lease window; a coordinator silent this long drops from the live set. |
+| `security_peer_federation` | boolean | `false` | Two independently-rooted regions cross-trust as **equals** (bilateral CA exchange, identity preserved) instead of one being subordinated under a common issuer — removes the need for a global as trust broker. |
+
+---
+
 ## Data plane
 
 The high-throughput event data plane and its sharding/journaling. Sharding splits data-plane

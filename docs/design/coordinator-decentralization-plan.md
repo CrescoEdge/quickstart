@@ -1,9 +1,25 @@
 # Cresco — Decentralizing the Coordinator Role — Implementation Plan
 
 **Date:** 2026-07-06
-**Status:** DRAFT / planning. Dependency-ordered, flag-gated, default-off — the fabric is never changed
-blind (same discipline as [`distributed-identity-trust-design.md`](distributed-identity-trust-design.md) §5
-and [`optimal-global-routing-plan.md`](optimal-global-routing-plan.md)).
+**Status:** IMPLEMENTED + PROVEN (Phases A–F shipped, flag-gated, default-off). Dependency-ordered — the
+fabric is never changed blind (same discipline as
+[`distributed-identity-trust-design.md`](distributed-identity-trust-design.md) §5 and
+[`optimal-global-routing-plan.md`](optimal-global-routing-plan.md)).
+
+!!! success "Implemented & proven in containerlab — 2026-07-06"
+    | Phase | What shipped | Proof (mesh) |
+    |---|---|---|
+    | **A** region-first boot | `global_optional`: regions come up + peer with NO global; bounded global-join | 2 regions, no global: `operating REGION-FIRST`, `Regional Global Success`=0, direct bridge, ping `transit-hops=[]` |
+    | **A/W7** φ-accrual + SWIM | `PhiAccrualFailureDetector`; SWIM indirect probe before any verdict | triangle, cut R1↔R2: phi(R2)=12 → SWIM via R3 → `suspicion SUPPRESSED` (no false LOST) |
+    | **C/W3** de-scalarize | `CoordinatorRegistry`: all role=global from RouteView, deterministic leader | 3 globals coexist: `coordinators=[g1,g2,g3] leader=g1 epoch=1` |
+    | **D/W5** consensus + epoch | `CoordinatorConsensus`: beats, epoch fencing, majority quorum over stable membership | kill leader → `epoch 1→2`, new leader; kill 2nd → lone survivor `hasQuorum=false` (no split-brain) |
+    | **E/W6** election/placement | identity + centroid (k-center over RouteView) policies | identity leader + failover proven; centroid coded |
+    | **F/W8** partition/heal | quorum-guard blocks commits; failover-bridge auto-reconnect reconciles | partition g1 (3→2, quorum held) → heal → `reconverged to 3` |
+    | **B/W2** bilateral trust | `security_peer_federation`: peers cross-trust as equals, no subordination | peer-CA exchange + preserved identity (security-on topology) |
+    | **C/W4** regional scheduling | `rpipelinesubmit`: region-local placed regionally, cross-region escalates | Kandoo local/root decision + escalation to `coordinatorForDuty` |
+    Flags: `global_optional`, `failure_phi_suspect/dead`, `failure_swim_k`, `coordinator_expected`,
+    `coordinator_election_policy`, `coordinator_lease_sec`, `security_peer_federation`. All default to the
+    prior single-static-global behaviour.
 **Siblings:** [`optimal-global-routing-plan.md`](optimal-global-routing-plan.md) (routing — phases A/C/D
 *shipped*), [`distributed-identity-trust-design.md`](distributed-identity-trust-design.md) (identity/trust —
 regional CA *shipped*), [`region-federation-design.md`](region-federation-design.md),
