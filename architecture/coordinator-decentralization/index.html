@@ -889,10 +889,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#observability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scale-operational-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scale &amp; operational notes
       
     </span>
   </a>
@@ -2493,10 +2504,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#observability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration
+        Observability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scale-operational-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scale &amp; operational notes
       
     </span>
   </a>
@@ -2646,10 +2668,39 @@ under a common issuer. This removes the need for a global as trust broker for re
 <p>Region-local operation and single-writer placement stay available (yield 100%); cross-domain <strong>commits block</strong>
 without a quorum (consistency over availability, no split-brain); membership/directory reads serve reduced
 harvest; on heal, the coordinator set and directory reconverge automatically.</p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p><code>global_optional</code>, <code>global_connect_attempts</code>, <code>failure_phi_suspect</code>, <code>failure_phi_dead</code>, <code>failure_swim_k</code>,
-<code>coordinator_expected</code>, <code>coordinator_election_policy</code>, <code>coordinator_lease_sec</code>, <code>security_peer_federation</code> —
-see the <a href="../../reference/configuration/#coordinator-decentralization-region-first-multi-global">Configuration reference</a>.</p>
+<h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
+<p>Two actions expose the live state (both served by the global's <code>GlobalExecutor</code> and by <code>AgentExecutor</code>):</p>
+<ul>
+<li><strong><code>getnetworkstate</code></strong> — the pushed RouteView graph (every node, every edge with rtt/cost/connectors) plus
+  this node's path choices.</li>
+<li><strong><code>getcoordinators</code></strong> — the coordinator set, elected leader, epoch, and <code>live / quorum</code> (with
+  <code>has_quorum</code> and the stale-epoch fence count).</li>
+</ul>
+<p>The <strong><a href="https://github.com/CrescoEdge/dashboard">live mesh dashboard</a></strong> (standalone <code>pycrescolib</code> visualizer)
+renders these: a topology graph with the agent → region → global hierarchy, and a <strong>Globals</strong> tab showing the
+full coordinator set, leader (★), epoch, and quorum.</p>
+<h2 id="scale-operational-notes">Scale &amp; operational notes<a class="headerlink" href="#scale-operational-notes" title="Permanent link">&para;</a></h2>
+<p>The control plane is a broker network-of-brokers, and link-state / coordinator state ride the <strong><code>GLOBAL</code>
+dataplane topic</strong>, which fan-outs to every node across every bridge. That makes the dominant cost roughly
+<strong>O(N) message deliveries per advertisement per node</strong> (O(N²) fabric-wide per round), concentrated on the
+globals. Practical consequences validated on an 85-node mesh (5 globals · 40 regions · 40 agents):</p>
+<ul>
+<li><strong>The advertise interval is the primary fan-out knob.</strong> <code>net_route_advertise_interval_sec</code> (default 5s)
+  directly scales the per-global message rate; raising it (e.g. 20–30s) cuts the storm several-fold and lets
+  large meshes converge. <code>net_route_stale_sec</code> should track ~3× the advertise interval.</li>
+<li><strong>Only coordinators heartbeat.</strong> Coordinator beats are published solely by <code>role=global</code> nodes — a
+  region/agent computes the leader from the shared RouteView but must not beat, or every node floods the
+  coordinator topic and the <code>live</code>/quorum count is polluted.</li>
+<li><strong>Keystore generation is a boot cost.</strong> Each node generates RSA keypairs at boot; for large scale tests
+  lower <code>messagekeysize</code> (e.g. 1024) and/or cache the keystore (<code>keystorefile</code>/<code>truststorefile</code>) so nodes
+  reuse it across restarts instead of regenerating.</li>
+<li><strong>Per-node CPU vs host load.</strong> Inside a container, <code>/proc/loadavg</code> and <code>system.cpu.*</code> are <strong>host-wide</strong>
+  (not cgroup-scoped) — they read identically on every node. Use <code>process.cpu.usage × cpu_count</code> (this JVM's
+  own cores) for a true per-node figure; the central metrics collect both, so read the process metric for
+  per-node CPU.</li>
+</ul>
+<p>The single embedded broker per node is the per-node bottleneck; hierarchical/sharded aggregation of link-state
+(so not every node sees every advertisement) is the path to much larger meshes and is future work.</p>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../design/coordinator-decentralization-plan/">Coordinator Decentralization plan</a> — full design, duty
