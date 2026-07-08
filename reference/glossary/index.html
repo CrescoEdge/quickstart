@@ -2484,12 +2484,40 @@
 <td>Per-edge network quality (RTT/jitter/throughput/backlog) in the <code>netlink</code> metric group.</td>
 </tr>
 <tr>
+<td><strong>Cost-aware routing</strong></td>
+<td>Dynamic path selection over a pushed link-state view with per-hop cost, choosing the cheapest path across the federated mesh. Gated by <code>net_cost_routing</code>. See <a href="../../architecture/dynamic-routing/">Dynamic Cost-Aware Routing</a>.</td>
+</tr>
+<tr>
+<td><strong>RouteView / LSA</strong></td>
+<td>The pushed link-state advertisement (<code>route_lsa</code>) each node shares so peers build a topology graph and compute paths — pushed as it changes, not polled.</td>
+</tr>
+<tr>
+<td><strong>Source route</strong></td>
+<td>A pre-computed hop sequence stamped on a message (<code>srcroute</code>) so it follows a chosen path instead of per-hop re-selection. Gated by <code>net_source_routing</code>.</td>
+</tr>
+<tr>
+<td><strong>Coordinator</strong></td>
+<td>A controller elected to coordinate a scope. Multiple globals can coexist and regions can boot/run without one (<code>global_optional</code>). See <a href="../../architecture/coordinator-decentralization/">Coordinator Decentralization</a>.</td>
+</tr>
+<tr>
+<td><strong>Quorum / epoch</strong></td>
+<td>Coordinator elections use a majority quorum (<code>f+1</code> of <code>2f+1</code>) with epoch fencing, so a stale coordinator cannot act.</td>
+</tr>
+<tr>
+<td><strong>Failure detector</strong></td>
+<td>φ-accrual suspicion + SWIM indirect probing that decides when a peer is dead (<code>failure_phi_suspect</code>/<code>failure_phi_dead</code>, <code>failure_swim_k</code>).</td>
+</tr>
+<tr>
+<td><strong>Tunnel tracing</strong></td>
+<td>End-to-end <a href="../../plugins/stunnel/">stunnel</a> path tracing: brokers stamp <code>cresco_hops</code> on marked bytes, streamed live (throughput + path) on the subscribable <code>stunnel_trace</code> channel. See <a href="../../architecture/tunnel-tracing/">Tunnel Path Tracing</a>.</td>
+</tr>
+<tr>
 <td><strong>wsapi</strong></td>
 <td>The <a href="../../plugins/wsapi/">WebSocket API plugin</a> that bridges external <a href="../../clients/overview/">clients</a> to the fabric (<code>wss://host:8282</code>).</td>
 </tr>
 <tr>
-<td><strong>clientlib / pycrescolib</strong></td>
-<td>The external <a href="../../clients/java/">Java</a> and <a href="../../clients/python/">Python</a> client SDKs.</td>
+<td><strong>clientlib / pycrescolib / cppcrescolib</strong></td>
+<td>The external <a href="../../clients/java/">Java</a>, <a href="../../clients/python/">Python</a>, and <a href="../../clients/cpp/">C++ / Arduino (ESP32)</a> client SDKs.</td>
 </tr>
 <tr>
 <td><strong>CADL / pipeline</strong></td>

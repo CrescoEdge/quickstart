@@ -2591,7 +2591,7 @@
 
 
 <h1 id="wsapi-websocket-api">wsapi — WebSocket API<a class="headerlink" href="#wsapi-websocket-api" title="Permanent link">&para;</a></h1>
-<p>The <code>wsapi</code> plugin (bundle <code>io.cresco.wsapi</code>) is the fabric's external client entrypoint. It embeds a Jetty 12 HTTPS/WSS server that exposes three authenticated WebSocket endpoints — control, data plane, and log streaming — over <code>wss://…:8282</code>. This is the endpoint the <a href="../../clients/java/">Java</a> and <a href="../../clients/python/">Python</a> client libraries connect to.</p>
+<p>The <code>wsapi</code> plugin (bundle <code>io.cresco.wsapi</code>) is the fabric's external client entrypoint. It embeds a Netty HTTPS/WSS server that exposes three authenticated WebSocket endpoints — control, data plane, and log streaming — over <code>wss://…:8282</code>. This is the endpoint the <a href="../../clients/java/">Java</a>, <a href="../../clients/python/">Python</a>, and <a href="../../clients/cpp/">C++ / Arduino</a> client libraries connect to.</p>
 <h2 id="at-a-glance">At a glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2611,7 +2611,7 @@
 </tr>
 <tr>
 <td>Java files</td>
-<td>9</td>
+<td>10</td>
 </tr>
 <tr>
 <td>Loaded</td>
@@ -2623,7 +2623,7 @@
 </tr>
 <tr>
 <td>Server</td>
-<td>Embedded Jetty 12 (ee10) on JDK 21 virtual threads.</td>
+<td>Embedded <strong>Netty</strong> (<code>NettyWsServer</code>) on NIO event loops (1 boss + default worker group).</td>
 </tr>
 <tr>
 <td>Default port</td>
@@ -2632,28 +2632,28 @@
 </tbody>
 </table>
 <h2 id="endpoints">Endpoints<a class="headerlink" href="#endpoints" title="Permanent link">&para;</a></h2>
-<p>All three endpoints sit behind a shared-secret <code>AuthFilter</code>: a request is rejected with <code>401</code> unless its <code>cresco_service_key</code> HTTP header matches the configured key.</p>
+<p>All three endpoints sit behind the <code>WsRouter</code> handler, which runs first (right after HTTP aggregation) and authenticates the WebSocket upgrade: a request is rejected with <code>401 UNAUTHORIZED</code> unless its <code>cresco_service_key</code> HTTP header matches the configured key. It then routes the upgrade to the handler for the requested path.</p>
 <table>
 <thead>
 <tr>
-<th>Endpoint</th>
+<th>Handler</th>
 <th>Path</th>
 <th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>APISocket</code></td>
+<td><code>ApiSocketWsHandler</code></td>
 <td><code>/api/apisocket</code></td>
 <td>Control-plane / RPC. Deserializes <code>{message_info, message_payload}</code>, builds the matching <a href="../../api/msgevent/"><code>MsgEvent</code></a> by <code>message_type</code> (e.g. <code>global_controller_msgevent</code>, <code>global_agent_msgevent</code>, <code>global_plugin_msgevent</code>, <code>kpi_msgevent</code>, <code>agent_msgevent</code>, <code>plugin_msgevent</code>), and either <code>sendRPC</code> (returning response params as JSON) or <code>msgOut</code>, per the <code>is_rpc</code> flag.</td>
 </tr>
 <tr>
-<td><code>APIDataPlane</code></td>
+<td><code>DataPlaneWsHandler</code></td>
 <td><code>/api/dataplane</code></td>
 <td>Bridges a client WebSocket to the global JMS <a href="../../architecture/dataplane/">data plane</a>. The first message subscribes (creates a JMS listener from <code>ident_key</code>/<code>ident_id</code>/<code>io_type_key</code>/<code>output_id</code>/<code>input_id</code>, or a raw <code>stream_query</code>); subsequent text → publish and whole-binary → <code>BytesMessage</code> on <code>TopicType.GLOBAL</code> (with optional <code>seq_num</code>/<code>transfer_id</code> framing).</td>
 </tr>
 <tr>
-<td><code>APILogStreamer</code></td>
+<td><code>LogStreamerWsHandler</code></td>
 <td><code>/api/logstreamer</code></td>
 <td>Subscribes to agent logger data-plane messages (filtered by session) and RPCs <code>setloglevel</code> to set remote agent log levels.</td>
 </tr>
@@ -2670,19 +2670,27 @@
 <tbody>
 <tr>
 <td><code>Plugin</code></td>
-<td>Builds and manages the Jetty server; holds <code>public static PluginBuilder pluginBuilder</code> so Jetty-instantiated endpoints/filter can reach the plugin. Ensures a self-signed <code>ws.keystore</code> (BouncyCastle RSA-2048); registers <code>APISocket</code>/<code>APIDataPlane</code>/<code>APILogStreamer</code>.</td>
+<td>Builds and manages the <code>NettyWsServer</code>; ensures a self-signed <code>ws.keystore</code> (BouncyCastle RSA-2048, <code>SHA256WithRSA</code>) in the plugin data directory; reads the port/buffer config and starts the server.</td>
 </tr>
 <tr>
-<td><code>AuthFilter</code></td>
-<td>Servlet <code>Filter</code> on <code>/*</code> enforcing the <code>cresco_service_key</code> header (<code>401</code> on mismatch).</td>
+<td><code>NettyWsServer</code></td>
+<td>The Netty bootstrap: NIO <code>MultiThreadIoEventLoopGroup</code>s (1 boss + default workers), the TLS + WebSocket pipeline, and adaptive receive buffers.</td>
+</tr>
+<tr>
+<td><code>WsRouter</code></td>
+<td>First pipeline handler after HTTP aggregation: authenticates the <code>cresco_service_key</code> header (<code>401</code> on mismatch) and routes the upgrade to the per-path handler.</td>
+</tr>
+<tr>
+<td><code>ApiSocketWsHandler</code> / <code>DataPlaneWsHandler</code> / <code>LogStreamerWsHandler</code></td>
+<td>The three endpoint handlers (control-plane RPC, data-plane bridge, log streamer).</td>
 </tr>
 <tr>
 <td><code>PluginExecutor</code></td>
 <td>EXEC action <code>globalinfo</code> (sets <code>global_region</code>/<code>global_agent</code>).</td>
 </tr>
 <tr>
-<td><code>SessionInfo</code> / <code>StreamInfo</code></td>
-<td>Per-session/stream data holders.</td>
+<td><code>StreamInfo</code></td>
+<td>Per-stream data holder (in the <code>websockets</code> package).</td>
 </tr>
 <tr>
 <td><code>Activator</code></td>
@@ -2691,12 +2699,11 @@
 </tbody>
 </table>
 <h2 id="tls-and-performance-tuning">TLS and performance tuning<a class="headerlink" href="#tls-and-performance-tuning" title="Permanent link">&para;</a></h2>
-<p>The <code>Plugin</code> configures Jetty for high-throughput streaming:</p>
+<p><code>NettyWsServer</code> is tuned for high-throughput streaming:</p>
 <ul>
-<li>TLSv1.2 / TLSv1.3, direct-buffer SSL.</li>
-<li>4 MB accepted <code>SO_RCVBUF</code>/<code>SO_SNDBUF</code>.</li>
-<li><code>SniHostCheck=false</code>.</li>
-<li><strong><code>permessage-deflate</code> is unregistered</strong> — WebSocket compression was the single biggest data-plane CPU bottleneck, so it is deliberately disabled. See <a href="../../architecture/dataplane/">Data Plane</a> and <a href="../../architecture/metrics/">Metrics &amp; Measurements</a>.</li>
+<li>TLS via an SSL context whose provider is selectable with <code>wsapi_ssl_provider</code> (default <code>JDK</code>).</li>
+<li>Adaptive receive-buffer allocation (<code>AdaptiveRecvByteBufAllocator</code>, 2 KB … 64 KB … up to <code>wsapi_read_chunk_bytes</code>) and <code>wsapi_socket_buffer_bytes</code> (4 MB) socket buffers, with a <code>wsapi_write_high_water_bytes</code> (2 MB) write watermark for backpressure.</li>
+<li><strong><code>permessage-deflate</code> is disabled</strong> (<code>WsRouter</code> sets <code>allowExtensions(false)</code>) — WebSocket compression was the single biggest data-plane CPU bottleneck, so it is deliberately off. See <a href="../../architecture/dataplane/">Data Plane</a> and <a href="../../architecture/metrics/">Metrics &amp; Measurements</a>.</li>
 </ul>
 <h2 id="authentication-and-identity">Authentication and identity<a class="headerlink" href="#authentication-and-identity" title="Permanent link">&para;</a></h2>
 <p>Clients authenticate with the <code>cresco_service_key</code> HTTP header on the WebSocket upgrade. On the return path, external identity — a client's region/agent/plugin — is read from the TLS peer certificate DN. See <a href="../../architecture/security/">Security &amp; Identity</a>.</p>
@@ -2726,14 +2733,29 @@
 <td>Shared-secret auth header value.</td>
 </tr>
 <tr>
-<td><code>dataplane_io_buffer_bytes</code></td>
-<td><code>262144</code></td>
-<td>Data-plane I/O buffer size.</td>
+<td><code>wsapi_ssl_provider</code></td>
+<td><code>JDK</code></td>
+<td>Netty SSL provider (<code>JDK</code> or <code>OPENSSL</code>).</td>
 </tr>
 <tr>
-<td><code>wsapi_dp_selftest*</code></td>
-<td>off</td>
-<td>Diagnostic self-test knobs.</td>
+<td><code>dataplane_io_buffer_bytes</code></td>
+<td><code>65536</code></td>
+<td>Data-plane I/O buffer size (64 KB).</td>
+</tr>
+<tr>
+<td><code>wsapi_read_chunk_bytes</code></td>
+<td><code>262144</code></td>
+<td>Max adaptive read chunk (256 KB).</td>
+</tr>
+<tr>
+<td><code>wsapi_socket_buffer_bytes</code></td>
+<td><code>4194304</code></td>
+<td>Socket send/receive buffer (4 MB).</td>
+</tr>
+<tr>
+<td><code>wsapi_write_high_water_bytes</code></td>
+<td><code>2097152</code></td>
+<td>Write-buffer high-water mark for backpressure (2 MB).</td>
 </tr>
 </tbody>
 </table>

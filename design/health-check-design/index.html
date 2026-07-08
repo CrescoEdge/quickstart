@@ -2291,10 +2291,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-state-layer-predicate-bugs-to-fix-directly-independent-of-the-model" class="md-nav__link">
+  <a href="#3-state-layer-predicate-bugs-resolved-independent-of-the-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. State-layer predicate bugs to fix directly (independent of the model)
+        3. State-layer predicate bugs — RESOLVED (independent of the model)
       
     </span>
   </a>
@@ -2638,10 +2638,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-state-layer-predicate-bugs-to-fix-directly-independent-of-the-model" class="md-nav__link">
+  <a href="#3-state-layer-predicate-bugs-resolved-independent-of-the-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. State-layer predicate bugs to fix directly (independent of the model)
+        3. State-layer predicate bugs — RESOLVED (independent of the model)
       
     </span>
   </a>
@@ -2857,8 +2857,13 @@
 
 
 <h1 id="cresco-health-state-inventory-design">Cresco Health, State &amp; Inventory — Design<a class="headerlink" href="#cresco-health-state-inventory-design" title="Permanent link">&para;</a></h1>
-<p>Status: <strong>DRAFT for review</strong> · Scope: <strong>Health subsystem first</strong> (measurements and benchmark
-separation are tracked separately). Author: design pass, 2026-07-01.</p>
+<p>Status: <strong>IMPLEMENTED + SHIPPED</strong> (health subsystem built on Felix HC — <code>controller/health/</code>:
+<code>CrescoHealthExecutor</code>, <code>LocalHealthChecks</code>, <code>MeshHealth</code>, <code>link:parent</code>/<code>link:child</code> + broker/db/
+dataplane/disk/memory/plugin checks; Felix HC api-2.0.4 jar staged; plugins implement <code>HealthCheck</code>).
+The §3 state-predicate bugs are fixed in code. This doc is the design of record for that shipped work.
+· Scope: <strong>Health subsystem first</strong> (measurements and benchmark separation are tracked separately —
+measurements later shipped too, see <a href="../metrics-unification-design/"><code>metrics-unification-design.md</code></a>).
+Author: design pass, 2026-07-01.</p>
 <p>Decisions locked with the user going in:
 - <strong>Full Felix Health Checks</strong> (<code>org.apache.felix.hc</code>) as the health engine — not a thin facade;
   plugins implement <code>org.apache.felix.hc.api.HealthCheck</code>.
@@ -2951,21 +2956,22 @@ efforts). This doc only touches health where it overlaps them — e.g. retiring 
 <li><strong><code>executeKPI</code> as a health hook is dead.</strong> Nothing uses it. Health has no contract today.</li>
 </ul>
 <hr />
-<h2 id="3-state-layer-predicate-bugs-to-fix-directly-independent-of-the-model">3. State-layer predicate bugs to fix directly (independent of the model)<a class="headerlink" href="#3-state-layer-predicate-bugs-to-fix-directly-independent-of-the-model" title="Permanent link">&para;</a></h2>
+<h2 id="3-state-layer-predicate-bugs-resolved-independent-of-the-model">3. State-layer predicate bugs — RESOLVED (independent of the model)<a class="headerlink" href="#3-state-layer-predicate-bugs-resolved-independent-of-the-model" title="Permanent link">&para;</a></h2>
 <p><code>ControllerMode</code> (in <code>library/agent/ControllerMode.java</code>) is a flat cross-product of role
 <code>{STANDALONE, AGENT, REGION, GLOBAL}</code> × phase <code>{INIT, ACTIVE, FAILED, SHUTDOWN}</code> — ~20 values. Meaning
-is reconstructed with hand-maintained OR-chains and <code>toString().startsWith(...)</code>, which has broken:</p>
+is reconstructed with hand-maintained OR-chains and <code>toString().startsWith(...)</code>, which had broken as
+below; these predicates are now <strong>fixed in code</strong> (<code>ControllerStateImp</code>):</p>
 <ul>
-<li><code>ControllerStateImp.isFailed()</code> (line 40) includes <code>REGION_GLOBAL</code> — the <strong>healthy active</strong> state —
-  so a region+global controller reports <strong><code>isActive()==true</code> AND <code>isFailed()==true</code></strong> at once.</li>
-<li><code>ControllerStateImp.isActive()</code> (line 36) <strong>omits <code>REGION</code></strong>, so a region-only controller reports
-  <strong>not active</strong>.</li>
-<li><code>isRegionalController()</code> / <code>isGlobalController()</code> use <code>startsWith("REGION")</code> / <code>startsWith("GLOBAL")</code>
-  on the enum name — stringly-typed role logic.</li>
+<li><code>ControllerStateImp.isFailed()</code> no longer includes <code>REGION_GLOBAL</code> (the <strong>healthy active</strong> state) —
+  it enumerates only the <code>*_FAILED</code> modes, so a region+global controller no longer reports
+  <strong><code>isActive()==true</code> AND <code>isFailed()==true</code></strong> at once. <strong>Resolved.</strong></li>
+<li><code>ControllerStateImp.isActive()</code> now <strong>includes <code>REGION</code></strong>, so a region-only controller correctly
+  reports active. <strong>Resolved.</strong></li>
+<li><code>isRegionalController()</code> / <code>isGlobalController()</code> used <code>startsWith("REGION")</code> / <code>startsWith("GLOBAL")</code>
+  on the enum name — stringly-typed role logic (tidied alongside the above).</li>
 </ul>
-<p><strong>We keep the <code>ControllerMode</code> model (MINA owns it — §7) and fix these predicates directly</strong>: enumerate
-the correct set explicitly (or derive from a small <code>role/phase</code> classifier over the existing enum,
-without changing the enum). These are targeted correctness fixes, not a model rewrite.</p>
+<p><strong>The <code>ControllerMode</code> model is kept (MINA owns it — §7) and the predicates were fixed directly</strong>:
+the correct set is enumerated explicitly. These were targeted correctness fixes, not a model rewrite.</p>
 <hr />
 <h2 id="4-design-principle-separate-the-verdict-from-the-signal">4. Design principle: separate the <em>verdict</em> from the <em>signal</em><a class="headerlink" href="#4-design-principle-separate-the-verdict-from-the-signal" title="Permanent link">&para;</a></h2>
 <blockquote>
@@ -3322,22 +3328,25 @@ write in <code>ControllerStatePersistance</code> is no longer a flap-driven writ
 </ul>
 <hr />
 <h2 id="11-phased-implementation">11. Phased implementation<a class="headerlink" href="#11-phased-implementation" title="Permanent link">&para;</a></h2>
-<p>Each phase is independently reviewable; earlier phases are useful even if later ones slip.</p>
+<p>Each phase is independently reviewable; earlier phases are useful even if later ones slip. <strong>P1–P5
+have shipped</strong> (<code>controller/health/</code> + Felix HC api jar staged); P6 cleanup is the trailing tidy-up.</p>
 <ul>
-<li><strong>P1 — Foundation.</strong> Add HC bundles; <code>health</code> package; <code>Result.Status</code> adopted; <code>NodeStatusType</code>/
-  plugin-code adapters (§5). No behavior change yet.</li>
-<li><strong>P2 — Local checks.</strong> <code>broker/dataplane/db/disk/memory/plugin</code> checks, tag <code>local</code>. Live + queryable.
-  Zero messaging. Lowest risk.</li>
-<li><strong>P3 — Link checks + watcher slimming.</strong> Watchers → transport-only (stamp timestamps);
-  <code>link:parent</code> + <code>link:child</code> checks with grace/sticky. <strong>Agent robustness fixed here for free</strong>
-  (same check as region).</li>
-<li><strong>P4 — HC→MINA bridge + predicate fixes.</strong> Link-check <code>CRITICAL</code>-after-grace fires the existing
-  <code>regionalControllerLost</code>/<code>globalControllerLost</code> MINA events; retire the watchers' direct calls; fix
-  the §3 <code>isActive</code>/<code>isFailed</code> predicates. <strong>MINA states unchanged.</strong></li>
-<li><strong>P5 — Inventory.</strong> <code>node/plugins/fabric/health</code> printers; wsapi + JMX; retire
-  <code>getControllerInfoMap</code>/<code>stateUpdateTask</code>.</li>
+<li><strong>P1 — Foundation. ✅ DONE.</strong> Add HC bundles; <code>health</code> package; <code>Result.Status</code> adopted;
+  <code>NodeStatusType</code>/plugin-code adapters (§5). No behavior change yet.</li>
+<li><strong>P2 — Local checks. ✅ DONE.</strong> <code>broker/dataplane/db/disk/memory/plugin</code> checks, tag <code>local</code>
+  (<code>BrokerHealthCheck</code>, <code>DataPlaneHealthCheck</code>, <code>DbHealthCheck</code>, <code>MemoryHealthCheck</code>, <code>LocalHealthChecks</code>).
+  Live + queryable. Zero messaging. Lowest risk.</li>
+<li><strong>P3 — Link checks + watcher slimming. ✅ DONE.</strong> Watchers → transport-only (stamp timestamps);
+  <code>link:parent</code> + <code>link:child</code> checks with grace/sticky (<code>MeshHealth</code>/<code>MeshHealthChecks</code>). <strong>Agent
+  robustness fixed here for free</strong> (same check as region).</li>
+<li><strong>P4 — HC→MINA bridge + predicate fixes. ✅ DONE.</strong> Link-check <code>CRITICAL</code>-after-grace fires the
+  existing <code>regionalControllerLost</code>/<code>globalControllerLost</code> MINA events; retire the watchers' direct
+  calls; fix the §3 <code>isActive</code>/<code>isFailed</code> predicates (now fixed in <code>ControllerStateImp</code>). <strong>MINA states
+  unchanged.</strong></li>
+<li><strong>P5 — Inventory. ✅ DONE.</strong> <code>node/plugins/fabric/health</code> printers; wsapi + JMX (<code>HealthInventory</code>);
+  retire <code>getControllerInfoMap</code>/<code>stateUpdateTask</code>.</li>
 <li><strong>P6 — Retire custom machinery.</strong> Delete watcher atomics/counters/Timers; <code>NodeStatusType</code>/int codes
-  become projections; remove dead <code>executeKPI</code>-as-health.</li>
+  become projections; remove dead <code>executeKPI</code>-as-health. (Trailing cleanup.)</li>
 </ul>
 <p><strong>Proof harness (built alongside P3):</strong> a <strong>link-flap reproduction</strong> in <code>run/tests</code> — drop pongs for
 N seconds and assert the node stays in its MINA state (no <code>regionalControllerLost</code> fired, no re-init)

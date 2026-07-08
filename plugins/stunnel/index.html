@@ -1452,6 +1452,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#path-tracing-existence-beacons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Path tracing &amp; existence beacons
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#observability" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2549,6 +2560,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#path-tracing-existence-beacons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Path tracing &amp; existence beacons
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#observability" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2611,7 +2633,7 @@
 </tr>
 <tr>
 <td>Java files</td>
-<td>7</td>
+<td>8</td>
 </tr>
 <tr>
 <td>Loaded</td>
@@ -2656,7 +2678,7 @@
 </tr>
 <tr>
 <td><code>PerformanceMonitor</code></td>
-<td>Per-direction throughput meter (Micrometer <code>DistributionSummary</code>); periodically publishes a <code>bits_per_second</code> stats message.</td>
+<td>Per-direction throughput meter (Micrometer <code>DistributionSummary</code>); periodically publishes a throughput record (tagged <code>cresco_msg_type="stunnel_trace"</code>) carrying <code>bits_per_second</code>, the observed broker <strong>hop path</strong> (<code>setHops</code>, from the arriving <code>cresco_hops</code> property), and the src/dst region/agent endpoints.</td>
 </tr>
 <tr>
 <td><code>SocketControllerSM</code></td>
@@ -2753,7 +2775,46 @@
 </tr>
 </tbody>
 </table>
+<p>Plugin-level config keys (read from <code>getConfig</code>, apply to the whole stunnel plugin):</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stunnel_beacon_ms</code></td>
+<td><code>3000</code></td>
+<td>How often each SRC-configured tunnel pushes an existence/status beacon on the <code>stunnel_trace</code> stream.</td>
+</tr>
+<tr>
+<td><code>stunnel_socket_buffer_bytes</code></td>
+<td><code>4194304</code></td>
+<td>Netty socket send/receive buffer (4 MB).</td>
+</tr>
+<tr>
+<td><code>stunnel_read_chunk_bytes</code></td>
+<td><code>262144</code></td>
+<td>Max adaptive read chunk (256 KB).</td>
+</tr>
+<tr>
+<td><code>stunnel_write_high_water_bytes</code></td>
+<td><code>2097152</code></td>
+<td>Write-buffer high-water mark for backpressure (2 MB).</td>
+</tr>
+</tbody>
+</table>
 <p>See <a href="../../getting-started/configuration/">Configuration</a>.</p>
+<h2 id="path-tracing-existence-beacons">Path tracing &amp; existence beacons<a class="headerlink" href="#path-tracing-existence-beacons" title="Permanent link">&para;</a></h2>
+<p>Because tunnel bytes ride the JMS data plane, transit nodes never see them — only the brokers do. stunnel makes the full path observable and pushes it on a subscribable stream (<code>cresco_msg_type="stunnel_trace"</code>):</p>
+<ul>
+<li><strong>Hop tracing.</strong> Outbound tunnel <code>BytesMessage</code>s are marked <code>cresco_trace="1"</code> (<code>SrcChannelInitializer</code>/<code>DstChannelInitializer</code>), so each broker they transit stamps its node identity onto a <code>cresco_hops</code> property (see <a href="../../architecture/tunnel-tracing/"><code>CrescoTraceBroker</code></a>). On arrival, the handler reads <code>cresco_hops</code> and feeds it to <code>PerformanceMonitor.setHops</code>, so the throughput record carries the real broker path the tunnel crossed.</li>
+<li><strong>Existence beacons.</strong> <code>SocketController</code> publishes one status beacon per SRC-configured tunnel every <code>stunnel_beacon_ms</code> (default 3000) on the same <code>stunnel_trace</code> stream, so a subscriber knows a tunnel <strong>exists even with zero traffic</strong> (status ACTIVE/INACTIVE, endpoints).</li>
+</ul>
+<p>See <a href="../../architecture/tunnel-tracing/">Tunnel Path Tracing &amp; Push Observability</a> for the end-to-end design (broker hop stamping, the pushed trace stream, per-link bandwidth attribution, and RTT-driven connector auto-scaling).</p>
 <h2 id="observability">Observability<a class="headerlink" href="#observability" title="Permanent link">&para;</a></h2>
 <p>Distinct from the per-tunnel self-healing check above, stunnel is wired into the fabric's central
 observability:</p>
@@ -2769,6 +2830,7 @@ observability:</p>
 </ul>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
+<li><a href="../../architecture/tunnel-tracing/">Tunnel Path Tracing &amp; Push Observability</a> — hop tracing, the <code>stunnel_trace</code> stream, per-link bandwidth, and connector auto-scaling.</li>
 <li><a href="../../architecture/dataplane/">Data Plane</a> — the JMS transport tunneled bytes travel over.</li>
 <li><a href="../../architecture/metrics/">Metrics &amp; Measurements</a> — <code>PerformanceMonitor</code> throughput reporting.</li>
 <li><a href="../overview/">Overview</a> — the functional-plugin model.</li>

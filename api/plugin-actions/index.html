@@ -2830,9 +2830,10 @@
 handles the action and, for RPC, returns a reply <code>MsgEvent</code> whose params carry the result. Because an
 external client reaches Cresco only over the WebSocket message bus (the <a href="../../plugins/wsapi/"><code>wsapi</code></a>
 plugin), <strong>actions are the entire callable surface</strong> — there are no direct method calls into the fabric.</p>
-<p>This page is the canonical human reference for every action across the fabric — <strong>89 actions</strong> over 7
-namespaces (the three controller tiers plus the <code>sysinfo</code>, <code>stunnel</code>, <code>wsapi</code>, and <code>repo</code> plugins). The same
-information is produced, machine-readable, by the capability inventory described below.</p>
+<p>This page is the canonical human reference for every action across the fabric — <strong>≈119 actions</strong> over 9
+namespaces (the three controller tiers — global, regional, agent — plus the <code>sysinfo</code>, <code>stunnel</code>, <code>wsapi</code>,
+<code>repo</code>, <code>filerepo</code>, and <code>executor</code> plugins). The same information is produced, machine-readable, by the
+capability inventory described below.</p>
 <h2 id="the-capability-model">The capability model<a class="headerlink" href="#the-capability-model" title="Permanent link">&para;</a></h2>
 <p>Actions are <strong>self-describing</strong>. Each handler method is annotated so the fabric can emit, for every action,
 an LLM-ready tool definition (<code>name</code> / <code>description</code> / <code>input_schema</code>) plus a Cresco <em>binding</em> telling a
@@ -3454,8 +3455,9 @@ dataplane log streaming. Namespace <code>agent</code> — <strong>29 actions</st
 </table>
 <h3 id="regional-tier">regional tier<a class="headerlink" href="#regional-tier" title="Permanent link">&para;</a></h3>
 <p>Routed to a <strong>region controller</strong> (<code>regional</code>; usually reached via the global fan-out). The per-region
-control API: agent registry for that region, and region-scoped capability/metric/liveness reports.
-Namespace <code>regional</code> — <strong>7 actions</strong>.</p>
+control API: agent registry for that region, region-scoped capability/metric/liveness reports, and
+region-first (Kandoo-style) pipeline scheduling.
+Namespace <code>regional</code> — <strong>8 actions</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -3480,6 +3482,13 @@ Namespace <code>regional</code> — <strong>7 actions</strong>.</p>
 <td>Register an agent in this region.</td>
 <td><code>region</code>, <code>agent</code></td>
 <td><code>is_registered</code></td>
+</tr>
+<tr>
+<td><code>rpipelinesubmit</code></td>
+<td>CONFIG</td>
+<td>Submit a CADL application pipeline at the <strong>regional</strong> tier: a pipeline whose nodes are all region-local is scheduled regionally with no global; only a cross-region pipeline escalates to a coordinator (Kandoo local/root split).</td>
+<td><code>cadl</code></td>
+<td><code>scheduled_regionally</code></td>
 </tr>
 <tr>
 <td><code>getcapabilities</code></td>

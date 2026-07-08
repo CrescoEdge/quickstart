@@ -2650,9 +2650,11 @@
 <p><strong>Date:</strong> 2026-07-02
 <strong>Status:</strong> Phase 0 (identity/sign/trust primitives) + a working slice of Phase 2 (broker tenant
 authorization) <strong>SHIPPED and PROVEN LIVE</strong> in a 2-tenant / 2-region / 1-global federated mesh
-(<code>run/tests/tenant_isolation_mesh_test.sh</code> 10/10; <code>security_foundation_test.sh</code> 15/15). Remaining:
-mutual-TLS <em>binding</em> of identity at the broker, regional-CA <em>issuance</em>, tenant dataplane namespacing
-(§5). All enforcement is behind <code>broker_security_enabled</code> (default OFF → fabric unchanged).</p>
+(<code>run/tests/tenant_isolation_mesh_test.sh</code> 10/10; <code>security_foundation_test.sh</code> 15/15). Mutual-TLS
+<em>binding</em> of identity at the broker and regional-CA <em>issuance</em> have since also <strong>SHIPPED and PROVEN</strong>
+(<code>regional_ca_mtls_test.sh</code> 10/10 — see the shipped bullets below and the phasing table §5). Remaining:
+L3 bridge tenant-filtering (per-bridge allowed-tenant scoping) + cross-region region-CA bundle
+distribution. All enforcement is behind <code>broker_security_enabled</code> (default OFF → fabric unchanged).</p>
 <h3 id="what-shipped-this-pass">What shipped (this pass)<a class="headerlink" href="#what-shipped-this-pass" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>library <code>io.cresco.library.security</code>:</strong> <code>CrescoIdentity</code> (identity⇄cert-DN), <code>MessageSigner</code>
@@ -2849,8 +2851,8 @@ trusts the issuer. This is the cornerstone — every option below depends on it,
 <td><code>security_regional_ca</code></td>
 </tr>
 <tr>
-<td><strong>3 ← NEXT</strong></td>
-<td>Tenant destination namespacing + bridge tenant filtering (multi-tenant dataplane isolation); cross-region region-CA bundle distribution (global→regions, global↔global)</td>
+<td><strong>3 ✅ SHIPPED (namespacing)</strong></td>
+<td>Tenant destination namespacing <strong>shipped + proven</strong> (<code>tenant_namespacing_test.sh</code> 12/12; <code>TenantNamespace</code>/<code>TenantPolicy</code> <code>T.&lt;tenant&gt;.*</code>, <code>AgentProducer</code> stamp+qualify — see <a href="../tenant-isolation-design/"><code>tenant-isolation-design.md</code></a>). <strong>Remaining:</strong> L3 bridge tenant-filtering + cross-region region-CA bundle distribution (global→regions, global↔global).</td>
 <td>high</td>
 <td><code>tenant_namespacing</code></td>
 </tr>

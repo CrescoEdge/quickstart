@@ -2569,9 +2569,12 @@
 
 
 <h1 id="cresco-network-link-metrics-automated-tuning-design">Cresco Network Link Metrics + Automated Tuning — Design<a class="headerlink" href="#cresco-network-link-metrics-automated-tuning-design" title="Permanent link">&para;</a></h1>
-<p>Status: <strong>implemented (measurement + health + control loop), federation-actuation pending multi-region
-validation.</strong> Sibling to <code>health-check-design.md</code> (which explicitly defers "the measurement/metrics
-unification" — this doc is that effort's link slice) and <code>region-federation-design.md</code>.</p>
+<p>Status: <strong>implemented + PROVEN (measurement + health + control loop + cost-aware routing).</strong> Min-cost
+selection is now live and proven on a redundant multi-region containerlab mesh (<code>RouteComputer</code> Dijkstra
+over the pushed <code>RouteView</code>; <code>MsgRouter</code> source-route injection) — see §5/§7#5 and
+<a href="../../architecture/dynamic-routing/">Dynamic Cost-Aware Routing</a>. Sibling to <code>health-check-design.md</code>
+(which explicitly defers "the measurement/metrics unification" — this doc is that effort's link slice)
+and <code>region-federation-design.md</code>.</p>
 <h2 id="1-the-osgi-split-why-this-is-measurements-not-health">1. The OSGi split (why this is measurements, not health)<a class="headerlink" href="#1-the-osgi-split-why-this-is-measurements-not-health" title="Permanent link">&para;</a></h2>
 <p>The codebase already draws three lines; this design stays inside them:</p>
 <table>
@@ -2630,8 +2633,9 @@ re-measuring. The control loop (AutoTuner) also consumes them, and <strong>lives
 <li><strong>Send-latency + throughput — passive.</strong> <code>DataPlaneServiceImpl</code> times <code>producer.send()</code> (dwell rises
   under broker flow-control pressure = downstream congestion) and counts bytes via a readable <code>dp_bytes</code>
   JMS property the wsapi/stunnel producers stamp (<code>getBodyLength()</code> fails on a just-sent write-mode msg).</li>
-<li><strong>Backlog — JMX (planned).</strong> <code>DestinationViewMBean.QueueSize</code> is the best native congestion signal;
-  poll it into <code>pendingBacklog</code>. (Wired field; poller is the next increment.)</li>
+<li><strong>Backlog — JMX (DONE).</strong> <code>DestinationViewMBean.QueueSize</code> is the best native congestion signal;
+  polled into <code>pendingBacklog</code> by <code>ActiveBroker.getBrokerPendingBacklog()</code> in-process each tuner cycle
+  (see §5/§7#1).</li>
 </ul>
 <h2 id="4-validated-2-node-fabric-live">4. Validated (2-node fabric, live)<a class="headerlink" href="#4-validated-2-node-fabric-live" title="Permanent link">&para;</a></h2>
 <ul>

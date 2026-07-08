@@ -2251,10 +2251,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-jetty-12-data-plane-correctness-throughput" class="md-nav__link">
+  <a href="#6-jetty-12-data-plane-correctness-throughput-historical-server-now-netty" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Jetty 12 data-plane (correctness + throughput)
+        6. Jetty 12 data-plane (correctness + throughput) — historical; server now Netty
       
     </span>
   </a>
@@ -2571,10 +2571,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-jetty-12-data-plane-correctness-throughput" class="md-nav__link">
+  <a href="#6-jetty-12-data-plane-correctness-throughput-historical-server-now-netty" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Jetty 12 data-plane (correctness + throughput)
+        6. Jetty 12 data-plane (correctness + throughput) — historical; server now Netty
       
     </span>
   </a>
@@ -2643,6 +2643,15 @@
 enforcement (<code>broker_security_enabled</code>) is orthogonal to every performance lever here and, when off
 (default), has zero effect on these paths.</p>
 </blockquote>
+<div class="admonition note">
+<p class="admonition-title">wsapi data-plane server has since migrated to Netty</p>
+<p>The data-plane throughput work in §6 was measured on the then-current <strong>Jetty 12</strong> wsapi server. The
+wsapi server has since been rewritten on <strong>Netty</strong> (<code>NettyWsServer</code>), carrying forward the same
+techniques — permessage-deflate off, large adaptive I/O buffers, big socket buffers, and a write
+high-water backpressure mark (<code>wsapi_read_chunk_bytes</code> / <code>wsapi_socket_buffer_bytes</code> /
+<code>wsapi_write_high_water_bytes</code>). The Jetty-specific numbers and bug references below are the historical
+baseline; see the <a href="../../plugins/wsapi/">wsapi plugin</a> for the current server.</p>
+</div>
 <hr />
 <h2 id="0-summary-of-measured-wins">0. Summary of measured wins<a class="headerlink" href="#0-summary-of-measured-wins" title="Permanent link">&para;</a></h2>
 <table>
@@ -2768,7 +2777,7 @@ lets <strong>priority QoS</strong> govern dispatch (§3), with non-persistent ev
 <li><strong>Broker bridge (JSSE <code>nio+ssl</code>):</strong> <strong>Conscrypt</strong> JCE provider (BoringSSL) installed for the ActiveMQ TLS
   bridge → <strong>+15–40% cross-node</strong>. (<code>conscrypt-openjdk-uber</code> 2.6-alpha5, first with osx/linux aarch_64 natives.)</li>
 </ul>
-<h2 id="6-jetty-12-data-plane-correctness-throughput">6. Jetty 12 data-plane (correctness + throughput)<a class="headerlink" href="#6-jetty-12-data-plane-correctness-throughput" title="Permanent link">&para;</a></h2>
+<h2 id="6-jetty-12-data-plane-correctness-throughput-historical-server-now-netty">6. Jetty 12 data-plane (correctness + throughput) — <em>historical; server now Netty</em><a class="headerlink" href="#6-jetty-12-data-plane-correctness-throughput-historical-server-now-netty" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Correctness:</strong> the jakarta <strong>partial</strong> upload handler under Jetty 12 delivered ~8KB chunks as separate
   BytesMessages (256KB → ~8 broker messages). Fixed to a <strong>whole-message</strong> handler → 1000/1000 byte-exact.</li>

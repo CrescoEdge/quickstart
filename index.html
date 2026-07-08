@@ -2501,7 +2501,7 @@
 and orchestrate software across many machines — from a single laptop to a global fabric of regions — with
 a uniform messaging model, a streaming data plane, cryptographic identity, and per-tenant isolation.</p>
 <p>This site is the <strong>canonical documentation</strong> for Cresco. All information about the project — architecture,
-every module and plugin, every callable action, configuration, and both client libraries — lives here.</p>
+every module and plugin, every callable action, configuration, and all three client libraries — lives here.</p>
 <div class="admonition info">
 <p class="admonition-title">New here? Start with the <a href="architecture/overview/">Architecture Overview</a>, then the <a href="getting-started/quickstart/">Quickstart</a>.</p>
 </div>
@@ -2545,7 +2545,13 @@ into a three-tier hierarchy:</p>
   <a href="architecture/messaging/">Messaging &amp; Routing</a>.</li>
 <li><strong>Plugins with self-describing actions</strong> — functionality is packaged as OSGi bundles that expose
   <code>@CrescoAction</code> operations, aggregated fabric-wide into a <a href="api/plugin-actions/">capability inventory</a>
-  (89 actions today).</li>
+  (≈119 actions across 9 namespaces today).</li>
+<li><strong>Dynamic cost-aware routing</strong> — a pushed link-state view and per-hop cost let the controller pick the
+  cheapest path across a federated mesh, with automatic broker-bridge scaling under load. See
+  <a href="architecture/dynamic-routing/">Dynamic Cost-Aware Routing</a>.</li>
+<li><strong>Decentralized coordinators</strong> — regions boot and run without a global (<code>global_optional</code>), multiple
+  globals coexist, and failure detection + epoch-fenced quorum elect coordinators. See
+  <a href="architecture/coordinator-decentralization/">Coordinator Decentralization</a>.</li>
 <li><strong>Cryptographic identity &amp; trust</strong> — every node carries an identity-bearing X.509 leaf
   (<code>CN=agent, OU=region, O=tenant</code>), mutual TLS, and distributed <strong>regional-CA</strong> trust. See
   <a href="architecture/security/">Security &amp; Identity</a>.</li>
@@ -2553,8 +2559,11 @@ into a three-tier hierarchy:</p>
   and role-based authorization (<code>SUPERUSER</code> / <code>TENANT</code>), enforced at every broker.</li>
 <li><strong>Health &amp; metrics</strong> — Felix <a href="architecture/health/">health checks</a> and a unified Micrometer
   <a href="architecture/metrics/">metrics</a> model with mesh-wide aggregation.</li>
-<li><strong>Client SDKs</strong> — drive the fabric from <a href="clients/java/">Java</a> or <a href="clients/python/">Python</a> over a
-  secure WebSocket.</li>
+<li><strong>End-to-end tunnel tracing</strong> — <a href="plugins/stunnel/">stunnel</a> tunnels are traced hop-by-hop through the
+  broker network and streamed live (throughput + path) on a subscribable channel. See
+  <a href="architecture/tunnel-tracing/">Tunnel Path Tracing</a>.</li>
+<li><strong>Client SDKs</strong> — drive the fabric from <a href="clients/java/">Java</a>, <a href="clients/python/">Python</a>, or
+  <a href="clients/cpp/">C++ / Arduino (ESP32)</a> over a secure WebSocket.</li>
 </ul>
 <h2 id="how-this-site-is-organized">How this site is organized<a class="headerlink" href="#how-this-site-is-organized" title="Permanent link">&para;</a></h2>
 <ul>
@@ -2562,10 +2571,10 @@ into a three-tier hierarchy:</p>
 <li><strong><a href="architecture/overview/">Architecture</a></strong> — how the mesh, messaging, data plane, discovery, security,
   tenancy, health, and metrics work.</li>
 <li><strong><a href="plugins/overview/">Modules &amp; Plugins</a></strong> — a page for every module (<code>agent</code>, <code>library</code>, <code>controller</code>,
-  <code>core</code>, <code>logger</code>, <code>repo</code>, <code>sysinfo</code>, <code>wsapi</code>, <code>stunnel</code>).</li>
+  <code>core</code>, <code>logger</code>, <code>repo</code>, <code>filerepo</code>, <code>sysinfo</code>, <code>wsapi</code>, <code>stunnel</code>, <code>executor</code>).</li>
 <li><strong><a href="api/plugin-actions/">API Reference</a></strong> — all plugin actions, the Library API, the MsgEvent structure,
   and the full <a href="reference/configuration/">configuration parameter</a> reference.</li>
-<li><strong><a href="clients/overview/">Client Libraries</a></strong> — Java and Python SDK references.</li>
+<li><strong><a href="clients/overview/">Client Libraries</a></strong> — Java, Python, and C++ (Arduino/ESP32) SDK references.</li>
 <li><strong><a href="operations/deployment/">Operations</a></strong> — deployment and testing.</li>
 <li><strong><a href="reference/glossary/">Reference</a></strong> — glossary and the underlying design documents.</li>
 </ul>
@@ -2577,13 +2586,16 @@ into a three-tier hierarchy:</p>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── controller/  # the fabric brain (messaging, discovery, security, health, db)
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── core/        # controller/JVM lifecycle service
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── logger/      # logging bootstrap
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── repo/        # plugin/file repository
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── sysinfo/     # system info + benchmark plugin
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── wsapi/       # WebSocket API (external client bridge, :8282)
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── stunnel/     # secure TCP tunnel plugin
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   ├── clientlib/   # external Java SDK
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   └── pycrescolib/ # external Python SDK
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>└── run/             # staged agent jar + launch scripts + tests
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── repo/        # plugin repository
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── filerepo/    # file replication/repository plugin
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── sysinfo/     # system info + benchmark plugin
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── wsapi/       # WebSocket API (external client bridge, :8282)
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   ├── stunnel/     # secure TCP tunnel plugin
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   ├── executor/    # OS process / command executor plugin
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   ├── clientlib/   # external Java SDK
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│   └── pycrescolib/ # external Python SDK
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>├── cppcrescolib/    # external C++ / Arduino (ESP32) SDK
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>└── run/             # staged agent jar + launch scripts + tests
 </code></pre></div>
 <p>Source repositories live under <a href="https://github.com/CrescoEdge">github.com/CrescoEdge</a>.</p>
 

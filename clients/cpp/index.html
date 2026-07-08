@@ -3229,6 +3229,18 @@ array for lists); primitives (<code>bool</code>, <code>int</code>, <code>String<
 <td><code>get_repo_plugins()</code></td>
 <td>Plugins known to the repositories.</td>
 </tr>
+<tr>
+<td><code>upload_plugin_global(jar_file_path)</code></td>
+<td>Upload a plugin jar to the global controller's repository.</td>
+</tr>
+<tr>
+<td><code>get_metric_inventory(scope="global", dst_region="", dst_agent="", include_plugins=true, include_resource=true, timeout_ms=45000)</code></td>
+<td>Unified metric inventory. <code>scope</code> is <code>node</code>/<code>region</code>/<code>global</code>; with <code>dst_region</code>+<code>dst_agent</code> set it targets that agent's controller (node scope), otherwise the global controller.</td>
+</tr>
+<tr>
+<td><code>get_capability_inventory(scope="global", dst_region="", dst_agent="", include_plugins=true, include_osgi=false, timeout_ms=45000)</code></td>
+<td>Unified capability inventory (self-describing actions), scoped the same way as <code>get_metric_inventory</code>.</td>
+</tr>
 </tbody>
 </table>
 <h3 id="messaging"><code>messaging</code><a class="headerlink" href="#messaging" title="Permanent link">&para;</a></h3>

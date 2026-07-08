@@ -2950,7 +2950,7 @@ it is the thing that turns a global rule into a local check.</strong></p>
 <h2 id="1-whats-in-place-vs-the-gap-code-grounded">1. What's in place vs. the gap (code-grounded)<a class="headerlink" href="#1-whats-in-place-vs-the-gap-code-grounded" title="Permanent link">&para;</a></h2>
 <p><strong>Shipped and proven (keep):</strong>
 - Tenant bound into the cert DN; mTLS derives the authoritative principal
-  (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/CrescoAuthorizationBroker.java">CrescoAuthorizationBroker.java:141-167</a>).
+  (<code>CrescoAuthorizationBroker.java:141-167</code>).
 - Regional-CA trust distribution (O(regions), not O(n²)).
 - <code>TenantPolicy</code> ACL evaluated at addConsumer/addProducer/send.</p>
 <p><strong>The three real gaps — why isolation is "not implemented" for the mesh:</strong></p>
@@ -2958,7 +2958,7 @@ it is the thing that turns a global rule into a local check.</strong></p>
 <li>
 <p><strong>Destinations are not tenant-namespaced, so the strong boundary is dormant.</strong> The primary rule —
    allow <code>destination == tenant || destination.startsWith(tenant + ".")</code>
-   (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L70">TenantPolicy.java:70-72</a>) —
+   (<code>TenantPolicy.java:70-72</code>) —
    only matches destinations that <em>happen</em> to be tenant-prefixed. Nothing <strong>mandates</strong> that, and the
    fabric's own destinations (<code>region_agent</code> inboxes, <code>global.event</code>) are not prefixed. The boundary
    exists in code but has almost nothing to match.</p>
@@ -2966,7 +2966,7 @@ it is the thing that turns a global rule into a local check.</strong></p>
 <li>
 <p><strong>A concrete cross-tenant <em>write</em> hole in the flat scheme.</strong> Because inboxes are <code>region_agent</code> with no
    tenant, the "same-region-write" rule
-   (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L82">TenantPolicy.java:82-85</a>)
+   (<code>TenantPolicy.java:82-85</code>)
    lets <strong>tenant B send into tenant A's inbox whenever they share a region</strong> (<code>R_agentA</code> starts with
    <code>R_</code>, so WRITE is allowed). Confidentiality of A's inbox holds (B can't read), but <em>delivery integrity</em>
    does not — B can inject. Namespacing closes this: the peer rule becomes intra-tenant.</p>
@@ -2974,12 +2974,12 @@ it is the thing that turns a global rule into a local check.</strong></p>
 <li>
 <p><strong>The shared dataplane topics are a cross-tenant channel, and bridges bypass enforcement entirely.</strong>
    <code>agent/region/global.event</code> are allow-listed for <em>all</em> tenants
-   (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L62">TenantPolicy.java:62-63</a>,
+   (<code>TenantPolicy.java:62-63</code>,
    <code>DataPlaneServiceImpl</code> flat topic names). The comment's justification ("isolated by physical per-region
    broker separation") <strong>fails on a global broker</strong>, where multiple regions/tenants converge. And every
    broker-to-broker bridge is <em>blanket-exempt</em> —
    <code>ctx.isNetworkConnection() → return true</code>
-   (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/CrescoAuthorizationBroker.java#L102">CrescoAuthorizationBroker.java:102</a>) —
+   (<code>CrescoAuthorizationBroker.java:102</code>) —
    so inter-broker hops carry <strong>all tenants with zero tenant enforcement.</strong></p>
 </li>
 </ol>
@@ -3041,7 +3041,7 @@ both already available in Cresco:
 - <strong>Forwarding filter (primary):</strong> each bridge connector forwards <em>only</em> its allowed tenant namespaces via
   <code>setDynamicallyIncludedDestinations(t.&lt;tenant&gt;.&gt;)</code> / <code>setExcludedDestinations(...)</code> — the <em>exact</em>
   mechanism <code>buildConnector</code> already uses for dataplane sharding
-  (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/ActiveBroker.java#L572">ActiveBroker.java:572-586</a>).
+  (<code>ActiveBroker.java:572-586</code>).
   A message for a non-allowed tenant prefix is never bridged.
 - <strong>Receiving-side enforcement (defense in depth):</strong> the bridge connection <em>does</em> have an identity (the
   peer broker's cert, chaining to a region CA). Give bridges a <code>BridgeTenantPolicy</code> (allowed-tenant set for
@@ -3082,14 +3082,14 @@ dropped by that broker's L2 check even if a bridge misforwarded it.</p>
    ingress (not just denied at the broker).</li>
 <li><strong>Per-tenant dataplane topics.</strong> <code>DataPlaneServiceImpl</code> topic names become <code>t.&lt;tenant&gt;.&lt;class&gt;.event</code>;
    remove <code>global.event</code> (and the sharded <code>global.event.N</code>) from <code>broker_shared_destinations</code> — the shared
-   carve-out (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L62">TenantPolicy.java:62</a>)
+   carve-out (<code>TenantPolicy.java:62</code>)
    should shrink to genuinely tenant-agnostic control only.</li>
 <li><strong>Bridge policy.</strong> New <code>BridgeTenantPolicy</code> + per-connector <code>setDynamicallyIncludedDestinations</code>; replace
    the <code>isNetworkConnection</code> blanket exemption
-   (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/CrescoAuthorizationBroker.java#L99">CrescoAuthorizationBroker.java:99-111</a>)
+   (<code>CrescoAuthorizationBroker.java:99-111</code>)
    with the allowed-tenant-set check.</li>
 <li><strong>Advisory leak (subtle).</strong> <code>ActiveMQ.Advisory.*</code> is allow-listed
-   (<a href="../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L59">TenantPolicy.java:59-61</a>);
+   (<code>TenantPolicy.java:59-61</code>);
    advisories can leak <em>destination existence</em> across tenants on a shared broker. Decide: scope advisories
    per tenant subtree, suppress cross-tenant advisory propagation on bridges, or accept + document.</li>
 </ol>
