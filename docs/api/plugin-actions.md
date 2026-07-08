@@ -6,9 +6,10 @@ handles the action and, for RPC, returns a reply `MsgEvent` whose params carry t
 external client reaches Cresco only over the WebSocket message bus (the [`wsapi`](../plugins/wsapi.md)
 plugin), **actions are the entire callable surface** — there are no direct method calls into the fabric.
 
-This page is the canonical human reference for every action across the fabric — **89 actions** over 7
-namespaces (the three controller tiers plus the `sysinfo`, `stunnel`, `wsapi`, and `repo` plugins). The same
-information is produced, machine-readable, by the capability inventory described below.
+This page is the canonical human reference for every action across the fabric — **≈119 actions** over 9
+namespaces (the three controller tiers — global, regional, agent — plus the `sysinfo`, `stunnel`, `wsapi`,
+`repo`, `filerepo`, and `executor` plugins). The same information is produced, machine-readable, by the
+capability inventory described below.
 
 ## The capability model
 
@@ -213,13 +214,15 @@ dataplane log streaming. Namespace `agent` — **29 actions**. All actions take 
 ### regional tier
 
 Routed to a **region controller** (`regional`; usually reached via the global fan-out). The per-region
-control API: agent registry for that region, and region-scoped capability/metric/liveness reports.
-Namespace `regional` — **7 actions**.
+control API: agent registry for that region, region-scoped capability/metric/liveness reports, and
+region-first (Kandoo-style) pipeline scheduling.
+Namespace `regional` — **8 actions**.
 
 | Action | Type | Description | Key params | Returns |
 |---|---|---|---|---|
 | `agent_disable` | CONFIG | Unregister an agent from this region. | `region`, `agent` | `is_unregistered` |
 | `agent_enable` | CONFIG | Register an agent in this region. | `region`, `agent` | `is_registered` |
+| `rpipelinesubmit` | CONFIG | Submit a CADL application pipeline at the **regional** tier: a pipeline whose nodes are all region-local is scheduled regionally with no global; only a cross-region pipeline escalates to a coordinator (Kandoo local/root split). | `cadl` | `scheduled_regionally` |
 | `getcapabilities` | EXEC | Return the regional controller's self-describing capability document. | `region`, `agent` | `capabilities` |
 | `getcapabilityinventory` | EXEC | Return this region node's capability inventory. | `region`, `agent` | `capabilityinventory` |
 | `gethealthinventory` | EXEC | Return this region node's health inventory (every Felix HealthCheck result). | `region`, `agent` | `healthinventory` |

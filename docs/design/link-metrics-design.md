@@ -1,8 +1,11 @@
 # Cresco Network Link Metrics + Automated Tuning — Design
 
-Status: **implemented (measurement + health + control loop), federation-actuation pending multi-region
-validation.** Sibling to `health-check-design.md` (which explicitly defers "the measurement/metrics
-unification" — this doc is that effort's link slice) and `region-federation-design.md`.
+Status: **implemented + PROVEN (measurement + health + control loop + cost-aware routing).** Min-cost
+selection is now live and proven on a redundant multi-region containerlab mesh (`RouteComputer` Dijkstra
+over the pushed `RouteView`; `MsgRouter` source-route injection) — see §5/§7#5 and
+[Dynamic Cost-Aware Routing](../architecture/dynamic-routing.md). Sibling to `health-check-design.md`
+(which explicitly defers "the measurement/metrics unification" — this doc is that effort's link slice)
+and `region-federation-design.md`.
 
 ## 1. The OSGi split (why this is measurements, not health)
 
@@ -45,8 +48,9 @@ re-measuring. The control loop (AutoTuner) also consumes them, and **lives in th
 - **Send-latency + throughput — passive.** `DataPlaneServiceImpl` times `producer.send()` (dwell rises
   under broker flow-control pressure = downstream congestion) and counts bytes via a readable `dp_bytes`
   JMS property the wsapi/stunnel producers stamp (`getBodyLength()` fails on a just-sent write-mode msg).
-- **Backlog — JMX (planned).** `DestinationViewMBean.QueueSize` is the best native congestion signal;
-  poll it into `pendingBacklog`. (Wired field; poller is the next increment.)
+- **Backlog — JMX (DONE).** `DestinationViewMBean.QueueSize` is the best native congestion signal;
+  polled into `pendingBacklog` by `ActiveBroker.getBrokerPendingBacklog()` in-process each tuner cycle
+  (see §5/§7#1).
 
 ## 4. Validated (2-node fabric, live)
 

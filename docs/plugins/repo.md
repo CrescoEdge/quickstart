@@ -8,7 +8,7 @@ The `repo` plugin (bundle `io.cresco.repo`) is a functional plugin that stores, 
 |------|-------|
 | Module path | `code/repo` |
 | Bundle symbolic name | `io.cresco.repo` |
-| Java files | 2 |
+| Java files | 3 |
 | Loaded | At runtime by the controller's `StaticPluginLoader` (default-on for a global). |
 | Type | Functional plugin (`@Component` implementing `PluginService`). |
 

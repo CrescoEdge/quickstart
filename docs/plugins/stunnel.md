@@ -8,7 +8,7 @@ The `stunnel` plugin (bundle `io.cresco.stunnel`) builds bidirectional TCP tunne
 |------|-------|
 | Module path | `code/stunnel` |
 | Bundle symbolic name | `io.cresco.stunnel` |
-| Java files | 7 |
+| Java files | 8 |
 | Loaded | At runtime by the controller's `StaticPluginLoader`. |
 | Type | Functional plugin (`@Component` implementing `PluginService`). |
 | Transport | Raw bytes as JMS `BytesMessage` over `TopicType.GLOBAL`. |
@@ -25,7 +25,7 @@ A tunnel has a **SRC** side (a local TCP listener accepting connections) and a *
 | `PluginExecutor` | Handles the CONFIG/EXEC actions (below). Every handler sets `status`/`status_desc` (10 ok, 9 fail, 99 unknown, 400 missing param, 500 internal). |
 | `SocketController` | The core: Netty event loops, tunnel lifecycle, config persistence, health checks, and reconnection. `startSrcTunnel`/`createDstTunnel`/`createDstSession`, `connectWithRetry`, `startHealthCheck`, `checkStartUpConfig` (rescan + reconnect at startup), teardown, and an inner `ReconnectTask`. |
 | `SrcChannelInitializer` / `DstChannelInitializer` | Netty pipelines for accepted SRC connections / DST target connections; the handlers forward bytes both ways as `BytesMessage`s and handle `eos`/status `8` (graceful close)/`9` (failure) markers with half-close. |
-| `PerformanceMonitor` | Per-direction throughput meter (Micrometer `DistributionSummary`); periodically publishes a `bits_per_second` stats message. |
+| `PerformanceMonitor` | Per-direction throughput meter (Micrometer `DistributionSummary`); periodically publishes a throughput record (tagged `cresco_msg_type="stunnel_trace"`) carrying `bits_per_second`, the observed broker **hop path** (`setHops`, from the arriving `cresco_hops` property), and the src/dst region/agent endpoints. |
 | `SocketControllerSM` | UMPLE-generated tunnel state machine (only its initial `pluginActive` state is read). |
 
 ## Executor actions
@@ -61,7 +61,25 @@ Per-tunnel config keys:
 | `performance_report_rate` | `5000` | `PerformanceMonitor` report interval (ms). |
 | `debug_performance` | `false` | Verbose throughput logging. |
 
+Plugin-level config keys (read from `getConfig`, apply to the whole stunnel plugin):
+
+| Key | Default | Meaning |
+|-----|---------|---------|
+| `stunnel_beacon_ms` | `3000` | How often each SRC-configured tunnel pushes an existence/status beacon on the `stunnel_trace` stream. |
+| `stunnel_socket_buffer_bytes` | `4194304` | Netty socket send/receive buffer (4 MB). |
+| `stunnel_read_chunk_bytes` | `262144` | Max adaptive read chunk (256 KB). |
+| `stunnel_write_high_water_bytes` | `2097152` | Write-buffer high-water mark for backpressure (2 MB). |
+
 See [Configuration](../getting-started/configuration.md).
+
+## Path tracing & existence beacons
+
+Because tunnel bytes ride the JMS data plane, transit nodes never see them — only the brokers do. stunnel makes the full path observable and pushes it on a subscribable stream (`cresco_msg_type="stunnel_trace"`):
+
+- **Hop tracing.** Outbound tunnel `BytesMessage`s are marked `cresco_trace="1"` (`SrcChannelInitializer`/`DstChannelInitializer`), so each broker they transit stamps its node identity onto a `cresco_hops` property (see [`CrescoTraceBroker`](../architecture/tunnel-tracing.md)). On arrival, the handler reads `cresco_hops` and feeds it to `PerformanceMonitor.setHops`, so the throughput record carries the real broker path the tunnel crossed.
+- **Existence beacons.** `SocketController` publishes one status beacon per SRC-configured tunnel every `stunnel_beacon_ms` (default 3000) on the same `stunnel_trace` stream, so a subscriber knows a tunnel **exists even with zero traffic** (status ACTIVE/INACTIVE, endpoints).
+
+See [Tunnel Path Tracing & Push Observability](../architecture/tunnel-tracing.md) for the end-to-end design (broker hop stamping, the pushed trace stream, per-link bandwidth attribution, and RTT-driven connector auto-scaling).
 
 ## Observability
 
@@ -79,6 +97,7 @@ observability:
 
 ## See also
 
+- [Tunnel Path Tracing & Push Observability](../architecture/tunnel-tracing.md) — hop tracing, the `stunnel_trace` stream, per-link bandwidth, and connector auto-scaling.
 - [Data Plane](../architecture/dataplane.md) — the JMS transport tunneled bytes travel over.
 - [Metrics & Measurements](../architecture/metrics.md) — `PerformanceMonitor` throughput reporting.
 - [Overview](overview.md) — the functional-plugin model.

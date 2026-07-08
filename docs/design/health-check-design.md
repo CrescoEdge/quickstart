@@ -1,7 +1,12 @@
 # Cresco Health, State & Inventory — Design
 
-Status: **DRAFT for review** · Scope: **Health subsystem first** (measurements and benchmark
-separation are tracked separately). Author: design pass, 2026-07-01.
+Status: **IMPLEMENTED + SHIPPED** (health subsystem built on Felix HC — `controller/health/`:
+`CrescoHealthExecutor`, `LocalHealthChecks`, `MeshHealth`, `link:parent`/`link:child` + broker/db/
+dataplane/disk/memory/plugin checks; Felix HC api-2.0.4 jar staged; plugins implement `HealthCheck`).
+The §3 state-predicate bugs are fixed in code. This doc is the design of record for that shipped work.
+· Scope: **Health subsystem first** (measurements and benchmark separation are tracked separately —
+measurements later shipped too, see [`metrics-unification-design.md`](metrics-unification-design.md)).
+Author: design pass, 2026-07-01.
 
 Decisions locked with the user going in:
 - **Full Felix Health Checks** (`org.apache.felix.hc`) as the health engine — not a thin facade;
@@ -58,22 +63,23 @@ Three observations drive the whole design:
 
 ---
 
-## 3. State-layer predicate bugs to fix directly (independent of the model)
+## 3. State-layer predicate bugs — RESOLVED (independent of the model)
 
 `ControllerMode` (in `library/agent/ControllerMode.java`) is a flat cross-product of role
 `{STANDALONE, AGENT, REGION, GLOBAL}` × phase `{INIT, ACTIVE, FAILED, SHUTDOWN}` — ~20 values. Meaning
-is reconstructed with hand-maintained OR-chains and `toString().startsWith(...)`, which has broken:
+is reconstructed with hand-maintained OR-chains and `toString().startsWith(...)`, which had broken as
+below; these predicates are now **fixed in code** (`ControllerStateImp`):
 
-- `ControllerStateImp.isFailed()` (line 40) includes `REGION_GLOBAL` — the **healthy active** state —
-  so a region+global controller reports **`isActive()==true` AND `isFailed()==true`** at once.
-- `ControllerStateImp.isActive()` (line 36) **omits `REGION`**, so a region-only controller reports
-  **not active**.
-- `isRegionalController()` / `isGlobalController()` use `startsWith("REGION")` / `startsWith("GLOBAL")`
-  on the enum name — stringly-typed role logic.
+- `ControllerStateImp.isFailed()` no longer includes `REGION_GLOBAL` (the **healthy active** state) —
+  it enumerates only the `*_FAILED` modes, so a region+global controller no longer reports
+  **`isActive()==true` AND `isFailed()==true`** at once. **Resolved.**
+- `ControllerStateImp.isActive()` now **includes `REGION`**, so a region-only controller correctly
+  reports active. **Resolved.**
+- `isRegionalController()` / `isGlobalController()` used `startsWith("REGION")` / `startsWith("GLOBAL")`
+  on the enum name — stringly-typed role logic (tidied alongside the above).
 
-**We keep the `ControllerMode` model (MINA owns it — §7) and fix these predicates directly**: enumerate
-the correct set explicitly (or derive from a small `role/phase` classifier over the existing enum,
-without changing the enum). These are targeted correctness fixes, not a model rewrite.
+**The `ControllerMode` model is kept (MINA owns it — §7) and the predicates were fixed directly**:
+the correct set is enumerated explicitly. These were targeted correctness fixes, not a model rewrite.
 
 ---
 
@@ -297,22 +303,25 @@ write in `ControllerStatePersistance` is no longer a flap-driven write storm; a 
 
 ## 11. Phased implementation
 
-Each phase is independently reviewable; earlier phases are useful even if later ones slip.
+Each phase is independently reviewable; earlier phases are useful even if later ones slip. **P1–P5
+have shipped** (`controller/health/` + Felix HC api jar staged); P6 cleanup is the trailing tidy-up.
 
-- **P1 — Foundation.** Add HC bundles; `health` package; `Result.Status` adopted; `NodeStatusType`/
-  plugin-code adapters (§5). No behavior change yet.
-- **P2 — Local checks.** `broker/dataplane/db/disk/memory/plugin` checks, tag `local`. Live + queryable.
-  Zero messaging. Lowest risk.
-- **P3 — Link checks + watcher slimming.** Watchers → transport-only (stamp timestamps);
-  `link:parent` + `link:child` checks with grace/sticky. **Agent robustness fixed here for free**
-  (same check as region).
-- **P4 — HC→MINA bridge + predicate fixes.** Link-check `CRITICAL`-after-grace fires the existing
-  `regionalControllerLost`/`globalControllerLost` MINA events; retire the watchers' direct calls; fix
-  the §3 `isActive`/`isFailed` predicates. **MINA states unchanged.**
-- **P5 — Inventory.** `node/plugins/fabric/health` printers; wsapi + JMX; retire
-  `getControllerInfoMap`/`stateUpdateTask`.
+- **P1 — Foundation. ✅ DONE.** Add HC bundles; `health` package; `Result.Status` adopted;
+  `NodeStatusType`/plugin-code adapters (§5). No behavior change yet.
+- **P2 — Local checks. ✅ DONE.** `broker/dataplane/db/disk/memory/plugin` checks, tag `local`
+  (`BrokerHealthCheck`, `DataPlaneHealthCheck`, `DbHealthCheck`, `MemoryHealthCheck`, `LocalHealthChecks`).
+  Live + queryable. Zero messaging. Lowest risk.
+- **P3 — Link checks + watcher slimming. ✅ DONE.** Watchers → transport-only (stamp timestamps);
+  `link:parent` + `link:child` checks with grace/sticky (`MeshHealth`/`MeshHealthChecks`). **Agent
+  robustness fixed here for free** (same check as region).
+- **P4 — HC→MINA bridge + predicate fixes. ✅ DONE.** Link-check `CRITICAL`-after-grace fires the
+  existing `regionalControllerLost`/`globalControllerLost` MINA events; retire the watchers' direct
+  calls; fix the §3 `isActive`/`isFailed` predicates (now fixed in `ControllerStateImp`). **MINA states
+  unchanged.**
+- **P5 — Inventory. ✅ DONE.** `node/plugins/fabric/health` printers; wsapi + JMX (`HealthInventory`);
+  retire `getControllerInfoMap`/`stateUpdateTask`.
 - **P6 — Retire custom machinery.** Delete watcher atomics/counters/Timers; `NodeStatusType`/int codes
-  become projections; remove dead `executeKPI`-as-health.
+  become projections; remove dead `executeKPI`-as-health. (Trailing cleanup.)
 
 **Proof harness (built alongside P3):** a **link-flap reproduction** in `run/tests` — drop pongs for
 N seconds and assert the node stays in its MINA state (no `regionalControllerLost` fired, no re-init)

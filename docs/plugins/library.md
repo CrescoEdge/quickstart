@@ -8,7 +8,7 @@ The `library` module (bundle `io.cresco.library`) is the shared OSGi **uber-bund
 |------|-------|
 | Module path | `code/library` |
 | Bundle symbolic name | `io.cresco.library` |
-| Java files | 28 |
+| Java files | 45 |
 | Loaded | At boot, before `core` and `controller`. |
 | Declarative Services | None (this bundle is API + embedded deps only). |
 

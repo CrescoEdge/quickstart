@@ -30,6 +30,13 @@ Core Cresco terms, in one place.
 | **Health check** | A Felix `HealthCheck` contributing a pass/fail verdict; run centrally by `CrescoHealthExecutor`. |
 | **MeasurementEngine** | The per-bundle Micrometer registry; metrics are aggregated mesh-wide via `getmetricinventory`. |
 | **LinkMetrics** | Per-edge network quality (RTT/jitter/throughput/backlog) in the `netlink` metric group. |
+| **Cost-aware routing** | Dynamic path selection over a pushed link-state view with per-hop cost, choosing the cheapest path across the federated mesh. Gated by `net_cost_routing`. See [Dynamic Cost-Aware Routing](../architecture/dynamic-routing.md). |
+| **RouteView / LSA** | The pushed link-state advertisement (`route_lsa`) each node shares so peers build a topology graph and compute paths — pushed as it changes, not polled. |
+| **Source route** | A pre-computed hop sequence stamped on a message (`srcroute`) so it follows a chosen path instead of per-hop re-selection. Gated by `net_source_routing`. |
+| **Coordinator** | A controller elected to coordinate a scope. Multiple globals can coexist and regions can boot/run without one (`global_optional`). See [Coordinator Decentralization](../architecture/coordinator-decentralization.md). |
+| **Quorum / epoch** | Coordinator elections use a majority quorum (`f+1` of `2f+1`) with epoch fencing, so a stale coordinator cannot act. |
+| **Failure detector** | φ-accrual suspicion + SWIM indirect probing that decides when a peer is dead (`failure_phi_suspect`/`failure_phi_dead`, `failure_swim_k`). |
+| **Tunnel tracing** | End-to-end [stunnel](../plugins/stunnel.md) path tracing: brokers stamp `cresco_hops` on marked bytes, streamed live (throughput + path) on the subscribable `stunnel_trace` channel. See [Tunnel Path Tracing](../architecture/tunnel-tracing.md). |
 | **wsapi** | The [WebSocket API plugin](../plugins/wsapi.md) that bridges external [clients](../clients/overview.md) to the fabric (`wss://host:8282`). |
-| **clientlib / pycrescolib** | The external [Java](../clients/java.md) and [Python](../clients/python.md) client SDKs. |
+| **clientlib / pycrescolib / cppcrescolib** | The external [Java](../clients/java.md), [Python](../clients/python.md), and [C++ / Arduino (ESP32)](../clients/cpp.md) client SDKs. |
 | **CADL / pipeline** | A described application (a graph of plugins/edges) submitted to and orchestrated by the global controller. |

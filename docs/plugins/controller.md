@@ -8,7 +8,7 @@ The `controller` module (bundle `io.cresco.controller`) is the heart of Cresco. 
 |------|-------|
 | Module path | `code/controller` |
 | Bundle symbolic name | `io.cresco.controller` |
-| Java files | 93 |
+| Java files | 110 |
 | Loaded | At boot, after `library` and `core`. |
 | Bootstrap component | `AgentServiceImpl` (OSGi `@Component`, implements `AgentService`) |
 | Central holder | `ControllerEngine` |

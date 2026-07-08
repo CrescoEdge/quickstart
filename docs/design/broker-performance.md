@@ -8,6 +8,14 @@
 > enforcement (`broker_security_enabled`) is orthogonal to every performance lever here and, when off
 > (default), has zero effect on these paths.
 
+!!! note "wsapi data-plane server has since migrated to Netty"
+    The data-plane throughput work in §6 was measured on the then-current **Jetty 12** wsapi server. The
+    wsapi server has since been rewritten on **Netty** (`NettyWsServer`), carrying forward the same
+    techniques — permessage-deflate off, large adaptive I/O buffers, big socket buffers, and a write
+    high-water backpressure mark (`wsapi_read_chunk_bytes` / `wsapi_socket_buffer_bytes` /
+    `wsapi_write_high_water_bytes`). The Jetty-specific numbers and bug references below are the historical
+    baseline; see the [wsapi plugin](../plugins/wsapi.md) for the current server.
+
 ---
 
 ## 0. Summary of measured wins
@@ -90,7 +98,7 @@ lets **priority QoS** govern dispatch (§3), with non-persistent eviction boundi
 - **Broker bridge (JSSE `nio+ssl`):** **Conscrypt** JCE provider (BoringSSL) installed for the ActiveMQ TLS
   bridge → **+15–40% cross-node**. (`conscrypt-openjdk-uber` 2.6-alpha5, first with osx/linux aarch_64 natives.)
 
-## 6. Jetty 12 data-plane (correctness + throughput)
+## 6. Jetty 12 data-plane (correctness + throughput) — *historical; server now Netty*
 - **Correctness:** the jakarta **partial** upload handler under Jetty 12 delivered ~8KB chunks as separate
   BytesMessages (256KB → ~8 broker messages). Fixed to a **whole-message** handler → 1000/1000 byte-exact.
 - **Throughput killer — permessage-deflate:** Python `websockets` requests it by default; Jetty 12 negotiated it

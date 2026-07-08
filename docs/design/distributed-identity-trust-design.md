@@ -3,9 +3,11 @@
 **Date:** 2026-07-02
 **Status:** Phase 0 (identity/sign/trust primitives) + a working slice of Phase 2 (broker tenant
 authorization) **SHIPPED and PROVEN LIVE** in a 2-tenant / 2-region / 1-global federated mesh
-(`run/tests/tenant_isolation_mesh_test.sh` 10/10; `security_foundation_test.sh` 15/15). Remaining:
-mutual-TLS *binding* of identity at the broker, regional-CA *issuance*, tenant dataplane namespacing
-(§5). All enforcement is behind `broker_security_enabled` (default OFF → fabric unchanged).
+(`run/tests/tenant_isolation_mesh_test.sh` 10/10; `security_foundation_test.sh` 15/15). Mutual-TLS
+*binding* of identity at the broker and regional-CA *issuance* have since also **SHIPPED and PROVEN**
+(`regional_ca_mtls_test.sh` 10/10 — see the shipped bullets below and the phasing table §5). Remaining:
+L3 bridge tenant-filtering (per-bridge allowed-tenant scoping) + cross-region region-CA bundle
+distribution. All enforcement is behind `broker_security_enabled` (default OFF → fabric unchanged).
 
 ### What shipped (this pass)
 - **library `io.cresco.library.security`:** `CrescoIdentity` (identity⇄cert-DN), `MessageSigner`
@@ -172,7 +174,7 @@ The scaling insight: **separate issuance from trust distribution.**
 | **0 ✅ DONE** | Identity-bearing leaf DN; `io.cresco.library.security` identity/chain-verify + **sign/verify** primitive | additive, none | n/a |
 | **2 ✅ SHIPPED** | `CrescoAuthorizationBroker` tenant ACLs (proven in federated mesh) + broker mutual-TLS `needClientAuth` cert-DN binding (proven single-broker) | high (fabric) | `broker_security_enabled`, `broker_require_client_auth` |
 | **1 ✅ SHIPPED** | Region-CA issuance at enrollment (over the discovery-secret exchange) + chain-based trust — fabric-wide mutual TLS proven (`regional_ca_mtls_test.sh` 10/10) | medium | `security_regional_ca` |
-| **3 ← NEXT** | Tenant destination namespacing + bridge tenant filtering (multi-tenant dataplane isolation); cross-region region-CA bundle distribution (global→regions, global↔global) | high | `tenant_namespacing` |
+| **3 ✅ SHIPPED (namespacing)** | Tenant destination namespacing **shipped + proven** (`tenant_namespacing_test.sh` 12/12; `TenantNamespace`/`TenantPolicy` `T.<tenant>.*`, `AgentProducer` stamp+qualify — see [`tenant-isolation-design.md`](tenant-isolation-design.md)). **Remaining:** L3 bridge tenant-filtering + cross-region region-CA bundle distribution (global→regions, global↔global). | high | `tenant_namespacing` |
 | 4 | Revocation/rotation automation; selective payload encryption | medium | per-feature |
 
 **Phase 2 is the fabric-breaking one** — mТLS + ACLs mean a misconfigured principal/ACL denies real

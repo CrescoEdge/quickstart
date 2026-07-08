@@ -60,7 +60,7 @@ Full table: [Plugin Actions › filerepo](../api/plugin-actions.md#filerepo-plug
 |-----|---------|---------|
 | `scan_dir` | *(unset)* | Directory to watch/catalog (producer mode). |
 | `filerepo_name` | *(unset)* | Logical repo name for mesh discovery/sync. |
-| `enable_scan` | `true` | Enable the periodic scan. |
+| `enable_scan` | `false` | Enable producer-mode periodic scanning. Must be explicitly set to `true` to activate the producer scan path; it is **not** on by default. |
 | `scan_delay` / `scan_period` | `5000` / `15000` ms | First-scan delay / scan interval. |
 | `repo_dir` | `filerepo` | Repo directory for on-demand/consumer storage. |
 | `max_inline_bytes` | `524288` (512 KB) | Max file size returned inline by `getfile`/`getjar`. |

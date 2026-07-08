@@ -190,6 +190,9 @@ Mesh-wide inventory and application operations.
 | `get_region_list()` | List regions. |
 | `get_plugin_repo_list()` | Plugins available in the repositories. |
 | `get_repo_plugins()` | Plugins known to the repositories. |
+| `upload_plugin_global(jar_file_path)` | Upload a plugin jar to the global controller's repository. |
+| `get_metric_inventory(scope="global", dst_region="", dst_agent="", include_plugins=true, include_resource=true, timeout_ms=45000)` | Unified metric inventory. `scope` is `node`/`region`/`global`; with `dst_region`+`dst_agent` set it targets that agent's controller (node scope), otherwise the global controller. |
+| `get_capability_inventory(scope="global", dst_region="", dst_agent="", include_plugins=true, include_osgi=false, timeout_ms=45000)` | Unified capability inventory (self-describing actions), scoped the same way as `get_metric_inventory`. |
 
 ### `messaging`
 

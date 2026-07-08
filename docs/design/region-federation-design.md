@@ -1,5 +1,12 @@
 # Region↔Global federation on one host — root cause & design
 
+**Status: RESOLVED — region↔global federation now forms and is PROVEN.** The PONG/reverse-leg blocker
+diagnosed below has been addressed: direct region↔global (and region↔region) links form and the
+federation-edge RTT is harvested over the live bridge (`RegionHealthWatcher.maintainPeerConnections` /
+`measurePeerRtt`; proven on a live global+region mesh — see [`link-metrics-design.md`](link-metrics-design.md)
+§7#4 and the cost-aware routing work). This doc is retained as the root-cause record; the "open blocker /
+proposed fixes" framing below is superseded.
+
 Evidence-based findings from a deep read of the controller source (file:line cited inline).
 Goal: let a **regional controller (case 24)** federate to a **global** when both run on one host,
 and fix the conflated self-detection so two agents on one host work in general.

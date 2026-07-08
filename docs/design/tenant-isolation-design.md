@@ -48,7 +48,7 @@ it is the thing that turns a global rule into a local check.**
 
 **Shipped and proven (keep):**
 - Tenant bound into the cert DN; mTLS derives the authoritative principal
-  ([CrescoAuthorizationBroker.java:141-167](../code/controller/src/main/java/io/cresco/agent/controller/communication/CrescoAuthorizationBroker.java)).
+  (`CrescoAuthorizationBroker.java:141-167`).
 - Regional-CA trust distribution (O(regions), not O(n²)).
 - `TenantPolicy` ACL evaluated at addConsumer/addProducer/send.
 
@@ -56,26 +56,26 @@ it is the thing that turns a global rule into a local check.**
 
 1. **Destinations are not tenant-namespaced, so the strong boundary is dormant.** The primary rule —
    allow `destination == tenant || destination.startsWith(tenant + ".")`
-   ([TenantPolicy.java:70-72](../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L70)) —
+   (`TenantPolicy.java:70-72`) —
    only matches destinations that *happen* to be tenant-prefixed. Nothing **mandates** that, and the
    fabric's own destinations (`region_agent` inboxes, `global.event`) are not prefixed. The boundary
    exists in code but has almost nothing to match.
 
 2. **A concrete cross-tenant *write* hole in the flat scheme.** Because inboxes are `region_agent` with no
    tenant, the "same-region-write" rule
-   ([TenantPolicy.java:82-85](../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L82))
+   (`TenantPolicy.java:82-85`)
    lets **tenant B send into tenant A's inbox whenever they share a region** (`R_agentA` starts with
    `R_`, so WRITE is allowed). Confidentiality of A's inbox holds (B can't read), but *delivery integrity*
    does not — B can inject. Namespacing closes this: the peer rule becomes intra-tenant.
 
 3. **The shared dataplane topics are a cross-tenant channel, and bridges bypass enforcement entirely.**
    `agent/region/global.event` are allow-listed for *all* tenants
-   ([TenantPolicy.java:62-63](../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L62),
+   (`TenantPolicy.java:62-63`,
    `DataPlaneServiceImpl` flat topic names). The comment's justification ("isolated by physical per-region
    broker separation") **fails on a global broker**, where multiple regions/tenants converge. And every
    broker-to-broker bridge is *blanket-exempt* —
    `ctx.isNetworkConnection() → return true`
-   ([CrescoAuthorizationBroker.java:102](../code/controller/src/main/java/io/cresco/agent/controller/communication/CrescoAuthorizationBroker.java#L102)) —
+   (`CrescoAuthorizationBroker.java:102`) —
    so inter-broker hops carry **all tenants with zero tenant enforcement.**
 
 **Conclusion:** enforcement today exists only at the *client edge of a single broker*. It is neither
@@ -126,7 +126,7 @@ both already available in Cresco:
 - **Forwarding filter (primary):** each bridge connector forwards *only* its allowed tenant namespaces via
   `setDynamicallyIncludedDestinations(t.<tenant>.>)` / `setExcludedDestinations(...)` — the *exact*
   mechanism `buildConnector` already uses for dataplane sharding
-  ([ActiveBroker.java:572-586](../code/controller/src/main/java/io/cresco/agent/controller/communication/ActiveBroker.java#L572)).
+  (`ActiveBroker.java:572-586`).
   A message for a non-allowed tenant prefix is never bridged.
 - **Receiving-side enforcement (defense in depth):** the bridge connection *does* have an identity (the
   peer broker's cert, chaining to a region CA). Give bridges a `BridgeTenantPolicy` (allowed-tenant set for
@@ -175,14 +175,14 @@ dropped by that broker's L2 check even if a bridge misforwarded it.
    ingress (not just denied at the broker).
 2. **Per-tenant dataplane topics.** `DataPlaneServiceImpl` topic names become `t.<tenant>.<class>.event`;
    remove `global.event` (and the sharded `global.event.N`) from `broker_shared_destinations` — the shared
-   carve-out ([TenantPolicy.java:62](../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L62))
+   carve-out (`TenantPolicy.java:62`)
    should shrink to genuinely tenant-agnostic control only.
 3. **Bridge policy.** New `BridgeTenantPolicy` + per-connector `setDynamicallyIncludedDestinations`; replace
    the `isNetworkConnection` blanket exemption
-   ([CrescoAuthorizationBroker.java:99-111](../code/controller/src/main/java/io/cresco/agent/controller/communication/CrescoAuthorizationBroker.java#L99))
+   (`CrescoAuthorizationBroker.java:99-111`)
    with the allowed-tenant-set check.
 4. **Advisory leak (subtle).** `ActiveMQ.Advisory.*` is allow-listed
-   ([TenantPolicy.java:59-61](../code/controller/src/main/java/io/cresco/agent/controller/communication/TenantPolicy.java#L59));
+   (`TenantPolicy.java:59-61`);
    advisories can leak *destination existence* across tenants on a shared broker. Decide: scope advisories
    per tenant subtree, suppress cross-tenant advisory propagation on bridges, or accept + document.
 

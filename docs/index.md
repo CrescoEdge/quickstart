@@ -7,7 +7,7 @@ and orchestrate software across many machines — from a single laptop to a glob
 a uniform messaging model, a streaming data plane, cryptographic identity, and per-tenant isolation.
 
 This site is the **canonical documentation** for Cresco. All information about the project — architecture,
-every module and plugin, every callable action, configuration, and both client libraries — lives here.
+every module and plugin, every callable action, configuration, and all three client libraries — lives here.
 
 !!! info "New here? Start with the [Architecture Overview](architecture/overview.md), then the [Quickstart](getting-started/quickstart.md)."
 
@@ -37,7 +37,13 @@ Nodes communicate two ways:
   [Messaging & Routing](architecture/messaging.md).
 - **Plugins with self-describing actions** — functionality is packaged as OSGi bundles that expose
   `@CrescoAction` operations, aggregated fabric-wide into a [capability inventory](api/plugin-actions.md)
-  (89 actions today).
+  (≈119 actions across 9 namespaces today).
+- **Dynamic cost-aware routing** — a pushed link-state view and per-hop cost let the controller pick the
+  cheapest path across a federated mesh, with automatic broker-bridge scaling under load. See
+  [Dynamic Cost-Aware Routing](architecture/dynamic-routing.md).
+- **Decentralized coordinators** — regions boot and run without a global (`global_optional`), multiple
+  globals coexist, and failure detection + epoch-fenced quorum elect coordinators. See
+  [Coordinator Decentralization](architecture/coordinator-decentralization.md).
 - **Cryptographic identity & trust** — every node carries an identity-bearing X.509 leaf
   (`CN=agent, OU=region, O=tenant`), mutual TLS, and distributed **regional-CA** trust. See
   [Security & Identity](architecture/security.md).
@@ -45,8 +51,11 @@ Nodes communicate two ways:
   and role-based authorization (`SUPERUSER` / `TENANT`), enforced at every broker.
 - **Health & metrics** — Felix [health checks](architecture/health.md) and a unified Micrometer
   [metrics](architecture/metrics.md) model with mesh-wide aggregation.
-- **Client SDKs** — drive the fabric from [Java](clients/java.md) or [Python](clients/python.md) over a
-  secure WebSocket.
+- **End-to-end tunnel tracing** — [stunnel](plugins/stunnel.md) tunnels are traced hop-by-hop through the
+  broker network and streamed live (throughput + path) on a subscribable channel. See
+  [Tunnel Path Tracing](architecture/tunnel-tracing.md).
+- **Client SDKs** — drive the fabric from [Java](clients/java.md), [Python](clients/python.md), or
+  [C++ / Arduino (ESP32)](clients/cpp.md) over a secure WebSocket.
 
 ## How this site is organized
 
@@ -54,10 +63,10 @@ Nodes communicate two ways:
 - **[Architecture](architecture/overview.md)** — how the mesh, messaging, data plane, discovery, security,
   tenancy, health, and metrics work.
 - **[Modules & Plugins](plugins/overview.md)** — a page for every module (`agent`, `library`, `controller`,
-  `core`, `logger`, `repo`, `sysinfo`, `wsapi`, `stunnel`).
+  `core`, `logger`, `repo`, `filerepo`, `sysinfo`, `wsapi`, `stunnel`, `executor`).
 - **[API Reference](api/plugin-actions.md)** — all plugin actions, the Library API, the MsgEvent structure,
   and the full [configuration parameter](reference/configuration.md) reference.
-- **[Client Libraries](clients/overview.md)** — Java and Python SDK references.
+- **[Client Libraries](clients/overview.md)** — Java, Python, and C++ (Arduino/ESP32) SDK references.
 - **[Operations](operations/deployment.md)** — deployment and testing.
 - **[Reference](reference/glossary.md)** — glossary and the underlying design documents.
 
@@ -71,12 +80,15 @@ cresco/
 │   ├── controller/  # the fabric brain (messaging, discovery, security, health, db)
 │   ├── core/        # controller/JVM lifecycle service
 │   ├── logger/      # logging bootstrap
-│   ├── repo/        # plugin/file repository
+│   ├── repo/        # plugin repository
+│   ├── filerepo/    # file replication/repository plugin
 │   ├── sysinfo/     # system info + benchmark plugin
 │   ├── wsapi/       # WebSocket API (external client bridge, :8282)
 │   ├── stunnel/     # secure TCP tunnel plugin
+│   ├── executor/    # OS process / command executor plugin
 │   ├── clientlib/   # external Java SDK
 │   └── pycrescolib/ # external Python SDK
+├── cppcrescolib/    # external C++ / Arduino (ESP32) SDK
 └── run/             # staged agent jar + launch scripts + tests
 ```
 

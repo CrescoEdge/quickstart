@@ -8,7 +8,7 @@ The `sysinfo` plugin (bundle `io.cresco.sysinfo`) gathers live operating-environ
 |------|-------|
 | Module path | `code/sysinfo` |
 | Bundle symbolic name | `io.cresco.sysinfo` |
-| Java files | 6 |
+| Java files | 7 |
 | Loaded | At runtime by the controller's `StaticPluginLoader`. |
 | Type | Functional plugin (`@Component` implementing `PluginService`). |
 | Metric source | OSHI (system) + SciMark2 (CPU benchmark). |

@@ -6,9 +6,12 @@ computation + per-class-capable path math), and **D** (source-routing data plane
 the *distributed-cost-first* path of deviation **D1** (each node builds a mesh-wide link-state view from
 **pushed** advertisements and runs Dijkstra locally, rather than a central FIB push) and adding a
 **self-organizing link-inference** capability beyond the original plan. See the shipped-feature reference:
-[Dynamic Cost-Aware Routing](../architecture/dynamic-routing.md). Phases **B** (tenant namespacing across
-bridges), **E** (per-tenant fairness), and **F** (joint routing/capacity) remain. Re-baselines an external
-architecture report against Cresco's actual in-tree state and sequences the real remaining work.
+[Dynamic Cost-Aware Routing](../architecture/dynamic-routing.md). Phase **B**'s L1 tenant namespacing has
+since **shipped + proven** (flag `tenant_namespacing`, `tenant_namespacing_test.sh` 12/12 — see
+[`tenant-isolation-design.md`](tenant-isolation-design.md)); only its L3 bridge-scoping (per-bridge
+allowed-tenant forwarding) + multi-tenant carriage over the redundant paths remain. Phases **E**
+(per-tenant fairness) and **F** (joint routing/capacity) remain. Re-baselines an external architecture
+report against Cresco's actual in-tree state and sequences the real remaining work.
 **No calendar/effort estimates here** — phases are a *dependency order*, not a schedule.
 
 !!! success "Implemented 2026-07-06"
@@ -57,7 +60,7 @@ work against real classes and validation gates.
 | Per-destination tenant ACL enforcement | **DONE + PROVEN** | `TenantPolicy` + `CrescoAuthorizationBroker` (BrokerFilter on addConsumer/addProducer/send), `broker_security_enabled`; `tenant_isolation_mesh_test.sh` 10/10 |
 | Selective message signing primitive | **DONE** | `MessageSigner` (sign/verify payload digest) |
 | Loop safety in a mesh | **DONE** | `BrokerPath` + TTL (`MsgRouter.getTTL`), native bridge loop suppression |
-| **Tenant destination namespacing** (`T<tenant>.<class>.<region>.<agent>`) | **TODO** | Phase 3 in `distributed-identity-trust-design.md` §5, flag `tenant_namespacing` — *this is the keystone for both routing and isolation* |
+| **Tenant destination namespacing** (`T.<tenant>.<raw>`) | **DONE + PROVEN (L1); L3 bridge-scoping TODO** | Shipped flag `tenant_namespacing` (`TenantNamespace`/`TenantPolicy`, `tenant_namespacing_test.sh` 12/12 — `distributed-identity-trust-design.md` §5, `tenant-isolation-design.md`); *the keystone for both routing and isolation.* Per-bridge tenant-scoped forwarding (L3) still to build. |
 | **Redundant federation paths** (distinct alternate routes, not parallel sockets to one peer) | **TODO** | Topology is still a strict tree; `addBridgeConnections` makes parallel sockets to the *same* peer, not alternate paths |
 | **Central route computation + routing-table push** (SDN) | **TODO** | No global topology graph / path solver / pushed FIB |
 | **Segment / source-routing data plane** | **TODO** | `MsgRouter` has a hop trail + per-hop cost, not a source-computed segment stack |
@@ -159,12 +162,13 @@ Each: goal · primary integration point · depends-on · validation.
   bridge setup, `MsgRouter` (activate `lowestCostEdge` selection). *Depends:* multi-region test env.
   *Validate:* failover time on link degrade; path matches oracle min-cost.
 
-- **W2 — Tenant destination namespacing + bridge tenant filtering.** Implement
-  `T<tenant>.<priorityClass>.<region>.<agent>`; ingress drop of mismatched-tenant publishes; bridge forwards
+- **W2 — Tenant destination namespacing + bridge tenant filtering.** **L1 namespacing shipped + proven**
+  (`T.<tenant>.<raw>` via `TenantNamespace`/`TenantPolicy`; `AgentProducer` stamps+qualifies; ingress drop
+  of mismatched-tenant publishes; `tenant_namespacing_test.sh` 12/12). **Remaining (L3):** bridge forwards
   only its tenant namespace (closes the bridge-ACL-exemption leak for the common case). *Integration:*
   `TenantPolicy`, `CrescoAuthorizationBroker`, `MsgRouter` ingress, `ActiveBroker` bridge
-  included/excluded destinations. *Depends:* nothing (security substrate shipped). *Validate:* extend
-  `tenant_isolation_mesh_test.sh` to multi-hop bridged paths. *Flag:* `tenant_namespacing`.
+  included/excluded destinations. *Depends:* nothing (security substrate + L1 namespacing shipped).
+  *Validate:* extend `tenant_isolation_mesh_test.sh` to multi-hop bridged paths. *Flag:* `tenant_namespacing`.
 
 - **W3 — Central route computation (global as route reflector) + FIB push.** Global builds the topology
   graph from per-edge link signals, computes routes, and pushes a routing table to each regional
