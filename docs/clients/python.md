@@ -540,11 +540,13 @@ def example_admin(dst_region, dst_agent):
 
 ## Cross-language parity and testing
 
-Both clients ship a self-contained conformance suite (no live mesh required) that asserts they
+The clients ship a self-contained conformance suite (no live mesh required) that asserts they
 emit **identical wire messages for identical API calls**, sharing one generated golden corpus.
 
 - **Python:** `pip install -e .[test] && pytest`
 - **Java:** `mvn test` — see [Java Client (feature parity)](java.md).
+- **C++ / Arduino:** the [C++ client](cpp.md) mirrors the same submodules, method names, and
+  `example_*` set for ESP32-S3 edge nodes.
 
 ---
 
@@ -552,6 +554,7 @@ emit **identical wire messages for identical API calls**, sharing one generated 
 
 - [Client Libraries — Overview](overview.md)
 - [Java Client (feature parity)](java.md)
+- [C++ / Arduino Client (feature parity)](cpp.md)
 - [MsgEvent — the message wire contract](../api/msgevent.md)
 - [Plugin Actions (Capability Inventory)](../api/plugin-actions.md)
 - [Data Plane architecture](../architecture/dataplane.md)

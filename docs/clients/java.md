@@ -6,8 +6,9 @@ with the `cresco_service_key` header) and drives the fabric: controlling agents,
 deploying plugins, submitting pipelines, streaming the data plane, and tailing
 logs.
 
-For the shared connect-then-use-submodules model and the Java/Python parity
-guarantee, see the [Client Libraries overview](overview.md).
+For the shared connect-then-use-submodules model and the Java/Python/C++ parity
+guarantee, see the [Client Libraries overview](overview.md). The equivalent SDKs
+are the [Python client](python.md) and the [C++ / Arduino client](cpp.md).
 
 ## Installation
 
@@ -455,12 +456,13 @@ if (client.agents.is_controller_active(dst_region, dst_agent)) {
 
 The client ships a self-contained test suite (no live mesh required) that
 asserts it emits **identical wire messages for identical API calls** as the
-Python client, verified against a shared golden corpus:
+[Python](python.md) and [C++ / Arduino](cpp.md) clients, verified against a
+shared golden corpus:
 
 ```bash
 mvn test
 ```
 
-A green run on both the Java and Python suites proves the clients produce the
-same results. See the [Client Libraries overview](overview.md#feature-parity)
+A green run across the Java, Python, and C++ suites proves the clients produce
+the same results. See the [Client Libraries overview](overview.md#feature-parity)
 for the parity guarantee.

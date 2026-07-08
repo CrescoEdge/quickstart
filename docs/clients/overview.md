@@ -1,12 +1,13 @@
 # Client Libraries
 
-Cresco ships two external client SDKs for driving a mesh from outside the OSGi
+Cresco ships three external client SDKs for driving a mesh from outside the OSGi
 runtime:
 
 - **[Java — `clientlib`](java.md)** — the Java SDK (`io.cresco:clientlib`).
 - **[Python — `pycrescolib`](python.md)** — the Python SDK.
+- **[C++ / Arduino — `cppcrescolib`](cpp.md)** — the embedded SDK for ESP32 (ESP32-S3) edge nodes.
 
-Both connect to a running Cresco agent that hosts the **`wsapi`** plugin over a
+All three connect to a running Cresco agent that hosts the **`wsapi`** plugin over a
 secure WebSocket (`wss://host:8282`) and drive the fabric — controlling agents,
 deploying plugins, submitting pipelines, streaming the data plane, and tailing
 logs.
@@ -49,21 +50,29 @@ id, so each RPC completes before the next is issued.
 ## Feature parity
 
 !!! note "Standardized clients"
-    The Python and Java clients are kept **feature- and name-identical**: the
+    The Python, Java, and C++ clients are kept **feature- and name-identical**: the
     same submodules (`api`, `admin`, `agents`, `globalcontroller`, `messaging`),
-    the same method names (snake_case in both languages), the same behavior, and
+    the same method names (snake_case in all three languages), the same behavior, and
     the same worked examples. Anything you can do in one client, you can do in
-    the other with the same call.
+    the others with the same call.
 
-Parity is enforced by test: both clients ship a self-contained suite that
+Parity is enforced by test: the clients ship a self-contained suite that
 asserts they emit **identical wire messages for identical API calls**, verified
-against the same generated golden corpus. A green run on both proves the two
-clients produce byte-for-byte equivalent results.
+against the same generated golden corpus. A green run proves the clients produce
+byte-for-byte equivalent results.
+
+The only differences are the ones each platform forces:
+
+| | Python (`pycrescolib`) | Java (`clientlib`) | C++ (`cppcrescolib`) |
+|---|---|---|---|
+| Concurrency | asyncio under a blocking surface | background reader threads | single cooperative `loop()` |
+| Structured returns | `dict` / `list` | `Map` / `List` / JSON | `ArduinoJson::JsonDocument` |
+| Target | server / desktop | server / desktop / JVM | ESP32-S3 edge node |
 
 ## SSL verification
 
 Cresco agents present self-signed certificates by default, so client SSL
-certificate verification is **disabled by default**. Both clients accept a
+certificate verification is **disabled by default**. All three clients accept a
 `verify_ssl` constructor flag to enable it when the mesh is fronted by a
 trusted certificate authority.
 
@@ -72,6 +81,7 @@ trusted certificate authority.
 - **[Java (clientlib)](java.md)** — installation, connection, full interface
   reference, and worked examples.
 - **[Python (pycrescolib)](python.md)** — the equivalent Python SDK.
+- **[C++ / Arduino (cppcrescolib)](cpp.md)** — the embedded ESP32 SDK.
 - **[MsgEvent](../api/msgevent.md)** — the message envelope and routing model
   the `messaging` submodule builds on.
 - **[Plugin Actions](../api/plugin-actions.md)** — the action catalog exposed by
