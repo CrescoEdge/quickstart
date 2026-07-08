@@ -54,6 +54,7 @@ nav:
       - Messaging & Routing: architecture/messaging.md
       - Dynamic Cost-Aware Routing: architecture/dynamic-routing.md
       - Coordinator Decentralization: architecture/coordinator-decentralization.md
+      - Tunnel Path Tracing: architecture/tunnel-tracing.md
       - Data Plane: architecture/dataplane.md
       - Discovery: architecture/discovery.md
       - Security & Identity: architecture/security.md

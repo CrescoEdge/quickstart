@@ -301,6 +301,9 @@ buffer sizes used when auto-tuning is off.
 | `net_autotune_cooldown_ms` | long | `15000` | Minimum interval between successive connection scale actions on the same link. |
 | `net_autotune_backlog_high` | long | `500` | Broker backlog (pending messages) above which the tuner scales connections up. |
 | `net_autotune_sendlat_high_ms` | double | `20.0` | Send-latency (ms) above which the tuner scales connections up. |
+| `net_autotune_rtt_high_ms` | double | `40.0` | Smoothed-RTT (ms) above which the tuner scales connections up. Catches dataplane byte floods (e.g. [stunnel tunnels](../architecture/tunnel-tracing.md)) that inflate RTT but not send-latency/backlog. |
+| `net_trace_hops` | boolean | `true` | Broker stamps `cresco_hops` on `cresco_trace`-marked data-plane messages, so a tunnel's bytes carry the full broker path they traversed ([tunnel tracing](../architecture/tunnel-tracing.md)). Only marked messages pay. |
+| `stunnel_beacon_ms` | long | `3000` | How often each stunnel tunnel pushes its existence/status beacon on the subscribable `stunnel_trace` stream. |
 | `net_autotune_sendlat_low_ms` | double | `2.0` | Send-latency (ms) below which idle links are scaled down. |
 | `net_autotune_bdp_safety` | double | `3.0` | Bandwidth-delay-product multiplier used to size socket buffers with headroom. |
 | `net_link_speed_bps` | long | `0` | Configured uplink capacity (bits/s) used as a BDP cap; `0` = unknown. |
