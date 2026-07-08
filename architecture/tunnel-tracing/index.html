@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../broker-performance/">
+        <link rel="prev" href="../coordinator-decentralization/">
       
       
-        <link rel="next" href="../link-metrics-design/">
+        <link rel="next" href="../dataplane/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Region Federation - Cresco Documentation</title>
+        <title>Tunnel Path Tracing - Cresco Documentation</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#regionglobal-federation-on-one-host-root-cause-design" class="md-skip">
+        <a href="#tunnel-path-tracing-push-observability" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Region Federation
+              Tunnel Path Tracing
             
           </span>
         </div>
@@ -262,11 +262,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../architecture/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
           
   
   
@@ -382,13 +384,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../distributed-identity-trust-design/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../design/distributed-identity-trust-design/" class="md-tabs__link">
           
   
   
@@ -619,26 +619,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -656,7 +661,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -674,7 +679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -702,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/messaging/" class="md-nav__link">
+      <a href="../messaging/" class="md-nav__link">
         
   
   
@@ -730,7 +735,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/dynamic-routing/" class="md-nav__link">
+      <a href="../dynamic-routing/" class="md-nav__link">
         
   
   
@@ -758,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/coordinator-decentralization/" class="md-nav__link">
+      <a href="../coordinator-decentralization/" class="md-nav__link">
         
   
   
@@ -783,10 +788,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../architecture/tunnel-tracing/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tunnel Path Tracing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -802,6 +834,103 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-dataplane-bytes-are-invisible-to-cresco-at-transit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The problem: dataplane bytes are invisible to Cresco at transit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hop-tracing-at-the-broker-the-only-place-that-sees-transit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hop tracing at the broker (the only place that sees transit)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pushed-subscribable-trace-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pushed, subscribable trace stream
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-link-bandwidth-automatic-connector-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-link bandwidth &amp; automatic connector scaling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#push-beats-pull-under-load-proven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Push beats pull under load (proven)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -814,7 +943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/dataplane/" class="md-nav__link">
+      <a href="../dataplane/" class="md-nav__link">
         
   
   
@@ -842,7 +971,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/discovery/" class="md-nav__link">
+      <a href="../discovery/" class="md-nav__link">
         
   
   
@@ -870,7 +999,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/security/" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
         
   
   
@@ -898,7 +1027,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/tenancy/" class="md-nav__link">
+      <a href="../tenancy/" class="md-nav__link">
         
   
   
@@ -926,7 +1055,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/health/" class="md-nav__link">
+      <a href="../health/" class="md-nav__link">
         
   
   
@@ -954,7 +1083,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/metrics/" class="md-nav__link">
+      <a href="../metrics/" class="md-nav__link">
         
   
   
@@ -1925,31 +2054,26 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -1967,7 +2091,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1985,7 +2109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../distributed-identity-trust-design/" class="md-nav__link">
+      <a href="../../design/distributed-identity-trust-design/" class="md-nav__link">
         
   
   
@@ -2013,7 +2137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tenant-isolation-design/" class="md-nav__link">
+      <a href="../../design/tenant-isolation-design/" class="md-nav__link">
         
   
   
@@ -2041,7 +2165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../optimal-global-routing-plan/" class="md-nav__link">
+      <a href="../../design/optimal-global-routing-plan/" class="md-nav__link">
         
   
   
@@ -2069,7 +2193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../coordinator-decentralization-plan/" class="md-nav__link">
+      <a href="../../design/coordinator-decentralization-plan/" class="md-nav__link">
         
   
   
@@ -2097,7 +2221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../broker-performance/" class="md-nav__link">
+      <a href="../../design/broker-performance/" class="md-nav__link">
         
   
   
@@ -2122,37 +2246,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Region Federation
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../design/region-federation-design/" class="md-nav__link">
         
   
   
@@ -2168,70 +2265,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tldr" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TL;DR
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-identity-primitive-for-any-selfpeer-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The identity primitive (for any self/peer check)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#proposed-fixes-ranked" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Proposed fixes (ranked)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-this-matters-for-the-test-plan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why this matters for the test plan
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2244,7 +2277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../link-metrics-design/" class="md-nav__link">
+      <a href="../../design/link-metrics-design/" class="md-nav__link">
         
   
   
@@ -2272,7 +2305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../health-check-design/" class="md-nav__link">
+      <a href="../../design/health-check-design/" class="md-nav__link">
         
   
   
@@ -2300,7 +2333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../metrics-unification-design/" class="md-nav__link">
+      <a href="../../design/metrics-unification-design/" class="md-nav__link">
         
   
   
@@ -2328,7 +2361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../capability-inventory-design/" class="md-nav__link">
+      <a href="../../design/capability-inventory-design/" class="md-nav__link">
         
   
   
@@ -2356,7 +2389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cresco-tools-reference/" class="md-nav__link">
+      <a href="../../design/cresco-tools-reference/" class="md-nav__link">
         
   
   
@@ -2411,10 +2444,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tldr" class="md-nav__link">
+  <a href="#the-problem-dataplane-bytes-are-invisible-to-cresco-at-transit" class="md-nav__link">
     <span class="md-ellipsis">
       
-        TL;DR
+        The problem: dataplane bytes are invisible to Cresco at transit
       
     </span>
   </a>
@@ -2422,10 +2455,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-identity-primitive-for-any-selfpeer-check" class="md-nav__link">
+  <a href="#hop-tracing-at-the-broker-the-only-place-that-sees-transit" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The identity primitive (for any self/peer check)
+        Hop tracing at the broker (the only place that sees transit)
       
     </span>
   </a>
@@ -2433,10 +2466,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#proposed-fixes-ranked" class="md-nav__link">
+  <a href="#pushed-subscribable-trace-stream" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Proposed fixes (ranked)
+        Pushed, subscribable trace stream
       
     </span>
   </a>
@@ -2444,10 +2477,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-this-matters-for-the-test-plan" class="md-nav__link">
+  <a href="#per-link-bandwidth-automatic-connector-scaling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why this matters for the test plan
+        Per-link bandwidth &amp; automatic connector scaling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#push-beats-pull-under-load-proven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Push beats pull under load (proven)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
       
     </span>
   </a>
@@ -2474,86 +2540,86 @@
   
 
 
-<h1 id="regionglobal-federation-on-one-host-root-cause-design">Region↔Global federation on one host — root cause &amp; design<a class="headerlink" href="#regionglobal-federation-on-one-host-root-cause-design" title="Permanent link">&para;</a></h1>
-<p>Evidence-based findings from a deep read of the controller source (file:line cited inline).
-Goal: let a <strong>regional controller (case 24)</strong> federate to a <strong>global</strong> when both run on one host,
-and fix the conflated self-detection so two agents on one host work in general.</p>
-<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
-<p>There are <strong>two independent problems</strong>. The self-guard (<code>isLocal</code>) the symptom pointed at is
-<em>mostly a red herring</em> for the PONG failure; the real blocker is message <strong>routing through a
-duplex broker bridge</strong> whose reverse leg doesn't deliver same-host.</p>
-<ol>
-<li><strong>PONG failure (the actual case-24 blocker) — structural routing, not the self-guard.</strong>
-   A region routes <em>all</em> global-bound messages (including the health PING) through its <strong>own</strong>
-   <code>vm://localhost</code> broker and relies on a single duplex ActiveMQ network bridge
-   (<code>ActiveBroker.AddNetworkConnector</code>, <code>setDuplex(true)</code> — ActiveBroker.java:405-420) to
-   demand-forward them to the global. The global never creates a return bridge (candidate
-   brokers are enqueued only region→global at ControllerSMHandler.java:796). The PING reaches
-   the global (forward leg works → registration succeeds), but the <strong>PONG must travel back over
-   the duplex bridge's reverse leg</strong>, which is not established/maintained same-host → <code>sendRPC</code>
-   returns null → <code>RegionHealthWatcher.ActivePingTask</code> logs "No PONG … GLOBAL CONTROLLER LOST"
-   (RegionHealthWatcher.java:391-395) and loops.</li>
-<li>
-<p>A plain <strong>agent (case 6)</strong> avoids this entirely: <code>isAgent()</code> passes the remote broker IP into
-     <code>initIOChannels</code>, so its producer/consumer attach <strong>directly</strong> to the global broker via
-     <code>failover:(nio+ssl://HOST:32010)</code> (ControllerSMHandler.java:619-630, 1009-1013). No bridge,
-     no reverse leg → works same-host.</p>
-</li>
-<li>
-<p><strong><code>isLocal(ip)</code> self-detection — conflates two purposes; one is dead code, one is a real
-   same-host drop, neither is what breaks case 24 (which uses static-TCP discovery).</strong></p>
-</li>
-<li><strong>P1 discovery-dedup</strong> at <code>ActiveBrokerManager.java:60-63</code> is a <strong>no-op today</strong> — the block
-     only logs the "REMOVED BLOCKED BROKER CONNECTION FOR LOCALHOST" warning; nothing is skipped
-     (the real skip was commented out). Self-dedup actually happens by identity via the
-     <code>brokeredAgents</code> map key = <code>getDiscoveredPath()</code> (region_agent).</li>
-<li><strong>Real same-host drop</strong>: <code>UDPDiscoveryEngine.java:258</code> — a node won't answer a UDP broadcast
-     whose source IP is one of its own NIC IPs, so <strong>same-host UDP discovery is silently dropped</strong>.
-     Case 24 doesn't hit this because it uses <em>static TCP</em> discovery (<code>exchangeKeyWithBroker</code>,
-     port 32005), which has no IP self-filter (identity/cert-gated) — that's why registration works.</li>
-<li>
-<p><strong>P2 connection-method</strong> <code>isLocalBroker(addr)</code> (ControllerSMHandler.java:1022) only matches the
-     literals <code>"localhost"</code>/<code>"[::]"</code> (the region's own broker sentinel). It is <strong>not IP-based and
-     not broken</strong> — a discovered same-host peer arrives as a real IP and correctly uses TCP.</p>
-</li>
-<li>
-<p><strong>Secondary <code>getRegionHealthWatcher()</code> NPE.</strong> PONG-timeout recovery nulls the watcher
-   (<code>globalControllerLost</code>→<code>isRegionalGlobalShutdown</code>→<code>setRegionHealthWatcher(null)</code>,
-   ControllerSMHandler.java:843-844) while the watcher's own daemon timers / message routing still
-   dereference it (RegionHealthWatcher.java:308; MsgRouter.java:30) → NPE during the recovery window.</p>
-</li>
-</ol>
-<h2 id="the-identity-primitive-for-any-selfpeer-check">The identity primitive (for any self/peer check)<a class="headerlink" href="#the-identity-primitive-for-any-selfpeer-check" title="Permanent link">&para;</a></h2>
-<p><code>agentPath = region_id + "_" + agent_id</code> (<code>ControllerStateImp.getAgentPath()</code>:105-107) is the stable,
-unique-per-instance identity. The discovery response already carries the peer's via
-<code>DiscoveryNode.getDiscoveredPath()</code> (DiscoveryNode.java:95-97) — <strong>same format</strong>, available at every
-self-check call site. Per-agent X.509 certs exist (alias = agentPath) but the CN is randomized and the
-cert is null until the CERTIFY exchange, so use a cert-fingerprint only as optional hardening, not the
-primary key. Discovery secrets/validators are <strong>fabric-shared</strong> — useless for telling two agents apart.</p>
-<h2 id="proposed-fixes-ranked">Proposed fixes (ranked)<a class="headerlink" href="#proposed-fixes-ranked" title="Permanent link">&para;</a></h2>
-<p><strong>Fix A — make region global-bound RPCs go direct to the global broker (fixes the PONG; highest value).</strong>
-Mirror the agent path: give the region a producer/consumer attached to the global broker
-(<code>failover:(nio+ssl://global:32010)</code>) for global-destined messages, instead of depending on the duplex
-bridge's reverse leg. Touch points: <code>MsgRouter.forwardToRemoteGlobal/forwardToRemoteRegion</code>
-(MsgRouter.java:46-75) + the region's IO-channel setup (ControllerSMHandler.regionInit/initIOChannels).
-This removes same-host dependence on bridge reverse-demand-forwarding.
-<em>(Alternative A′: keep the bridge but ensure the global creates/sustains the reverse leg, or verify
-duplex reverse demand-forwarding for the region's RX queue — more ActiveMQ-internal, less certain.)</em></p>
-<p><strong>Fix B — replace IP self-detection with identity (fixes same-host UDP discovery + removes the latent trap).</strong>
-- <code>UDPDiscoveryEngine.java:258</code>: gate the responder skip on
-  <code>discoveryNode.getDiscoveredPath().equals(cstate.getAgentPath())</code> (identity), not on
-  <code>intAddr.containsKey(remoteAddress)</code> (IP). Lets two same-host agents discover via UDP while still
-  not answering <em>itself</em>.
-- <code>ActiveBrokerManager.java:60-63</code>: implement the real self-skip by identity
-  (<code>getDiscoveredPath().equals(cstate.getAgentPath())</code>) instead of the dead IP warn.
-- Leave <code>isLocalBroker</code> as-is (it's identity-correct via the sentinel); do <strong>not</strong> widen it to match IPs.</p>
-<p><strong>Fix C — null-safe health-watcher teardown (fixes the NPE).</strong>
-Guard <code>getRegionHealthWatcher()</code> dereferences and/or cancel the watcher's timer tasks before nulling it
-in <code>isRegionalGlobalShutdown()</code>.</p>
-<h2 id="why-this-matters-for-the-test-plan">Why this matters for the test plan<a class="headerlink" href="#why-this-matters-for-the-test-plan" title="Permanent link">&para;</a></h2>
-<p>On this host (VPN owns the default route; only <code>127.0.0.1</code> is same-host-reachable), <strong>Fix A is what makes
-a same-host regional controller viable</strong> — without a second routable host or Docker. Until then, the
-verified working multi-node topology is <strong>global + plain agent (case 6) over loopback</strong>.</p>
+<h1 id="tunnel-path-tracing-push-observability">Tunnel Path Tracing &amp; Push Observability<a class="headerlink" href="#tunnel-path-tracing-push-observability" title="Permanent link">&para;</a></h1>
+<p>Cresco can trace the <strong>full broker path of every stunnel tunnel</strong> end-to-end, stream it live, and show
+per-link bandwidth and automatic connector scaling — all <strong>pushed</strong>, never polled. This page documents how,
+and the architectural principle it proves: <em>push survives load that pull cannot</em>.</p>
+<h2 id="the-problem-dataplane-bytes-are-invisible-to-cresco-at-transit">The problem: dataplane bytes are invisible to Cresco at transit<a class="headerlink" href="#the-problem-dataplane-bytes-are-invisible-to-cresco-at-transit" title="Permanent link">&para;</a></h2>
+<p>A <a href="../../plugins/stunnel/">stunnel</a> tunnel carries its bytes over the <strong>data plane</strong> — JMS <code>BytesMessage</code>s on
+the <code>global.event</code> topic, demand-forwarded by ActiveMQ's network-of-brokers. Only <em>tunnel setup</em> uses
+addressed (cost-routed) RPCs; the <strong>bytes themselves ride the broker bridges</strong>, and the Cresco controllers at
+<em>transit</em> nodes never see them — only the brokers do. So a tunnel's path cannot be traced from Cresco message
+routing, and its per-link bandwidth does not show up in the controller's link metrics.</p>
+<h2 id="hop-tracing-at-the-broker-the-only-place-that-sees-transit">Hop tracing at the broker (the only place that sees transit)<a class="headerlink" href="#hop-tracing-at-the-broker-the-only-place-that-sees-transit" title="Permanent link">&para;</a></h2>
+<p><code>CrescoTraceBroker</code> is an ActiveMQ <code>BrokerFilter</code> installed in every broker. On each <code>send</code>, if a
+<code>global.event</code> message is marked <code>cresco_trace=1</code>, it appends <strong>this broker's node identity</strong> to a
+<code>cresco_hops</code> message property. As the message is demand-forwarded broker→broker, each hop appends itself, so
+it arrives at the consumer carrying the <strong>full ordered broker path it traversed</strong>.</p>
+<ul>
+<li>The stunnel plugin marks its data messages <code>cresco_trace=1</code> and reads <code>cresco_hops</code> off arriving messages.</li>
+<li>Gated by <code>net_trace_hops</code> (default on); only marked messages pay the cost.</li>
+</ul>
+<blockquote>
+<p>Proven: a tunnel between agents in region 3 and region 13 traced <code>R3 → G0 → G1 → R13</code> — across two regions
+and two globals — end to end.</p>
+</blockquote>
+<h2 id="pushed-subscribable-trace-stream">Pushed, subscribable trace stream<a class="headerlink" href="#pushed-subscribable-trace-stream" title="Permanent link">&para;</a></h2>
+<p>The stunnel <code>PerformanceMonitor</code> publishes each tunnel's live <strong>throughput + observed hop path</strong> on a
+subscribable stream (<code>cresco_msg_type='stunnel_trace'</code>), and <code>SocketController</code> publishes a periodic
+<strong>existence beacon</strong> (status ACTIVE/INACTIVE, endpoints) on the same stream — so a subscriber knows a tunnel
+<strong>exists even with zero traffic</strong>. A dashboard <em>subscribes</em>; it does not poll per-tunnel.</p>
+<h2 id="per-link-bandwidth-automatic-connector-scaling">Per-link bandwidth &amp; automatic connector scaling<a class="headerlink" href="#per-link-bandwidth-automatic-connector-scaling" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Bandwidth.</strong> Because stunnel bytes are invisible to the controller's link metric, the dashboard
+  <strong>attributes each tunnel's known throughput to every link on its traced path</strong> — the real per-link bandwidth
+  of the tunnel across the mesh, coloured and sized on the graph.</li>
+<li><strong>Auto-scaling.</strong> The <a href="../../design/link-metrics-design/">AutoTuner</a> grows broker-bridge connectors under
+  load. Dataplane byte floods don't register as Cresco send-latency/backlog, but they <strong>inflate a bridge's
+  measured RTT</strong>, so an RTT-congestion trigger (<code>net_autotune_rtt_high_ms</code>, default 40) scales connectors on
+  high RTT too.</li>
+</ul>
+<blockquote>
+<p>Proven: under a tunnel flood on a throttled backbone, the link RTT spiked and the broker connectors grew
+<strong>c1 → c16 (the max)</strong> automatically.</p>
+</blockquote>
+<h2 id="push-beats-pull-under-load-proven">Push beats pull under load (proven)<a class="headerlink" href="#push-beats-pull-under-load-proven" title="Permanent link">&para;</a></h2>
+<p>Under heavy tunnel load, the <strong><code>getnetworkstate</code> poll starved</strong> — a global busy forwarding Gb/s could not
+service the RPC, and the topology graph went dark. The <strong>pushed</strong> telemetry did not: the <code>stunnel_trace</code>
+stream and the topology graph (rebuilt from the pushed <code>route_lsa</code> link-state stream) both <strong>stayed live while
+the connectors grew</strong>. This is the operational proof of Cresco's rule: <strong>metrics and state are pushed as they
+change (scales); pulling per-request does not.</strong></p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>net_trace_hops</code></td>
+<td><code>true</code></td>
+<td>Broker stamps <code>cresco_hops</code> on <code>cresco_trace</code> data-plane messages (tunnel path tracing).</td>
+</tr>
+<tr>
+<td><code>stunnel_beacon_ms</code></td>
+<td><code>3000</code></td>
+<td>How often each tunnel pushes its existence/status beacon on the trace stream.</td>
+</tr>
+<tr>
+<td><code>net_autotune_rtt_high_ms</code></td>
+<td><code>40.0</code></td>
+<td>Smoothed-RTT threshold above which the AutoTuner scales connectors (catches dataplane floods).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../plugins/stunnel/">stunnel plugin</a> — the tunnel plane itself</li>
+<li><a href="../dynamic-routing/">Dynamic Cost-Aware Routing</a> · <a href="../dataplane/">Data Plane</a> · <a href="../../design/link-metrics-design/">Network Link Metrics</a></li>
+</ul>
 
 
 

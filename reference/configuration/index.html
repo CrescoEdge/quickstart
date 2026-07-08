@@ -786,6 +786,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../architecture/tunnel-tracing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tunnel Path Tracing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/dataplane/" class="md-nav__link">
         
   
@@ -3869,6 +3897,24 @@ buffer sizes used when auto-tuning is off.</p>
 <td>double</td>
 <td><code>20.0</code></td>
 <td>Send-latency (ms) above which the tuner scales connections up.</td>
+</tr>
+<tr>
+<td><code>net_autotune_rtt_high_ms</code></td>
+<td>double</td>
+<td><code>40.0</code></td>
+<td>Smoothed-RTT (ms) above which the tuner scales connections up. Catches dataplane byte floods (e.g. <a href="../../architecture/tunnel-tracing/">stunnel tunnels</a>) that inflate RTT but not send-latency/backlog.</td>
+</tr>
+<tr>
+<td><code>net_trace_hops</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>Broker stamps <code>cresco_hops</code> on <code>cresco_trace</code>-marked data-plane messages, so a tunnel's bytes carry the full broker path they traversed (<a href="../../architecture/tunnel-tracing/">tunnel tracing</a>). Only marked messages pay.</td>
+</tr>
+<tr>
+<td><code>stunnel_beacon_ms</code></td>
+<td>long</td>
+<td><code>3000</code></td>
+<td>How often each stunnel tunnel pushes its existence/status beacon on the subscribable <code>stunnel_trace</code> stream.</td>
 </tr>
 <tr>
 <td><code>net_autotune_sendlat_low_ms</code></td>
