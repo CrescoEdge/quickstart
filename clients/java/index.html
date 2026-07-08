@@ -2024,6 +2024,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++ / Arduino (cppcrescolib)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2968,8 +2996,9 @@ the <strong><code>wsapi</code></strong> plugin over a secure WebSocket (<code>ws
 with the <code>cresco_service_key</code> header) and drives the fabric: controlling agents,
 deploying plugins, submitting pipelines, streaming the data plane, and tailing
 logs.</p>
-<p>For the shared connect-then-use-submodules model and the Java/Python parity
-guarantee, see the <a href="../overview/">Client Libraries overview</a>.</p>
+<p>For the shared connect-then-use-submodules model and the Java/Python/C++ parity
+guarantee, see the <a href="../overview/">Client Libraries overview</a>. The equivalent SDKs
+are the <a href="../python/">Python client</a> and the <a href="../cpp/">C++ / Arduino client</a>.</p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>The client is published as <code>io.cresco:clientlib</code>. Add it to a Maven project:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&lt;dependency&gt;</span>
@@ -3723,11 +3752,12 @@ the <a href="../../architecture/dataplane/">Data Plane architecture</a> for the 
 <h2 id="testing-and-parity">Testing and parity<a class="headerlink" href="#testing-and-parity" title="Permanent link">&para;</a></h2>
 <p>The client ships a self-contained test suite (no live mesh required) that
 asserts it emits <strong>identical wire messages for identical API calls</strong> as the
-Python client, verified against a shared golden corpus:</p>
+<a href="../python/">Python</a> and <a href="../cpp/">C++ / Arduino</a> clients, verified against a
+shared golden corpus:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mvn<span class="w"> </span><span class="nb">test</span>
 </code></pre></div>
-<p>A green run on both the Java and Python suites proves the clients produce the
-same results. See the <a href="../overview/#feature-parity">Client Libraries overview</a>
+<p>A green run across the Java, Python, and C++ suites proves the clients produce
+the same results. See the <a href="../overview/#feature-parity">Client Libraries overview</a>
 for the parity guarantee.</p>
 
 

@@ -16,7 +16,7 @@
         <link rel="prev" href="../java/">
       
       
-        <link rel="next" href="../../operations/deployment/">
+        <link rel="next" href="../cpp/">
       
       
         
@@ -2024,6 +2024,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++ / Arduino (cppcrescolib)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3867,17 +3895,20 @@ regions, exactly like <code>globalcontroller.get_region_list()</code> does inter
 </code></pre></div>
 <hr />
 <h2 id="cross-language-parity-and-testing">Cross-language parity and testing<a class="headerlink" href="#cross-language-parity-and-testing" title="Permanent link">&para;</a></h2>
-<p>Both clients ship a self-contained conformance suite (no live mesh required) that asserts they
+<p>The clients ship a self-contained conformance suite (no live mesh required) that asserts they
 emit <strong>identical wire messages for identical API calls</strong>, sharing one generated golden corpus.</p>
 <ul>
 <li><strong>Python:</strong> <code>pip install -e .[test] &amp;&amp; pytest</code></li>
 <li><strong>Java:</strong> <code>mvn test</code> — see <a href="../java/">Java Client (feature parity)</a>.</li>
+<li><strong>C++ / Arduino:</strong> the <a href="../cpp/">C++ client</a> mirrors the same submodules, method names, and
+  <code>example_*</code> set for ESP32-S3 edge nodes.</li>
 </ul>
 <hr />
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../overview/">Client Libraries — Overview</a></li>
 <li><a href="../java/">Java Client (feature parity)</a></li>
+<li><a href="../cpp/">C++ / Arduino Client (feature parity)</a></li>
 <li><a href="../../api/msgevent/">MsgEvent — the message wire contract</a></li>
 <li><a href="../../api/plugin-actions/">Plugin Actions (Capability Inventory)</a></li>
 <li><a href="../../architecture/dataplane/">Data Plane architecture</a></li>

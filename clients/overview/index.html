@@ -1797,6 +1797,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++ / Arduino (cppcrescolib)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2509,13 +2537,14 @@
 
 
 <h1 id="client-libraries">Client Libraries<a class="headerlink" href="#client-libraries" title="Permanent link">&para;</a></h1>
-<p>Cresco ships two external client SDKs for driving a mesh from outside the OSGi
+<p>Cresco ships three external client SDKs for driving a mesh from outside the OSGi
 runtime:</p>
 <ul>
 <li><strong><a href="../java/">Java — <code>clientlib</code></a></strong> — the Java SDK (<code>io.cresco:clientlib</code>).</li>
 <li><strong><a href="../python/">Python — <code>pycrescolib</code></a></strong> — the Python SDK.</li>
+<li><strong><a href="../cpp/">C++ / Arduino — <code>cppcrescolib</code></a></strong> — the embedded SDK for ESP32 (ESP32-S3) edge nodes.</li>
 </ul>
-<p>Both connect to a running Cresco agent that hosts the <strong><code>wsapi</code></strong> plugin over a
+<p>All three connect to a running Cresco agent that hosts the <strong><code>wsapi</code></strong> plugin over a
 secure WebSocket (<code>wss://host:8282</code>) and drive the fabric — controlling agents,
 deploying plugins, submitting pipelines, streaming the data plane, and tailing
 logs.</p>
@@ -2580,19 +2609,50 @@ id, so each RPC completes before the next is issued.</p>
 <h2 id="feature-parity">Feature parity<a class="headerlink" href="#feature-parity" title="Permanent link">&para;</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Standardized clients</p>
-<p>The Python and Java clients are kept <strong>feature- and name-identical</strong>: the
+<p>The Python, Java, and C++ clients are kept <strong>feature- and name-identical</strong>: the
 same submodules (<code>api</code>, <code>admin</code>, <code>agents</code>, <code>globalcontroller</code>, <code>messaging</code>),
-the same method names (snake_case in both languages), the same behavior, and
+the same method names (snake_case in all three languages), the same behavior, and
 the same worked examples. Anything you can do in one client, you can do in
-the other with the same call.</p>
+the others with the same call.</p>
 </div>
-<p>Parity is enforced by test: both clients ship a self-contained suite that
+<p>Parity is enforced by test: the clients ship a self-contained suite that
 asserts they emit <strong>identical wire messages for identical API calls</strong>, verified
-against the same generated golden corpus. A green run on both proves the two
-clients produce byte-for-byte equivalent results.</p>
+against the same generated golden corpus. A green run proves the clients produce
+byte-for-byte equivalent results.</p>
+<p>The only differences are the ones each platform forces:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Python (<code>pycrescolib</code>)</th>
+<th>Java (<code>clientlib</code>)</th>
+<th>C++ (<code>cppcrescolib</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concurrency</td>
+<td>asyncio under a blocking surface</td>
+<td>background reader threads</td>
+<td>single cooperative <code>loop()</code></td>
+</tr>
+<tr>
+<td>Structured returns</td>
+<td><code>dict</code> / <code>list</code></td>
+<td><code>Map</code> / <code>List</code> / JSON</td>
+<td><code>ArduinoJson::JsonDocument</code></td>
+</tr>
+<tr>
+<td>Target</td>
+<td>server / desktop</td>
+<td>server / desktop / JVM</td>
+<td>ESP32-S3 edge node</td>
+</tr>
+</tbody>
+</table>
 <h2 id="ssl-verification">SSL verification<a class="headerlink" href="#ssl-verification" title="Permanent link">&para;</a></h2>
 <p>Cresco agents present self-signed certificates by default, so client SSL
-certificate verification is <strong>disabled by default</strong>. Both clients accept a
+certificate verification is <strong>disabled by default</strong>. All three clients accept a
 <code>verify_ssl</code> constructor flag to enable it when the mesh is fronted by a
 trusted certificate authority.</p>
 <h2 id="where-to-go-next">Where to go next<a class="headerlink" href="#where-to-go-next" title="Permanent link">&para;</a></h2>
@@ -2600,6 +2660,7 @@ trusted certificate authority.</p>
 <li><strong><a href="../java/">Java (clientlib)</a></strong> — installation, connection, full interface
   reference, and worked examples.</li>
 <li><strong><a href="../python/">Python (pycrescolib)</a></strong> — the equivalent Python SDK.</li>
+<li><strong><a href="../cpp/">C++ / Arduino (cppcrescolib)</a></strong> — the embedded ESP32 SDK.</li>
 <li><strong><a href="../../api/msgevent/">MsgEvent</a></strong> — the message envelope and routing model
   the <code>messaging</code> submodule builds on.</li>
 <li><strong><a href="../../api/plugin-actions/">Plugin Actions</a></strong> — the action catalog exposed by
