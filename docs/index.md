@@ -75,7 +75,7 @@ Nodes communicate two ways:
 ```
 cresco/
 ├── code/            # source (one OSGi module / git repo per directory)
-│   ├── agent/       # OSGi host bootstrap → the runnable agent uber-jar
+│   ├── agent/       # ★ HEADLINE repo — OSGi host that composes every bundle into the runnable agent uber-jar
 │   ├── library/     # the plugin & controller API (io.cresco.library)
 │   ├── controller/  # the fabric brain (messaging, discovery, security, health, db)
 │   ├── core/        # controller/JVM lifecycle service
@@ -92,4 +92,6 @@ cresco/
 └── run/             # staged agent jar + launch scripts + tests
 ```
 
-Source repositories live under [github.com/CrescoEdge](https://github.com/CrescoEdge).
+Each module is its own repository under [github.com/CrescoEdge](https://github.com/CrescoEdge), released and
+versioned independently. The headline repo is **[CrescoEdge/agent](https://github.com/CrescoEdge/agent)** —
+the final bundle that composes every other module into the single runnable artifact; start there.

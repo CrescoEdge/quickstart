@@ -2,6 +2,9 @@
 
 The `agent` module builds the executable Cresco agent: an [Apache Felix](https://felix.apache.org/) OSGi host that launches the framework, provisions the embedded bundle set and the [controller](controller.md), and manages an ordered shutdown. It is the process you actually run.
 
+!!! tip "The headline module"
+    `agent` is the **final bundle** of the project — the artifact that composes every other module (`library`, `core`, `controller`, and the functional plugins) into one runnable uber-jar. Of the per-module repositories under [github.com/CrescoEdge](https://github.com/CrescoEdge), **[CrescoEdge/agent](https://github.com/CrescoEdge/agent) is the headline repo**: if you're looking for "the Cresco repo," it's this one.
+
 ## At a glance
 
 | Fact | Value |
